@@ -1,17 +1,35 @@
 package com.example.projsmas.visao;
 
+import com.example.projsmas.Main;
 import com.example.projsmas.aplicacao.Usuario;
+import com.example.projsmas.aplicacao.UsuarioLogado;
 import com.example.projsmas.persistencia.UsuarioDao;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 
 
 public class LoginController {
-    private Usuario user;
-    private Usuario userLogado;
+    private static Usuario user;
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
+
+    private UsuarioLogado u;
     private UsuarioDao userDao = new UsuarioDao();
 
     @FXML
@@ -28,17 +46,46 @@ public class LoginController {
     private PasswordField senhaSenha1, senhaSenha2, senhaCadastro1,senhaCadastro2, senhaBox;
 
     @FXML
-    protected void entrarButton(){
+    private Stage stage;
+    public void entrarButton(ActionEvent evente) throws IOException {
+        warning.setVisible(false);
         user = userDao.selectEmail(emailBox.getText());
         if(user != null){
             if (senhaBox.getText().equals(user.getSenha())) {
                 warning.setVisible(false);
                 login.setVisible(false);
-                userLogado = user;
+                stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("teste.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
+                warning.setText("Email ou senha invalidos!");
+            }
+        }else{
+            warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
+            warning.setText("Email ou senha invalidos!");
+        }
+    }
+
+    protected void entrarButton(){
+        warning.setVisible(false);
+        user = userDao.selectEmail(emailBox.getText());
+        if(user != null){
+            if (senhaBox.getText().equals(user.getSenha())) {
+                emailBox.setText("");
+                senhaBox.setText("");
+                setUser(user);
+                warning.setVisible(false);
+                login.setVisible(false);
                 logado.setVisible(true);
                 userName.setText(user.getNome());
             } else {
                 warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
                 warning.setText("Email ou senha invalidos!");
             }
         }else{
@@ -48,31 +95,38 @@ public class LoginController {
     }
     @FXML
     protected void verificarEmail(){
-        user = userDao.selectEmail(emailSenha.getText());
-        if(user != null){
+        warning.setVisible(false);
+        this.setUser(userDao.selectEmail(emailSenha.getText()));
+        if(this.getUser() != null){
             password.setVisible(false);
             password2.setVisible(true);
-        }else{
-            warning.setVisible(true);
-            warning.setText("Email!");
         }
     }
 
     @FXML
     protected void verificaSenhas(){
+        warning.setVisible(false);
         if(senhaSenha1.getText().equals(senhaSenha2.getText())){
+            getUser().setSenha(senhaSenha1.getText());
             password2.setVisible(false);
             login.setVisible(true);
             warning.setVisible(true);
+            emailSenha.setText("");
+            senhaSenha1.setText("");
+            senhaSenha2.setText("");
+            System.out.println(this.getUser().getEmail());
+            userDao.update(this.getUser().getEmail(), this.getUser());
+            warning.setTextFill(Paint.valueOf("#00f731"));
             warning.setText("Senha alterada!");
         }else{
             warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
             warning.setText("Senhas diferentes!");
         }
     }
-
     @FXML
     protected void buttonCadastrar(){
+        warning.setVisible(false);
         if(!(nomeCadastro.getText().equals("") || emailCadastro.getText().equals("")  || senhaCadastro1.getText().equals("") || senhaCadastro2.getText().equals(""))){
             if(senhaCadastro1.getText().equals(senhaCadastro2.getText())){
                 user = new Usuario();
@@ -95,45 +149,69 @@ public class LoginController {
                 cadastro.setVisible(false);
                 login.setVisible(true);
                 warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#00f731"));
                 warning.setText("Usuario cadastrado!");
-
+                nomeCadastro.setText("");
+                emailCadastro.setText("");
+                senhaCadastro1.setText("");
+                senhaCadastro2.setText("");
             }else{
                 warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
                 warning.setText("Senhas diferentes!");
             }
         }else{
             warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
             warning.setText("Preencha todos os campos!");
         }
     }
     @FXML
     protected void voltarLogado(){
+        warning.setVisible(false);
         logado.setVisible(false);
         login.setVisible(true);
     }
     @FXML
+    protected void mudarNatal(){
+        selectMuni.setText("Natal");
+    }
+    @FXML
+    protected void mudarSaoPedro(){
+        selectMuni.setText("São Pedro");
+    }
+    @FXML
+    protected void mudarMacaiba(){
+        selectMuni.setText("Macaiba");
+    }
+    @FXML
     protected void clickcadastre(){
+        warning.setVisible(false);
         login.setVisible(false);
         cadastro.setVisible(true);
     }
     @FXML
     protected void clicksenha(){
+        warning.setVisible(false);
         login.setVisible(false);
         password.setVisible(true);
     }
     @FXML
     protected void voltarCadastro(){
+        warning.setVisible(false);
         login.setVisible(true);
         cadastro.setVisible(false);
     }
     @FXML
     protected void voltarEmail(){
+        warning.setVisible(false);
         password.setVisible(false);
         login.setVisible(true);
     }
     @FXML
     protected void voltarSenha() {
-        password.setVisible(false);
-        login.setVisible(true);
+        warning.setVisible(false);
+        password2.setVisible(false);
+        password.setVisible(true);
     }
 }

@@ -1,8 +1,5 @@
-package com.example.projsmas.persistencia;
-
-
-
-import com.example.projsmas.aplicacao.Usuario;
+package module;
+import controler.Usuario;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,7 +68,7 @@ public class UsuarioDao {
             instrucao.setString(3,user.getSenha());
             instrucao.setInt(4,user.getIdMunicipio());
             instrucao.setInt(5, user.getFuncao());
-            instrucao.setString(6,email);
+            instrucao.setString(5,email);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){

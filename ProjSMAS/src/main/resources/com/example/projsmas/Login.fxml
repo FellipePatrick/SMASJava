@@ -7,7 +7,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
@@ -16,36 +16,33 @@
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.LoginController">
    <children>
-      <Label layoutX="260.0" layoutY="81.0" text="S M A S">
+      <ImageView fitHeight="59.0" fitWidth="57.0" layoutX="285.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/logoYellow.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="260.0" layoutY="60.0" text="S M A S">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <ImageView fitHeight="79.0" fitWidth="92.0" layoutX="276.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         
-      </ImageView>
-      <Polygon fill="#ffa133" layoutX="85.0" layoutY="139.0" points="-85.00001525878906, 260.9999694824219, 108.59996032714844, 261.0, -85.00001525878906, -139.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: none;">
-         <effect>
-            <Blend />
-         </effect>
-      </Polygon>
-      <Label fx:id="warning" layoutX="250.0" layoutY="36.0" text="WARNINGS AQUI" />
+      <Label fx:id="warning" layoutX="99.0" layoutY="72.0" visible="false" />
       <Polygon fill="#ffa133" layoutX="437.0" layoutY="103.0" points="-26.5999755859375, -103.0, 163.0, 297.0, 163.0, -103.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: none;" />
-      <Label layoutX="226.0" layoutY="121.0" text="Sistema de Monitoramento de Abelhas Selvagens">
+      <Label layoutX="226.0" layoutY="100.0" text="Sistema de Monitoramento de Abelhas Selvagens">
          <font>
             <Font name="System Italic" size="8.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="login" layoutX="145.0" layoutY="10.0" prefHeight="380.0" prefWidth="322.0">
+      <AnchorPane fx:id="login" layoutX="145.0" layoutY="-14.0" prefHeight="380.0" prefWidth="322.0">
          <children>
-            <Hyperlink fx:id="cadastreSe" layoutX="131.0" layoutY="344.0" onAction="#clickcadastre" text="Cadastre-se" />
-            <Hyperlink fx:id="esqueceuSenha" layoutX="118.0" layoutY="315.0" onAction="#clicksenha" text="Esqueceu senha?" textAlignment="CENTER" />
+            <Hyperlink fx:id="cadastreSe" focusTraversable="false" layoutX="131.0" layoutY="344.0" onAction="#clickcadastre" text="Cadastre-se" textAlignment="CENTER" />
+            <Hyperlink fx:id="esqueceuSenha" focusTraversable="false" layoutX="118.0" layoutY="315.0" onAction="#clicksenha" text="Esqueceu senha?" textAlignment="CENTER" />
             <Label layoutX="149.0" layoutY="201.0" text="Senha">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <PasswordField fx:id="senhaBox" layoutX="92.0" layoutY="228.0" />
+            <PasswordField fx:id="senhaBox" focusTraversable="false" layoutX="92.0" layoutY="228.0" />
             <Button layoutX="141.0" layoutY="273.0" mnemonicParsing="false" onAction="#entrarButton" style="-fx-background-color: #FFA133;" text="Entrar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -59,33 +56,33 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="password" layoutX="147.0" layoutY="10.0" prefHeight="380.0" prefWidth="320.0" visible="false">
+      <AnchorPane fx:id="password" layoutX="147.0" prefHeight="380.0" prefWidth="320.0" visible="false">
          <children>
             <Label layoutX="146.0" layoutY="149.0" text="Email">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="87.0" layoutY="177.0" fx:id="emailSenha" />
-            <Button layoutX="106.0" onAction="#verificarEmail" layoutY="222.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" style="-fx-background-color: #FFA133;" text="Verificar" textFill="WHITE">
+            <TextField fx:id="emailSenha" layoutX="87.0" layoutY="177.0" />
+            <Button layoutX="106.0" layoutY="222.0" mnemonicParsing="false" onAction="#verificarEmail" prefHeight="26.0" prefWidth="112.0" style="-fx-background-color: #FFA133;" text="Verificar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Circle fill="#ffa133" layoutX="152.0" layoutY="274.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle fill="#c9c9c9" layoutX="168.0" layoutY="274.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Hyperlink onAction="#voltarEmail" layoutX="142.0" layoutY="291.0" text="Voltar" />
+            <Hyperlink layoutX="142.0" layoutY="291.0" onAction="#voltarEmail" text="Voltar" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="cadastro" layoutX="147.0" layoutY="10.0" prefHeight="380.0" prefWidth="322.0" visible="false">
+      <AnchorPane fx:id="cadastro" layoutX="147.0" prefHeight="380.0" prefWidth="322.0" visible="false">
          <children>
             <TextField fx:id="nomeCadastro" layoutX="139.0" layoutY="138.0" />
             <TextField fx:id="emailCadastro" layoutX="139.0" layoutY="177.0" />
             <SplitMenuButton fx:id="selectMuni" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" text="Municipio">
               <items>
-                <MenuItem mnemonicParsing="false" text="Natal" />
-                <MenuItem mnemonicParsing="false" text="São Pedro" />
-                 <MenuItem mnemonicParsing="false" text="Macaiba" />
+                <MenuItem mnemonicParsing="false" onAction="#mudarNatal" text="Natal" />
+                <MenuItem mnemonicParsing="false" onAction="#mudarSaoPedro" text="São Pedro" />
+                 <MenuItem mnemonicParsing="false" onAction="#mudarMacaiba" text="Macaiba" />
               </items>
             </SplitMenuButton>
             <PasswordField fx:id="senhaCadastro1" layoutX="140.0" layoutY="254.0" />
@@ -102,13 +99,13 @@
             <Hyperlink layoutX="176.0" layoutY="333.0" onAction="#voltarCadastro" text="Voltar" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="password2" layoutX="166.0" layoutY="10.0" prefHeight="380.0" prefWidth="320.0" visible="false">
+      <AnchorPane fx:id="password2" layoutX="166.0" prefHeight="380.0" prefWidth="320.0" visible="false">
          <children>
             <Label layoutX="137.0" layoutY="139.0" text="Senha" />
             <PasswordField fx:id="senhaSenha1" layoutX="79.0" layoutY="165.0" />
             <Label layoutX="117.0" layoutY="207.0" text="Repetir senha" />
             <PasswordField fx:id="senhaSenha2" layoutX="79.0" layoutY="234.0" />
-            <Button onAction="#verificaSenhas" layoutX="120.0" layoutY="272.0" mnemonicParsing="false" style="-fx-background-color: #ffa133;" text="Cadastrar" textFill="WHITE">
+            <Button layoutX="120.0" layoutY="272.0" mnemonicParsing="false" onAction="#verificaSenhas" style="-fx-background-color: #ffa133;" text="Cadastrar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -118,13 +115,6 @@
             <Circle fill="#c9c9c9" layoutX="143.0" layoutY="319.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="logado" layoutX="145.0" layoutY="10.0" prefHeight="380.0" prefWidth="326.0" visible="false">
-         <children>
-            <Circle fill="DODGERBLUE" layoutX="84.0" layoutY="169.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label fx:id="userName" layoutX="105.0" layoutY="160.0" text="Username" />
-            <Label layoutX="106.0" layoutY="228.0" text="Bem-Vindo ao SMAS!" />
-            <Hyperlink onAction="#voltarLogado" layoutX="143.0" layoutY="276.0" text="Voltar" />
-         </children>
-      </AnchorPane>
+      <Polygon fill="#ffa133" layoutX="48.0" layoutY="103.0" points="-48.0, 297.0, 163.0, 297.0, -48.0, -103.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: none;" />
    </children>
 </AnchorPane>
