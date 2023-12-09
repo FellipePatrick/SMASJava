@@ -37,11 +37,13 @@ CREATE TABLE Alerta(
 );
 
 CREATE TABLE MunicipioEspecie(
+	id SERIAL PRIMARY KEY,
+	idAlerta int,
 	idMunicipio INT,
 	idEspecie INT,
-	PRIMARY KEY(idMunicipio, idEspecie),
 	FOREIGN KEY (idMunicipio) REFERENCES Municipio(id),
-	FOREIGN KEY (idEspecie) REFERENCES Especie(id)
+	FOREIGN KEY (idEspecie) REFERENCES Especie(id),
+	FOREIGN KEY (idAlerta) REFERENCES Alerta(id)
 );
 
 SELECT current_database();

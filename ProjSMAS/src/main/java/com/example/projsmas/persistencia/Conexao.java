@@ -1,6 +1,10 @@
-package module;
+package com.example.projsmas.persistencia;
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+
+
 public class Conexao {
     private String caminho;
     private String usuario;

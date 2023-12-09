@@ -1,5 +1,8 @@
-package module;
-import controler.Usuario;
+package com.example.projsmas.persistencia;
+
+
+
+import com.example.projsmas.aplicacao.Usuario;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +15,7 @@ public class UsuarioDao {
     private final String selectEmail = "SELECT * FROM \"usuario\" WHERE email = ?";
     private final String insert = "INSERT INTO \"usuario\" (nome, email, senha, idMunicipio) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"usuario\" WHERE email = ?";
-    private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ? WHERE email = ?";
+    private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ?, funcao = ? WHERE email = ?";
     public UsuarioDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
     }
@@ -50,7 +53,7 @@ public class UsuarioDao {
             Statement instrucao = this.connection.getConexao().createStatement();
             ResultSet rs = instrucao.executeQuery(this.selectAll);
             while (rs.next()) {
-                usuario = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"));
+                usuario = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"), rs.getInt("funcao"));
                 usuarios.add(usuario);
             }
             this.connection.desconectar();
@@ -67,6 +70,7 @@ public class UsuarioDao {
             instrucao.setString(2,user.getNome());
             instrucao.setString(3,user.getSenha());
             instrucao.setInt(4,user.getIdMunicipio());
+            instrucao.setInt(5, user.getFuncao());
             instrucao.setString(5,email);
             instrucao.execute();
             this.connection.desconectar();
@@ -82,7 +86,7 @@ public class UsuarioDao {
             instrucao.setString(1, email);
             ResultSet rs = instrucao.executeQuery();
             if(rs.next())
-                user = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"));
+                user = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"),rs.getInt("funcao"));
             this.connection.desconectar();
         }catch(Exception e){
             System.out.println("Erro no relatório por email: " + e.getMessage());
