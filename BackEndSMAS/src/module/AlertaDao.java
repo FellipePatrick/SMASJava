@@ -57,9 +57,9 @@ public class AlertaDao {
             connection.conectar();
             LocalDateTime dataHoraAtual = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            DateTimeFormatter dataHoraFormatada = dataHoraAtual.format(formato);
+            DateTimeFormatter dataHoraFormatada = DateTimeFormatter.ofPattern(dataHoraAtual.format(formato));
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.insert);
-            instrucao.setString(1, dataHoraAtual);
+            instrucao.setString(1, String.valueOf(dataHoraFormatada));
             instrucao.setString(2, alerta.getDescricao());
             instrucao.setString(3, alerta.getEmailUsuario());
             instrucao.setInt(4,alerta.getIdEspecie());

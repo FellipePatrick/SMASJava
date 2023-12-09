@@ -11,6 +11,8 @@ public class EspecieDao {
     private Conexao connection;
     private final String selectAll = "SELECT * FROM\"especie\"";
     private final String selectId = "SELECT * FROM \"especie\" WHERE id = ?";
+    private final String selectName = "SELECT * FROM \"especie\" WHERE nome = ?";
+
     private final String insert = "INSERT INTO \"especie\" (nome, comocriar, comocapturar, sobre, emailuser) values (?,?,?,?,?) ";
     private final String delete = "DELETE FROM \"especie\" WHERE id = ?";
     private final String update = "UPDATE \"especie\" SET nome = ?, comocriar = ?, comocapturar = ?, sobre = ?, emailuser = ? WHERE id = ?";
@@ -33,7 +35,7 @@ public class EspecieDao {
             System.out.println("Erro na atualização: " + e.getMessage());
         }
     }
-    void delete(int id){
+    public void delete(int id){
         try{
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
@@ -82,6 +84,21 @@ public class EspecieDao {
             this.connection.conectar();
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectId);
             instrucao.setInt(1, id);
+            ResultSet rs = instrucao.executeQuery();
+            if(rs.next())
+                especie = new Especie(rs.getString("nome"), rs.getString("comocapturar"),rs.getString("comocriar"),rs.getString("sobre"),rs.getString("emailuser"), rs.getInt("id"));
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro no relatório por id: " + e.getMessage());
+        }
+        return especie;
+    }
+    public Especie selectName(String nome){
+        Especie especie = null;
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectName);
+            instrucao.setString(1, nome);
             ResultSet rs = instrucao.executeQuery();
             if(rs.next())
                 especie = new Especie(rs.getString("nome"), rs.getString("comocapturar"),rs.getString("comocriar"),rs.getString("sobre"),rs.getString("emailuser"), rs.getInt("id"));

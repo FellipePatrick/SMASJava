@@ -129,6 +129,147 @@ public class Main {
                                                 break;
                                         }
                                         break;
+                                    case 2:
+                                        especie = new Especie();
+                                        System.out.print("1-Adicionar\n2-Editar\n3-Remover\n4-Listar\n0-Sair: ");
+                                        op = teclado.nextInt();
+                                        teclado.nextLine();
+                                        switch (op){
+                                            case 1:
+                                                System.out.print("Digite a o nome da Especie: ");
+                                                especie.setNome(teclado.nextLine().toUpperCase());
+                                                if(especieDao.selectName(especie.getNome()) == null){
+                                                    System.out.print("Digite como capturar a Especie: ");
+                                                    especie.setComoCapturar(teclado.nextLine());
+                                                    System.out.print("Digite como criar a Especie: ");
+                                                    especie.setComoCriar(teclado.nextLine());
+                                                    System.out.print("Digite sobre da Especie: ");
+                                                    especie.setSobre(teclado.nextLine());
+                                                    especie.setEmailUser(usuario.getEmail());
+                                                    try{
+                                                        especieDao.insert(especie);
+                                                        System.out.println("Especie cadastrada com sucesso!");
+                                                    }catch (Exception e) {
+                                                        System.out.println(e);
+                                                    }
+                                                }else{
+                                                    System.out.println("Especia ja cadastrada no sistema!");
+                                                }
+                                                break;
+                                            case 2:
+                                                System.out.print("Digite o id da Especie: ");
+                                                especie = especieDao.selectId(teclado.nextInt());
+                                                if(especie!=null){
+                                                    if(usuario.getEmail().equals(especie.getEmailUser()) || usuario.getFuncao() == 3){
+                                                        System.out.print("Deseja alterar a Como capturar(sim ou não): ");
+                                                        aux = teclado.next();
+                                                        System.out.print("Digite a o nome da Especie: ");
+                                                        especie.setNome(teclado.nextLine().toUpperCase());
+                                                        System.out.println("Alerta atualizado!");
+                                                        System.out.print("Digite como capturar a Especie: ");
+                                                        especie.setComoCapturar(teclado.nextLine());
+                                                        System.out.print("Digite como criar a Especie: ");
+                                                        especie.setComoCriar(teclado.nextLine());
+                                                        System.out.print("Digite sobre da Especie: ");
+                                                        especie.setSobre(teclado.nextLine());
+                                                        especie.setEmailUser(usuario.getEmail());
+                                                        especieDao.update(especie.getId(),especie);
+                                                    }else{
+                                                        System.out.println("Acesso Negado!");
+                                                    }
+                                                }else{
+                                                    System.out.println("Especie não cadastrada!");
+                                                }
+                                                break;
+                                            case 3:
+                                                System.out.print("Digite o id da Especie: ");
+                                                especie = especieDao.selectId(teclado.nextInt());
+                                                if(especie!=null){
+                                                    if(usuario.getEmail().equals(especie.getEmailUser()) || usuario.getFuncao() == 3) {
+                                                        especieDao.delete(especie.getId());
+                                                        System.out.println("Especie deletada!");
+                                                    }else{
+                                                        System.out.println("Acesso Negado!");
+                                                    }
+                                                }else{
+                                                    System.out.println("Especie não cadastrada!");
+                                                }
+                                                break;
+                                            case 4:
+                                                ArrayList<Especie> list = especieDao.selectAll();
+                                                if(list.size() > 0){
+                                                    for (Especie e: list
+                                                    ) {
+                                                        System.out.println("\n-------------------------------------");
+                                                        System.out.println("ID: "+ e.getId());
+                                                        System.out.println("Email do Usuario: " + e.getEmailUser());
+                                                        System.out.println("Especie: " + e.getNome());
+                                                        System.out.println("Descrição: " + e.getSobre());
+                                                        System.out.println("\n-------------------------------------\n");
+                                                    }
+                                                }else{
+                                                    System.out.println("Nenhum Especia foi cadastrada!");
+                                                }
+                                                break;
+                                            }
+                                            case 3:
+                                                usuario = new Usuario();
+                                                System.out.print("1-Editar\n2-Remover\n3-Listar\n0-Sair: ");
+                                                op = teclado.nextInt();
+                                                teclado.nextLine();
+                                                switch (op){
+                                                    case 1:
+                                                        teclado.next();
+                                                        System.out.print("Digite o email do Usuario: ");
+                                                        usuario = usuarioDao.selectEmail(teclado.nextLine());
+                                                        if(usuario!=null){
+                                                            if(usuario.getFuncao() == 3){
+                                                                System.out.println("Digite a nova função(1,2,3): ");
+                                                                usuario.setFuncao(teclado.nextInt());
+                                                                usuarioDao.update(usuario.getEmail(), usuario);
+                                                            }else{
+                                                                System.out.println("Acesso Negado!");
+                                                            }
+                                                        }else{
+                                                            System.out.println("Usuario não cadastrado!");
+                                                        }
+                                                        break;
+                                                    case 2:
+                                                        teclado.next();
+                                                        System.out.print("Digite o email do Usuario: ");
+                                                        usuario = usuarioDao.selectEmail(teclado.nextLine());
+                                                        if(usuario!=null){
+                                                            if(usuario.getFuncao() == 3) {
+                                                                usuarioDao.delete(usuario.getEmail());
+                                                                System.out.println("Usuario deletada!");
+                                                            }else{
+                                                                System.out.println("Acesso Negado!");
+                                                            }
+                                                        }else{
+                                                            System.out.println("Usuario não cadastrada!");
+                                                        }
+                                                        break;
+                                                    case 4:
+                                                        ArrayList<Usuario> list = usuarioDao.selectAll();
+                                                        if(list.size() > 0){
+                                                            for (Usuario u: list
+                                                            ) {
+                                                                System.out.println("\n-------------------------------------");
+                                                                System.out.println("Email do Usuario: " + u.getEmail());
+                                                                System.out.println("Especie: " + u.getNome());
+                                                                System.out.println("Municipio: " + u.getIdMunicipio());
+                                                                System.out.println("Função: " + u.getFuncao());
+                                                                System.out.println("\n-------------------------------------\n");
+                                                            }
+                                                        }else{
+                                                            System.out.println("Nenhum Especia foi cadastrada!");
+                                                        }
+                                                break;
+                                            case 0:
+                                                System.out.println("Logou realizado com sucesso!");
+                                                break;
+                                            }
+                                        break;
                                     case 0:
                                         System.out.println("Logout realizado com sucesso!");
                                         break;

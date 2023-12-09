@@ -7,6 +7,9 @@ public class Especie {
     private String sobre;
     private int id;
     private String emailUser;
+    public Especie(){
+
+    }
     public Especie(String nome,String comoCapturar, String comoCriar, String sobre, String emailUser) {
         this.nome = nome;
         this.comoCapturar = comoCapturar;

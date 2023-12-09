@@ -2,6 +2,7 @@ package com.example.projsmas.persistencia;
 
 
 
+import com.example.projsmas.aplicacao.Municipio;
 import com.example.projsmas.aplicacao.Usuario;
 
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ public class UsuarioDao {
     private final String insert = "INSERT INTO \"usuario\" (nome, email, senha, idMunicipio) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"usuario\" WHERE email = ?";
     private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ?, funcao = ? WHERE email = ?";
+    private final String municipalityName = "SELECT id FROM \"municipio\" where nome = ? and uf = \'RN\'";
     public UsuarioDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
     }
@@ -92,6 +94,21 @@ public class UsuarioDao {
             System.out.println("Erro no relatório por email: " + e.getMessage());
         }
         return user;
+    }
+    public Municipio municipalityName(String name){
+        Municipio municipio = null;
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.municipalityName);
+            instrucao.setString(1, name);
+            ResultSet rs = instrucao.executeQuery();
+            if(rs.next())
+                municipio = new Municipio(rs.getInt("id"));
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro no relatório por email: " + e.getMessage());
+        }
+        return municipio;
     }
 
 }

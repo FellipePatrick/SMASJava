@@ -2,7 +2,6 @@ package com.example.projsmas.visao;
 
 import com.example.projsmas.Main;
 import com.example.projsmas.aplicacao.Usuario;
-import com.example.projsmas.aplicacao.UsuarioLogado;
 import com.example.projsmas.persistencia.UsuarioDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,16 +28,15 @@ public class LoginController {
         this.user = user;
     }
 
-    private UsuarioLogado u;
     private UsuarioDao userDao = new UsuarioDao();
 
     @FXML
-    private AnchorPane container, password, cadastro, login, password2, logado;
+    private AnchorPane password, cadastro, login, password2;
 
     @FXML
     private SplitMenuButton selectMuni;
     @FXML
-    private  Label warning, userName;
+    private  Label warning;
 
     @FXML
     private TextField emailBox, nomeCadastro, emailCadastro, emailSenha;
@@ -81,8 +79,6 @@ public class LoginController {
                 setUser(user);
                 warning.setVisible(false);
                 login.setVisible(false);
-                logado.setVisible(true);
-                userName.setText(user.getNome());
             } else {
                 warning.setVisible(true);
                 warning.setTextFill(Paint.valueOf("#ff0000"));
@@ -128,49 +124,40 @@ public class LoginController {
     protected void buttonCadastrar(){
         warning.setVisible(false);
         if(!(nomeCadastro.getText().equals("") || emailCadastro.getText().equals("")  || senhaCadastro1.getText().equals("") || senhaCadastro2.getText().equals(""))){
-            if(senhaCadastro1.getText().equals(senhaCadastro2.getText())){
-                user = new Usuario();
-                user.setEmail(emailCadastro.getText());
-                user.setSenha(senhaCadastro1.getText());
-                user.setNome(nomeCadastro.getText());
-                switch (selectMuni.getText().toUpperCase()){
-                    case "SÃO PEDRO":
-                        user.setIdMunicipio(3);
-                        break;
-                    case "MACAIBA":
-                        user.setIdMunicipio(4);
-                        break;
-                    case "NATAL":
-                        user.setIdMunicipio(5);
-                        break;
-                    default:user.setIdMunicipio(5);
+            if(userDao.selectEmail(emailCadastro.getText()) == null){
+                if(senhaCadastro1.getText().equals(senhaCadastro2.getText())){
+                    user = new Usuario();
+                    user.setEmail(emailCadastro.getText());
+                    user.setSenha(senhaCadastro1.getText());
+                    user.setNome(nomeCadastro.getText());
+                    System.out.println(selectMuni.getText());
+                    System.out.println(userDao.municipalityName(selectMuni.getText()));
+                    user.setIdMunicipio(userDao.municipalityName(selectMuni.getText()).getId());
+                    userDao.insert(user);
+                    cadastro.setVisible(false);
+                    login.setVisible(true);
+                    warning.setVisible(true);
+                    warning.setTextFill(Paint.valueOf("#00f731"));
+                    warning.setText("Usuario cadastrado!");
+                    nomeCadastro.setText("");
+                    emailCadastro.setText("");
+                    senhaCadastro1.setText("");
+                    senhaCadastro2.setText("");
+                }else{
+                    warning.setVisible(true);
+                    warning.setTextFill(Paint.valueOf("#ff0000"));
+                    warning.setText("Senhas diferentes!");
                 }
-                userDao.insert(user);
-                cadastro.setVisible(false);
-                login.setVisible(true);
-                warning.setVisible(true);
-                warning.setTextFill(Paint.valueOf("#00f731"));
-                warning.setText("Usuario cadastrado!");
-                nomeCadastro.setText("");
-                emailCadastro.setText("");
-                senhaCadastro1.setText("");
-                senhaCadastro2.setText("");
             }else{
                 warning.setVisible(true);
                 warning.setTextFill(Paint.valueOf("#ff0000"));
-                warning.setText("Senhas diferentes!");
+                warning.setText("O email já está cadastrado!");
             }
         }else{
             warning.setVisible(true);
             warning.setTextFill(Paint.valueOf("#ff0000"));
             warning.setText("Preencha todos os campos!");
         }
-    }
-    @FXML
-    protected void voltarLogado(){
-        warning.setVisible(false);
-        logado.setVisible(false);
-        login.setVisible(true);
     }
     @FXML
     protected void mudarNatal(){

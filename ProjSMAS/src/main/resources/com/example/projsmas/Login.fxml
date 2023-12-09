@@ -78,10 +78,10 @@
          <children>
             <TextField fx:id="nomeCadastro" layoutX="139.0" layoutY="138.0" />
             <TextField fx:id="emailCadastro" layoutX="139.0" layoutY="177.0" />
-            <SplitMenuButton fx:id="selectMuni" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" text="Municipio">
+            <SplitMenuButton fx:id="selectMuni" layoutX="196.0" layoutY="217.0" mnemonicParsing="false" text="São Pedro">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#mudarNatal" text="Natal" />
-                <MenuItem mnemonicParsing="false" onAction="#mudarSaoPedro" text="São Pedro" />
+                <MenuItem mnemonicParsing="false" onAction="#mudarSaoPedro" text="São Pedro"/>
+                <MenuItem mnemonicParsing="false" onAction="#mudarNatal" text="Natal"/>
                  <MenuItem mnemonicParsing="false" onAction="#mudarMacaiba" text="Macaiba" />
               </items>
             </SplitMenuButton>
