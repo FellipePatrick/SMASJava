@@ -1,4 +1,4 @@
-package controler;
+package com.example.projsmas.aplicacao;
 
 public class MunicipioEspecie {
     private int idMunicipio;

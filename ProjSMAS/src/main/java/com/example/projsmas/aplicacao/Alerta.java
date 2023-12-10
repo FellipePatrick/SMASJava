@@ -1,8 +1,7 @@
-package controler;
+package com.example.projsmas.aplicacao;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 public class Alerta {
     private String data;
     private String descricao;

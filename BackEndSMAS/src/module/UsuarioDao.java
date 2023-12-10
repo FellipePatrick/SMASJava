@@ -68,7 +68,7 @@ public class UsuarioDao {
             instrucao.setString(3,user.getSenha());
             instrucao.setInt(4,user.getIdMunicipio());
             instrucao.setInt(5, user.getFuncao());
-            instrucao.setString(5,email);
+            instrucao.setString(6,email);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){

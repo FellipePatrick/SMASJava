@@ -27,7 +27,7 @@ CREATE TABLE Especie(
 );
 
 CREATE TABLE Alerta(
-	data TIMESTAMP,
+	data Text,
 	descricao TEXT,
 	id SERIAL PRIMARY KEY,
 	emailUsuario TEXT,

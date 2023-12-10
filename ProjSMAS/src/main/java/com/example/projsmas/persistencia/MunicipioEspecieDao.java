@@ -1,7 +1,7 @@
-package module;
+package com.example.projsmas.persistencia;
 
-import controler.Especie;
-import controler.MunicipioEspecie;
+import com.example.projsmas.aplicacao.Especie;
+import com.example.projsmas.aplicacao.MunicipioEspecie;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

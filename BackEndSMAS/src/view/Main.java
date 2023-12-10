@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import controler.*;
 import module.*;
+import org.w3c.dom.ls.LSOutput;
+
 public class Main {
     public static void main(String[] args) {
         int op;
@@ -59,7 +61,9 @@ public class Main {
                                                     alerta.setIdEspecie(op);
                                                     alerta.setEmailUsuario(usuario.getEmail());
                                                     alertaDao.insert(alerta);
-                                                    m = new MunicipioEspecie(usuario.getIdMunicipio(), alerta.getIdEspecie());
+                                                    ArrayList<Alerta> lista = alertaDao.selectAll();
+                                                    alerta = lista.get(lista.size() - 1);
+                                                    m = new MunicipioEspecie(usuario.getIdMunicipio(), alerta.getIdEspecie(), alerta.getId());
                                                     mDao.insert(m);
                                                     System.out.println("Alerta cadastrado!");
                                                 }else{
@@ -98,6 +102,7 @@ public class Main {
                                                 alerta = alertaDao.selectId(teclado.nextInt());
                                                 if(alerta!=null){
                                                     if(usuario.getEmail().equals(alerta.getEmailUsuario()) || usuario.getFuncao() == 3) {
+                                                        mDao.setDeleteIdAlerta(alerta.getId());
                                                         alertaDao.delete(alerta.getId());
                                                         System.out.println("Alerta deletado!");
                                                     }else{
@@ -110,14 +115,14 @@ public class Main {
                                             case 4:
                                                 ArrayList<Alerta> list = alertaDao.selectAll();
                                                 if(list.size() > 0){
-                                                    for (Alerta a: list
+                                                    for (Alerta aler: list
                                                          ) {
                                                         System.out.println("\n-------------------------------------");
-                                                        System.out.println("ID: " + a.getId());
-                                                        System.out.println("Data: " + a.getData());
-                                                        System.out.println("Email do Usuario: " + a.getEmailUsuario());
-                                                        System.out.println("Especie: " + especieDao.selectId(a.getIdEspecie()).getNome());
-                                                        System.out.println("Descrição: " + a.getDescricao());
+                                                        System.out.println("ID: " + aler.getId());
+                                                        System.out.println("Data: " + aler.getData());
+                                                        System.out.println("Email do Usuario: " + aler.getEmailUsuario());
+                                                        System.out.println("Especie: " + especieDao.selectId(aler.getIdEspecie()).getNome());
+                                                        System.out.println("Descrição: " + aler.getDescricao());
                                                         System.out.println("\n-------------------------------------\n");
                                                     }
                                                 }else{
@@ -216,10 +221,9 @@ public class Main {
                                                 usuario = new Usuario();
                                                 System.out.print("1-Editar\n2-Remover\n3-Listar\n0-Sair: ");
                                                 op = teclado.nextInt();
-                                                teclado.nextLine();
                                                 switch (op){
                                                     case 1:
-                                                        teclado.next();
+                                                        teclado.nextLine();
                                                         System.out.print("Digite o email do Usuario: ");
                                                         usuario = usuarioDao.selectEmail(teclado.nextLine());
                                                         if(usuario!=null){
@@ -241,15 +245,15 @@ public class Main {
                                                         if(usuario!=null){
                                                             if(usuario.getFuncao() == 3) {
                                                                 usuarioDao.delete(usuario.getEmail());
-                                                                System.out.println("Usuario deletada!");
+                                                                System.out.println("Usuario deletado!");
                                                             }else{
                                                                 System.out.println("Acesso Negado!");
                                                             }
                                                         }else{
-                                                            System.out.println("Usuario não cadastrada!");
+                                                            System.out.println("Usuario não cadastrado!");
                                                         }
                                                         break;
-                                                    case 4:
+                                                    case 3:
                                                         ArrayList<Usuario> list = usuarioDao.selectAll();
                                                         if(list.size() > 0){
                                                             for (Usuario u: list
@@ -262,10 +266,10 @@ public class Main {
                                                                 System.out.println("\n-------------------------------------\n");
                                                             }
                                                         }else{
-                                                            System.out.println("Nenhum Especia foi cadastrada!");
+                                                            System.out.println("Nenhum Especia foi cadastrado!");
                                                         }
                                                 break;
-                                            case 0:
+                                            case 00:
                                                 System.out.println("Logou realizado com sucesso!");
                                                 break;
                                             }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.FXMLCadastroAlertaController">
+   <children>
+      <Rectangle arcHeight="5.0" fill="#ffa133" height="49.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
+      <Button fx:id="btnPerfil" layoutX="268.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleBtnPerfilAction" style="-fx-background-color: #ffa133;" text="Perfil" textFill="WHITE" />
+      <Button fx:id="btnMenu" layoutX="320.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleBtnMenuAction" style="-fx-background-color: #ffa133;" text="Menu" textFill="WHITE" />
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffa133" height="250.0" layoutX="72.0" layoutY="92.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="458.0" />
+      <Label graphicTextGap="0.0" layoutX="88.0" layoutY="104.0" text="Alertar abelhas" textFill="#fffefe">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtAlerta" layoutX="119.0" layoutY="151.0" prefHeight="139.0" prefWidth="198.0" promptText="Descrição do alerta" wrapText="true" />
+      <Button fx:id="btnCadastrar" layoutX="358.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleBtnCadastrarAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white;" text="Cadastrar" />
+      <Button fx:id="btnSair" layoutX="541.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleBtnSairAction" style="-fx-background-color: #ffa133;" text="Sair" textFill="WHITE" />
+      <Button fx:id="btnAlertar" layoutX="381.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleBtnAlertarAction" style="-fx-background-color: #ffa133;" text="Alertar" textFill="WHITE" />
+      <Button fx:id="btnRastreamento" layoutX="443.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleBtnRastreamentoAction" style="-fx-background-color: #ffa133;" text="Rastreamento" textFill="WHITE" />
+      <SplitMenuButton fx:id="menuNomeAbelhas" layoutX="358.0" layoutY="151.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Jataí">
+        <items>
+           <MenuItem onAction="#mudarNomeJatai" fx:id="jatai" mnemonicParsing="false" text="Jataí" />
+          <MenuItem onAction="#mudarNomeUrucu" fx:id="urucu" mnemonicParsing="false" text="Uruçu" />
+          <MenuItem  onAction="#mudarNomeMirim" fx:id="mirim" mnemonicParsing="false" text="Mirim" />
+        </items>
+      </SplitMenuButton>
+      <SplitMenuButton fx:id="menuNomeCidades" layoutX="361.0" layoutY="205.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="São Pedro">
+        <items>
+            <MenuItem fx:id="saopedro" onAction="#mudarNomeSaoPedro" mnemonicParsing="false" text="São Pedro" />
+            <MenuItem fx:id="natal" onAction="#mudarNomeNatal" mnemonicParsing="false" text="Natal" />
+            <MenuItem fx:id="macaiba" onAction="#mudarNomeMacaiba" mnemonicParsing="false" text="Macaiba" />
+        </items>
+      </SplitMenuButton>
+       <Label fx:id="warnings" layoutX="99.0" layoutY="72.0" visible="false" />
+   </children>
+</AnchorPane>

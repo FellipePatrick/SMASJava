@@ -1,7 +1,8 @@
-package module;
+package com.example.projsmas.persistencia;
 
-import controler.Alerta;
-import controler.Usuario;
+
+
+import com.example.projsmas.aplicacao.Alerta;
 
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
