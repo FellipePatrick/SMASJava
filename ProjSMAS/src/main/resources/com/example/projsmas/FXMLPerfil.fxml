@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visao.FXMLCadastroAlertaController">
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.FXMLPerfil">
    <children>
       <Pane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: #ffa133;">
          <children>
             <ImageView fitHeight="49.0" fitWidth="77.0" layoutX="6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../OneDrive/Área%20de%20Trabalho/SMAS/SMAS/assets/img/logoW.png" />
+                  <Image url="@img/logoWhite.png" />
                </image>
             </ImageView>
             <HBox layoutX="318.0" layoutY="7.0" prefHeight="36.0" prefWidth="282.0">
@@ -33,15 +33,15 @@
       </Pane>
       <Pane layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;">
          <children>
-            <ComboBox fx:id="cbxMunicipio" layoutX="278.0" layoutY="57.0" prefHeight="25.0" prefWidth="136.0" promptText="Municipio" style="-fx-background-color: white; -fx-background-radius: 5;" />
-            <Button fx:id="btnCadastrar" layoutX="278.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleBtnCadastrarAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Cadastrar" />
-            <Label graphicTextGap="0.0" layoutX="32.0" layoutY="12.0" text="Alertar abelhas" textFill="#fffefe">
+            <Button fx:id="btnCadastrar" layoutX="161.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleBtnCadastrarAction" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Enviar" />
+            <Label graphicTextGap="0.0" layoutX="29.0" layoutY="11.0" text="Editar perfil" textFill="#fffefe">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cbxEspecie" layoutX="278.0" layoutY="113.0" prefHeight="25.0" prefWidth="136.0" promptText="Especie" style="-fx-background-color: white; -fx-background-radius: 5;" />
-            <TextArea fx:id="txtAreaAlerta" layoutX="57.0" layoutY="54.0" prefHeight="150.0" prefWidth="176.0" promptText="Descrição do alerta" style="-fx-background-radius: 10;" />
+            <TextField fx:id="txtNome" layoutX="161.0" layoutY="48.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
+            <TextField fx:id="txtMunicipio" disable="true" layoutX="161.0" layoutY="91.0" prefHeight="25.0" prefWidth="136.0" promptText="Municipio" style="-fx-background-radius: 5;" />
+            <PasswordField fx:id="pwdSenha" layoutX="161.0" layoutY="140.0" prefHeight="25.0" prefWidth="136.0" promptText="Senha" style="-fx-background-radius: 5;" />
          </children>
       </Pane>
       <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">
@@ -49,5 +49,6 @@
             <Font name="Arial" size="10.0" />
          </font>
       </Label>
+      <Label fx:id="warnings" layoutX="250.0" layoutY="63.0" visible="false" />
    </children>
 </AnchorPane>

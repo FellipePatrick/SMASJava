@@ -53,7 +53,7 @@ public class LoginController {
                 warning.setVisible(false);
                 login.setVisible(false);
                 stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLCadastroAlerta.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLPerfil.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 stage.setScene(scene);
                 stage.show();
