@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="visao.FXMLCadastroAlertaController">
+   <children>
+      <Pane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: #ffa133;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="77.0" layoutX="6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../OneDrive/Área%20de%20Trabalho/SMAS/SMAS/assets/img/logoW.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="318.0" layoutY="7.0" prefHeight="36.0" prefWidth="282.0">
+               <children>
+                  <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#handleBtnPerfilAction" prefHeight="26.0" prefWidth="46.0" style="-fx-background-color: #ffa133;" text="Perfil" textFill="WHITE" />
+                  <Button fx:id="btnMenu" mnemonicParsing="false" onAction="#handleBtnMenuAction" style="-fx-background-color: #ffa133;" text="Menu" textFill="WHITE" />
+                  <Button fx:id="btnAlertar" mnemonicParsing="false" onAction="#handleBtnAlertarAction" prefHeight="26.0" prefWidth="53.0" style="-fx-background-color: #ffa133;" text="Alertar" textFill="WHITE" />
+                  <Button fx:id="btnRastreamento" mnemonicParsing="false" onAction="#handleBtnRastreamentoAction" prefHeight="26.0" prefWidth="89.0" style="-fx-background-color: #ffa133;" text="Rastreamento" textFill="WHITE" />
+                  <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleBtnSairAction" style="-fx-background-color: #ffa133;" text="Sair" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+      </Label>
+      <TableView layoutX="58.0" layoutY="93.0" prefHeight="243.0" prefWidth="483.0">
+        <columns>
+          <TableColumn prefWidth="75.0" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Autor" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="125.5999755859375" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Descrição" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="79.199951171875" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Município" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="83.20001220703125" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Espécie" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="58.39996337890625" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Data" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="57.5999755859375" style="-fx-background-color: #ffa133;">
+               <graphic>
+                  <Label text="Hora" textFill="WHITE" />
+               </graphic>
+            </TableColumn>
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
