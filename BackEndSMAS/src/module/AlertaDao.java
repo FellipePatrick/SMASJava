@@ -23,7 +23,7 @@ public class AlertaDao {
     private final String delete = "DELETE FROM \"alerta\" WHERE id = ?";
     private final String update = "UPDATE \"alerta\" SET data = ?, descricao = ?, emailusuario = ?, idespecie = ? WHERE id = ?";
     public AlertaDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void update(int id, Alerta alerta){
         try{

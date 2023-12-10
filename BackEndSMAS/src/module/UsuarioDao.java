@@ -13,8 +13,9 @@ public class UsuarioDao {
     private final String insert = "INSERT INTO \"usuario\" (nome, email, senha, idMunicipio) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"usuario\" WHERE email = ?";
     private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ?, funcao = ? WHERE email = ?";
+    private final String updateSenha = "UPDATE \"usuario\" SET senha = ?  WHERE email = ?";
     public UsuarioDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void delete(String email){
         try{
@@ -69,6 +70,19 @@ public class UsuarioDao {
             instrucao.setInt(4,user.getIdMunicipio());
             instrucao.setInt(5, user.getFuncao());
             instrucao.setString(6,email);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na atualização: " + e.getMessage());
+        }
+    }
+
+    public void update(String email, String senha){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.updateSenha);
+            instrucao.setString(1,senha);
+            instrucao.setString(2,email);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){

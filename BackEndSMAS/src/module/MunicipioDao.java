@@ -12,7 +12,7 @@ public class MunicipioDao {
     private final String delete = "DELETE FROM \"municipio\" WHERE id = ?";
     private final String update = "UPDATE \"municipio\" SET id = ?, nome = ? , uf = ? WHERE id = ?";
     public MunicipioDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void delete(int id){
         try{

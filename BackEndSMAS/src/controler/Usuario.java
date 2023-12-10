@@ -14,6 +14,7 @@ public class Usuario {
         this.idMunicipio = idMunicipio;
         this.nome = nome;
         this.senha = senha;
+        this.funcao = 1;
     }
     public Usuario(String email, String nome, String senha, int idMunicipio, int funcao) {
         this.email = email;

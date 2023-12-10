@@ -22,6 +22,7 @@ public class Main {
         boolean flag;
         UsuarioDao usuarioDao = new UsuarioDao();
         Scanner teclado = new Scanner(System.in);
+        String email;
         do{
             System.out.println("LOGIN - SMAS");
             System.out.print("1-Logar\n2-Cadastrar-se\n3-Esqueceu senha\n4-Sair:");
@@ -293,51 +294,56 @@ public class Main {
                     teclado.nextLine();
                     System.out.print("\nDigite o seu nome: ");
                     usuario.setNome(teclado.nextLine());
-                    System.out.print("\nDigite o seu email: ");
-                    usuario.setEmail(teclado.next());
+                    do {
+                        System.out.print("\nDigite o seu email: ");
+                        email = teclado.nextLine();
+                        if(usuarioDao.selectEmail(email) != null){
+                            System.out.println("\nEmail já cadastrado em nosso sistema, digite outro!");
+                            flag = true;
+                        }else flag = false;
+                    }while(flag);
+                    usuario.setEmail(email);
                     do{
-                        flag = true;
                         System.out.print("\nDigite a sua senha: ");
-                        aux = teclado.next();
+                        aux = teclado.nextLine();
                         System.out.print("\nDigite a sua senha novamente: ");
-                        if(!(aux.equals(teclado.next()))){
-                            System.out.println("Senhas distintas, por favor tente novamente!");
-                            flag = false;
-                        }
-                    }while(!flag);
+                        if(!(aux.equals(teclado.nextLine()))){
+                            System.out.println("\nSenhas distintas, por favor tente novamente!");
+                            flag = true;
+                        }else flag = false;
+                    }while(flag);
                     usuario.setSenha(aux);
-                    teclado.nextLine();
                     do{
-                        flag = true;
                         System.out.print("\nDigite o nome do municipio: ");
                         municipio.setNome(teclado.nextLine());
                         municipio.setUf("RN");
                         if(municipioDao.selectNameAndUf(municipio.getNome(),municipio.getUf()) == null){
                             System.out.println("\nMunicipio Invalido!");
-                            flag = false;
-                        }
-                    }while(!flag);
+                            flag = true;
+                        }else  flag = false;
+                    }while(flag);
                     municipio = municipioDao.selectNameAndUf(municipio.getNome(),municipio.getUf());
                     usuario.setIdMunicipio(municipio.getId());
                     usuarioDao.insert(usuario);
                     System.out.println("Usuario cadastrado com sucesso!");
                     break;
                 case 3:
-                    flag = true;
+                    teclado.nextLine();
                     System.out.print("Digite o email do usuario que deseja alterar a senha: ");
-                    usuario = usuarioDao.selectEmail(teclado.next());
+                    usuario = usuarioDao.selectEmail(teclado.nextLine());
+                    flag = false;
                     if(usuario != null){
                         do{
                             System.out.print("\nDigite a sua nova senha: ");
-                            aux = teclado.next();
+                            aux = teclado.nextLine();
                             System.out.print("\nDigite a sua nova senha novamente: ");
-                            if(!(aux.equals(teclado.next()))){
+                            if(!(aux.equals(teclado.nextLine()))){
                                 System.out.println("Senhas distintas, por favor tente novamente!");
-                                flag = false;
+                                flag = true;
                             }
-                        }while(!flag);
+                        }while(flag);
                         usuario.setSenha(aux);
-                        usuarioDao.update(usuario.getEmail(), usuario);
+                        usuarioDao.update(usuario.getEmail(), usuario.getSenha());
                         System.out.println("Senha alterada com sucesso!");
                     }else{
                         System.out.println("email invalido!");
