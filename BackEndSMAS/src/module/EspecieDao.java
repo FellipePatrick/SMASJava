@@ -104,7 +104,7 @@ public class EspecieDao {
                 especie = new Especie(rs.getString("nome"), rs.getString("comocapturar"),rs.getString("comocriar"),rs.getString("sobre"),rs.getString("emailuser"), rs.getInt("id"));
             this.connection.desconectar();
         }catch(Exception e){
-            System.out.println("Erro no relatório por id: " + e.getMessage());
+            System.out.println("Erro no relatório por nome: " + e.getMessage());
         }
         return especie;
     }

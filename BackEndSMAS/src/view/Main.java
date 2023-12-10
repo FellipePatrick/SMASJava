@@ -22,7 +22,7 @@ public class Main {
         boolean flag;
         UsuarioDao usuarioDao = new UsuarioDao();
         Scanner teclado = new Scanner(System.in);
-        String email;
+        String email, data, hora;
         do{
             System.out.println("LOGIN - SMAS");
             System.out.print("1-Logar\n2-Cadastrar-se\n3-Esqueceu senha\n4-Sair:");
@@ -62,8 +62,7 @@ public class Main {
                                                     alerta.setIdEspecie(op);
                                                     alerta.setEmailUsuario(usuario.getEmail());
                                                     alertaDao.insert(alerta);
-                                                    ArrayList<Alerta> lista = alertaDao.selectAll();
-                                                    alerta = lista.get(lista.size() - 1);
+                                                    alerta = alertaDao.selectLast();
                                                     m = new MunicipioEspecie(usuario.getIdMunicipio(), alerta.getIdEspecie(), alerta.getId());
                                                     mDao.insert(m);
                                                     System.out.println("Alerta cadastrado!");
@@ -103,7 +102,7 @@ public class Main {
                                                 alerta = alertaDao.selectId(teclado.nextInt());
                                                 if(alerta!=null){
                                                     if(usuario.getEmail().equals(alerta.getEmailUsuario()) || usuario.getFuncao() == 3) {
-                                                        mDao.setDeleteIdAlerta(alerta.getId());
+                                                        mDao.deleteIdAlerta(alerta.getId());
                                                         alertaDao.delete(alerta.getId());
                                                         System.out.println("Alerta deletado!");
                                                     }else{
@@ -116,11 +115,13 @@ public class Main {
                                             case 4:
                                                 ArrayList<Alerta> list = alertaDao.selectAll();
                                                 if(list.size() > 0){
-                                                    for (Alerta aler: list
-                                                         ) {
+                                                    for (Alerta aler: list) {
+                                                        data = aler.getData().split(" ")[0];
+                                                        hora = aler.getData().split(" ")[1];
                                                         System.out.println("\n-------------------------------------");
                                                         System.out.println("ID: " + aler.getId());
-                                                        System.out.println("Data: " + aler.getData());
+                                                        System.out.println("Data: " + data);
+                                                        System.out.println("Hora: " + hora);
                                                         System.out.println("Email do Usuario: " + aler.getEmailUsuario());
                                                         System.out.println("Especie: " + especieDao.selectId(aler.getIdEspecie()).getNome());
                                                         System.out.println("Descrição: " + aler.getDescricao());

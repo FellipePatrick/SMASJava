@@ -85,6 +85,25 @@ public class AlertaDao {
         }
         return alertas;
     }
+
+    public Alerta selectLast() {
+        ArrayList<Alerta> alertas = new ArrayList<>();
+        Alerta alerta = null;
+        try {
+            this.connection.conectar();
+            Statement instrucao = this.connection.getConexao().createStatement();
+            ResultSet rs = instrucao.executeQuery(this.selectAll);
+            while (rs.next()) {
+                alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
+                alertas.add(alerta);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return alerta;
+    }
+
     public Alerta selectId(int id){
         Alerta alerta = null;
         try{
@@ -111,7 +130,7 @@ public class AlertaDao {
                 alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
             this.connection.desconectar();
         }catch(Exception e){
-            System.out.println("Erro no relatório por id: " + e.getMessage());
+            System.out.println("Erro no relatório por data: " + e.getMessage());
         }
         return alerta;
     }

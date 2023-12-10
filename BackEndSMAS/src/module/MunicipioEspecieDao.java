@@ -19,7 +19,7 @@ public class MunicipioEspecieDao {
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
 
     }
-    public void setDeleteIdAlerta(int id){
+    public void deleteIdAlerta(int id){
         try{
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteIdAlerta);
