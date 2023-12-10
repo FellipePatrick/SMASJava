@@ -8,6 +8,7 @@ public class MunicipioDao {
     private Conexao connection;
     private final String selectAll = "SELECT * FROM\"municipio\"";
     private final String selectNameAndUf= "SELECT * FROM \"municipio\" WHERE nome = ? and uf = ?";
+    private final String selectName = "SELECT * FROM \"municipio\" WHERE nome = ?";
     private final String insert = "INSERT INTO \"municipio\" (nome, uf) values (?,?) ";
     private final String delete = "DELETE FROM \"municipio\" WHERE id = ?";
     private final String update = "UPDATE \"municipio\" SET id = ?, nome = ? , uf = ? WHERE id = ?";
@@ -84,4 +85,21 @@ public class MunicipioDao {
         }
         return municipio;
     }
+
+    public Municipio selectName(String name){
+        Municipio municipio = null;
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectName);
+            instrucao.setString(1, name);
+            ResultSet rs = instrucao.executeQuery();
+            if(rs.next())
+                municipio = new Municipio(rs.getInt("id"),rs.getString("nome"), rs.getString("uf"));
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro no relatório por Nome: " + e.getMessage());
+        }
+        return municipio;
+    }
+
 }
