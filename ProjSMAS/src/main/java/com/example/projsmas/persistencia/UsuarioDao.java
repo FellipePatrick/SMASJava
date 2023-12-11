@@ -1,7 +1,5 @@
 package com.example.projsmas.persistencia;
 
-
-
 import com.example.projsmas.aplicacao.Municipio;
 import com.example.projsmas.aplicacao.Usuario;
 

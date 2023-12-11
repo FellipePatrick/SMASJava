@@ -14,6 +14,8 @@ public class MunicipioEspecieDao {
     private final String selectId = "SELECT * FROM \"municipioespecie\" WHERE id = ?";
     private final String insert = "INSERT INTO \"municipioespecie\" (idespecie, idmunicipio, idalerta) values (?,?,?) ";
     private final String delete = "DELETE FROM \"municipioespecie\" WHERE id = ?";
+    private final String deleteEspecie = "DELETE FROM \"municipioespecie\" WHERE idespecie = ?";
+
     private final String deleteIdAlerta = "DELETE FROM \"municipioespecie\" WHERE idalerta = ?";
     public MunicipioEspecieDao() {
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
@@ -30,6 +32,18 @@ public class MunicipioEspecieDao {
             System.out.println("Erro na exclusão: " + e.getMessage());
         }
     }
+    public void deleteEspecie(int id){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEspecie);
+            instrucao.setInt(1,id);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+
 
     public void insert(MunicipioEspecie m){
         try{
