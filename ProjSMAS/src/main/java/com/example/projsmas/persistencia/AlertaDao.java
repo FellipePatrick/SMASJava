@@ -21,13 +21,14 @@ public class AlertaDao {
     private final String selectId = "SELECT * FROM \"alerta\" WHERE id = ?";
     private final String selectData = "SELECT * FROM \"alerta\" WHERE data = ?";
     private final String selectEmail = "SELECT * FROM \"alerta\" WHERE emailusuario = ?";
+    private final String selectEspecie = "SELECT * FROM \"alerta\" WHERE idespecie = ?";
     private final String insert = "INSERT INTO \"alerta\" (data, descricao, emailusuario, idespecie) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"alerta\" WHERE id = ?";
     private final String deleteEmail = "DELETE FROM \"alerta\" WHERE emailusuario = ?";
-    private final String deleteEspecie = "DELETE FROM \"alerta\" WHERE idespecie = ?";
+    private final String deleteIdEspecie = "DELETE FROM \"alerta\" WHERE idespecie = ?";
     private final String update = "UPDATE \"alerta\" SET data = ?, descricao = ?, emailusuario = ?, idespecie = ? WHERE id = ?";
     public AlertaDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void update(int id, Alerta alerta){
         try{
@@ -62,19 +63,8 @@ public class AlertaDao {
     public void DeleteEmail(String email){
         try{
             this.connection.conectar();
-            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEmail);
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
             instrucao.setString(1,email);
-            instrucao.execute();
-            this.connection.desconectar();
-        }catch(Exception e){
-            System.out.println("Erro na exclusão: " + e.getMessage());
-        }
-    }
-    public void deleteEspecie(int id){
-        try{
-            this.connection.conectar();
-            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEspecie);
-            instrucao.setInt(1,id);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){
@@ -134,7 +124,26 @@ public class AlertaDao {
             this.connection.conectar();
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEmail);
             instrucao.setString(1,email);
-            ResultSet rs = instrucao.executeQuery(this.selectAll);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
+                alertas.add(alerta);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return alertas;
+    }
+
+    public ArrayList<Alerta> selectEspecie(int idespecie){
+        ArrayList<Alerta> alertas = new ArrayList<>();
+        Alerta alerta;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEspecie);
+            instrucao.setInt(1,idespecie);
+            ResultSet rs = instrucao.executeQuery();
             while (rs.next()) {
                 alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
                 alertas.add(alerta);
@@ -159,5 +168,17 @@ public class AlertaDao {
             System.out.println("Erro no relatório por id: " + e.getMessage());
         }
         return alerta;
+    }
+
+    public void deleteIdEspecie(int idespecie){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteIdEspecie);
+            instrucao.setInt(1,idespecie);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
     }
 }

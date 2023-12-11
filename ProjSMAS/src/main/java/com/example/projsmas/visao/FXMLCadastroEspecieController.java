@@ -149,8 +149,8 @@ public class FXMLCadastroEspecieController extends LoginController {
     protected void excluirEspecie(){
         MunicipioEspecieDao m = new MunicipioEspecieDao();
         AlertaDao a = new AlertaDao();
-        m.deleteEspecie(especie.getId());
-        a.deleteEspecie(especie.getId());
+        m.deleteIdEspecie(especie.getId());
+        a.deleteIdEspecie(especie.getId());
         especieDao.delete(especie.getId());
         warnings.setVisible(true);
         warnings.setTextFill(Paint.valueOf("#00f731"));

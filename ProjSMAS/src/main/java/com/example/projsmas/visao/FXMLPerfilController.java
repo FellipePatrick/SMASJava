@@ -18,12 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FXMLPerfilController extends LoginController {
-    private Usuario user = super.getUser();
-    private EspecieDao especieDao = new EspecieDao();
-    private String aux;
-    private Usuario u;
-    private UsuarioDao usuarioDao = new UsuarioDao();
-    private MunicipioDao m = new MunicipioDao();
     @FXML
     private TextField txtNome, txtMunicipio, idusuario;
     @FXML
@@ -36,6 +30,12 @@ public class FXMLPerfilController extends LoginController {
     private MenuItem usuario, administrador, apicultor;
     @FXML
     private Label warnings;
+    private Usuario user = super.getUser();
+    private EspecieDao especieDao = new EspecieDao();
+    private String aux;
+    private Usuario u;
+    private UsuarioDao usuarioDao = new UsuarioDao();
+    private MunicipioDao m = new MunicipioDao();
     @FXML
     protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
         this.atualizaFrame("FXMLPerfil.fxml", event);
@@ -94,25 +94,37 @@ public class FXMLPerfilController extends LoginController {
         stage.show();
     }
     @FXML
-    protected void excluirUsuario(){ //parei aqui
-        AlertaDao a = new AlertaDao();
-        MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
-        ArrayList<Alerta> listaAlertas = new ArrayList<>();
-        selectFunction.setDisable(true);
-        excluirUsuario.setDisable(true);
-        listaAlertas = a.selectEmail(u.getEmail());
-        for(Alerta al: listaAlertas){
-            municipioEspecieDao.deleteIdAlerta(al.getId());
-        }
-        a.DeleteEmail(u.getEmail());
-        especieDao.deleteEmail(u.getEmail());
-        usuarioDao.delete(u.getEmail());
-        warnings.setVisible(true);
-        txtNome.setText("");
-        pwdSenha.setText("");
-        selectFunction.setText("Usuario Comum");
-        warnings.setTextFill(Paint.valueOf("#00f731"));
-        warnings.setText("Usuario excluido");
+    protected void excluirUsuario(){
+       if(u.getFuncao() == 3) {
+           if (!(idusuario.getText().equals(u.getEmail()))) {
+               selectFunction.setDisable(true);
+               excluirUsuario.setDisable(true);
+               AlertaDao a = new AlertaDao();
+               MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
+               ArrayList<Alerta> listaAlertas = new ArrayList<>();
+               ArrayList<Especie> especies = especieDao.selectEmail(idusuario.getText());
+               for (Especie e : especies) {
+                   municipioEspecieDao.deleteIdEspecie(e.getId());
+                   a.deleteIdEspecie(e.getId());
+               }
+               especieDao.deleteEmail(idusuario.getText());
+               usuarioDao.delete(idusuario.getText());
+               warnings.setVisible(true);
+               txtNome.setText("");
+               pwdSenha.setText("");
+               selectFunction.setText("Usuario Comum");
+               warnings.setTextFill(Paint.valueOf("#00f731"));
+               warnings.setText("Usuario excluido");
+           } else {
+               warnings.setVisible(true);
+               warnings.setTextFill(Paint.valueOf("#ff0000"));
+               warnings.setText("Você não pode se apagar");
+           }
+       }else{
+           warnings.setVisible(true);
+           warnings.setTextFill(Paint.valueOf("#ff0000"));
+           warnings.setText("Você não tem permissão apagar usuários");
+       }
     }
     @FXML
     protected  void mudarNomeUser(){
@@ -135,52 +147,58 @@ public class FXMLPerfilController extends LoginController {
         stage.show();
     }
     @FXML
-    protected void handleBtnCadastrarAction(){
-        boolean flag = false;
-        if(!(txtNome.getText().equals(u.getNome()))){
-            user.setNome(txtNome.getText());
-            flag = true;
-        }
-        if(!(pwdSenha.getText().equals(u.getSenha()))){
-            user.setSenha(pwdSenha.getText());
-            flag = true;
-        }
-        switch (u.getFuncao()){
-            case 1:
-                aux = "Usuario Comum";
-                break;
-            case 2:
-                aux = "Apicultor";
-                break;
-            case 3:
-                aux = "Administrador";
-                break;
-        }
-        if(!(selectFunction.getText().equals(aux))){
-            flag = true;
-            switch (selectFunction.getText()){
-                case "Usuario Comum":
-                    u.setFuncao(1);
+    protected void handleBtnCadastrarAction() {
+        if (u.getFuncao() == 3) {
+            boolean flag = false;
+            if (!(txtNome.getText().equals(u.getNome()))) {
+                user.setNome(txtNome.getText());
+                flag = true;
+            }
+            if (!(pwdSenha.getText().equals(u.getSenha()))) {
+                user.setSenha(pwdSenha.getText());
+                flag = true;
+            }
+            switch (u.getFuncao()) {
+                case 1:
+                    aux = "Usuario Comum";
                     break;
-                case "Apicultor":
-                    u.setFuncao(2);
+                case 2:
+                    aux = "Apicultor";
                     break;
-                case "Administrador":
-                    u.setFuncao(3);
+                case 3:
+                    aux = "Administrador";
                     break;
             }
-        }
-        if(flag){
-            usuarioDao.update(u.getEmail(), u);
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Usuario atualizado");
-            txtNome.setText("");
-            pwdSenha.setText("");
+            if (!(selectFunction.getText().equals(aux))) {
+                flag = true;
+                switch (selectFunction.getText()) {
+                    case "Usuario Comum":
+                        u.setFuncao(1);
+                        break;
+                    case "Apicultor":
+                        u.setFuncao(2);
+                        break;
+                    case "Administrador":
+                        u.setFuncao(3);
+                        break;
+                }
+            }
+            if (flag) {
+                usuarioDao.update(u.getEmail(), u);
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#00f731"));
+                warnings.setText("Usuario atualizado");
+                txtNome.setText("");
+                pwdSenha.setText("");
+            } else {
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#ff0000"));
+                warnings.setText("Atualize algum campo");
+            }
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
-            warnings.setText("Atualize algum campo");
+            warnings.setText("Você não tem permissão atualizar dados de usuários");
         }
     }
 }

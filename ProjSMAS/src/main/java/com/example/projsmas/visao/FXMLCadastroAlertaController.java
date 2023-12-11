@@ -225,8 +225,8 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	}
 
 	@FXML
-	private void handleBtnRastreamentoAction() {
-		System.out.println(txtData.getText());
+	private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
+		this.atualizaFrame("FXMLCadastroEspecieController.fxml", event);
 	}
 
 	@FXML

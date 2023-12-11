@@ -14,13 +14,13 @@ public class EspecieDao {
     private final String selectAll = "SELECT * FROM\"especie\"";
     private final String selectId = "SELECT * FROM \"especie\" WHERE id = ?";
     private final String selectName = "SELECT * FROM \"especie\" WHERE nome = ?";
-
+    private final String selectEmail = "SELECT * FROM \"especie\" WHERE emailuser = ?";
     private final String insert = "INSERT INTO \"especie\" (nome, comocriar, comocapturar, sobre, emailuser) values (?,?,?,?,?) ";
     private final String delete = "DELETE FROM \"especie\" WHERE id = ?";
     private final String deleteEmail = "DELETE FROM \"especie\" WHERE emailuser = ?";
     private final String update = "UPDATE \"especie\" SET nome = ?, comocriar = ?, comocapturar = ?, sobre = ?, emailuser = ? WHERE id = ?";
     public EspecieDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void update(int id, Especie especie){
         try{
@@ -121,5 +121,24 @@ public class EspecieDao {
             System.out.println("Erro no relatório por id: " + e.getMessage());
         }
         return especie;
+    }
+
+    public ArrayList<Especie> selectEmail(String email) {
+        ArrayList<Especie> especies = new ArrayList<>();
+        Especie especie;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEmail);
+            instrucao.setString(1, email);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                especie = new Especie(rs.getString("nome"), rs.getString("comocapturar"),rs.getString("comocriar"),rs.getString("sobre"),rs.getString("emailuser"), rs.getInt("id"));
+                especies.add(especie);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return especies;
     }
 }
