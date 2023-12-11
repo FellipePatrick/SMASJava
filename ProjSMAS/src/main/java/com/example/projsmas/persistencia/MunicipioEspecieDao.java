@@ -19,7 +19,7 @@ public class MunicipioEspecieDao {
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
 
     }
-    public void setDeleteIdAlerta(int id){
+    public void deleteIdAlerta(int id){
         try{
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteIdAlerta);
@@ -30,6 +30,7 @@ public class MunicipioEspecieDao {
             System.out.println("Erro na exclusão: " + e.getMessage());
         }
     }
+
     public void insert(MunicipioEspecie m){
         try{
             connection.conectar();

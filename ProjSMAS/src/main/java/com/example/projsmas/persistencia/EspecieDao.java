@@ -17,6 +17,7 @@ public class EspecieDao {
 
     private final String insert = "INSERT INTO \"especie\" (nome, comocriar, comocapturar, sobre, emailuser) values (?,?,?,?,?) ";
     private final String delete = "DELETE FROM \"especie\" WHERE id = ?";
+    private final String deleteEmail = "DELETE FROM \"especie\" WHERE emailuser = ?";
     private final String update = "UPDATE \"especie\" SET nome = ?, comocriar = ?, comocapturar = ?, sobre = ?, emailuser = ? WHERE id = ?";
     public EspecieDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
@@ -42,6 +43,17 @@ public class EspecieDao {
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
             instrucao.setInt(1,id);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+    public void deleteEmail(String email){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEmail);
+            instrucao.setString(1,email);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){

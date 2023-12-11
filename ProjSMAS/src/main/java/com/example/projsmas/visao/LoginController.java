@@ -53,8 +53,8 @@ public class LoginController {
                 warning.setVisible(false);
                 login.setVisible(false);
                 stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLPerfil.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLCadastroAlerta.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 500);
                 stage.setScene(scene);
                 stage.show();
             } else {
@@ -96,6 +96,10 @@ public class LoginController {
         if(this.getUser() != null){
             password.setVisible(false);
             password2.setVisible(true);
+        }else{
+            warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
+            warning.setText("Email invalido!");
         }
     }
 

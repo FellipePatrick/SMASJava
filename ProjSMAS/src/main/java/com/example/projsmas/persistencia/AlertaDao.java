@@ -20,8 +20,10 @@ public class AlertaDao {
     private final String selectAll = "SELECT * FROM\"alerta\"";
     private final String selectId = "SELECT * FROM \"alerta\" WHERE id = ?";
     private final String selectData = "SELECT * FROM \"alerta\" WHERE data = ?";
+    private final String selectEmail = "SELECT * FROM \"alerta\" WHERE emailusuario = ?";
     private final String insert = "INSERT INTO \"alerta\" (data, descricao, emailusuario, idespecie) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"alerta\" WHERE id = ?";
+    private final String deleteEmail = "DELETE FROM \"alerta\" WHERE emailusuario = ?";
     private final String update = "UPDATE \"alerta\" SET data = ?, descricao = ?, emailusuario = ?, idespecie = ? WHERE id = ?";
     public AlertaDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
@@ -49,6 +51,18 @@ public class AlertaDao {
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
             instrucao.setInt(1,id);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+
+    public void DeleteEmail(String email){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
+            instrucao.setString(1,email);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){
@@ -100,6 +114,24 @@ public class AlertaDao {
             System.out.println("Erro no relatório por id: " + e.getMessage());
         }
         return alerta;
+    }
+    public ArrayList<Alerta> selectEmail(String email){
+        ArrayList<Alerta> alertas = new ArrayList<>();
+        Alerta alerta;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEmail);
+            instrucao.setString(1,email);
+            ResultSet rs = instrucao.executeQuery(this.selectAll);
+            while (rs.next()) {
+                alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
+                alertas.add(alerta);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return alertas;
     }
     public Alerta selectData(String data){
         Alerta alerta = null;
