@@ -19,7 +19,7 @@ public class UsuarioDao {
     private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ?, funcao = ? WHERE email = ?";
     private final String municipalityName = "SELECT id FROM \"municipio\" where nome = ? and uf = \'RN\'";
     public UsuarioDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
     }
     public void delete(String email){
         try{

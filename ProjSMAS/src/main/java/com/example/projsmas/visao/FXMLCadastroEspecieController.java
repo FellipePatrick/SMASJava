@@ -25,7 +25,9 @@ public class FXMLCadastroEspecieController extends LoginController {
     private EspecieDao especieDao = new EspecieDao();
     private Especie especie;
     @FXML
-    Pane cadastrarEspecie, editarEspecie;
+    private Stage stage;
+    @FXML
+    private Pane cadastrarEspecie, editarEspecie;
     @FXML
     private AnchorPane apnCadastroEspecie;
     @FXML
@@ -61,21 +63,33 @@ public class FXMLCadastroEspecieController extends LoginController {
     }
 
     @FXML
-    protected void handleBtnPerfilAction(){
-
-    }
-    @FXML
     protected void handleBtnMenuAction(){
 
     }
     @FXML
-    protected void handleBtnAlertarAction(){
-
+    protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
+        this.atualizaFrame("FXMLPerfil.fxml", event);
     }
     @FXML
-    protected void handleBtnRastreamentoAction(){
-
+    protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
+        this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
     }
+
+    @FXML
+    private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
+        this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
+    }
+    @FXML
+    protected void handleBtnSairAction(ActionEvent evente) throws IOException {
+        this.setUser(null);
+        Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     @FXML
     protected void salvarEspecie(){
         boolean flag = false;
@@ -155,10 +169,6 @@ public class FXMLCadastroEspecieController extends LoginController {
         warnings.setVisible(true);
         warnings.setTextFill(Paint.valueOf("#00f731"));
         warnings.setText("Especie Deletada!");
-    }
-    @FXML
-    protected void handleBtnSairAction(){
-
     }
     @FXML
     protected void voltarEspecie(){

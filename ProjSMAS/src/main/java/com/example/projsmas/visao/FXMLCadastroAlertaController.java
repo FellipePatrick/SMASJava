@@ -66,7 +66,6 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		apnCadastroAlerta.setVisible(true);
-
 	}
 
 	@FXML
@@ -226,12 +225,17 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 
 	@FXML
 	private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
-		this.atualizaFrame("FXMLCadastroEspecieController.fxml", event);
+		this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
 	}
 
 	@FXML
-	private void handleBtnSairAction() {
-		System.out.println(txtAlerta.getText());
+	protected void handleBtnSairAction(ActionEvent evente) throws IOException {
+		this.setUser(null);
+		stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+		Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;

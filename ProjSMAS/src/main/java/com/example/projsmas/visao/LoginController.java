@@ -68,27 +68,6 @@ public class LoginController {
             warning.setText("Email ou senha invalidos!");
         }
     }
-
-    protected void entrarButton(){
-        warning.setVisible(false);
-        user = userDao.selectEmail(emailBox.getText());
-        if(user != null){
-            if (senhaBox.getText().equals(user.getSenha())) {
-                emailBox.setText("");
-                senhaBox.setText("");
-                setUser(user);
-                warning.setVisible(false);
-                login.setVisible(false);
-            } else {
-                warning.setVisible(true);
-                warning.setTextFill(Paint.valueOf("#ff0000"));
-                warning.setText("Email ou senha invalidos!");
-            }
-        }else{
-            warning.setVisible(true);
-            warning.setText("Email ou senha invalidos!");
-        }
-    }
     @FXML
     protected void verificarEmail(){
         warning.setVisible(false);
