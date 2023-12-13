@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 public class Alerta {
     private String data;
     private String descricao;
-    private int id;
-    private int idEspecie;
+    private Integer id;
+    private Integer idEspecie;
     private String emailUsuario;
     public Alerta(){
         LocalDateTime dataHoraAtual = LocalDateTime.now();
@@ -14,7 +14,7 @@ public class Alerta {
         String dataHoraFormatada = dataHoraAtual.format(formato);
         this.data = dataHoraFormatada;
     };
-    public Alerta(String descricao,int idEspecie, String emailUsuario) {
+    public Alerta(String descricao,Integer idEspecie, String emailUsuario) {
         LocalDateTime dataHoraAtual = LocalDateTime.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dataHoraFormatada = dataHoraAtual.format(formato);
@@ -23,11 +23,7 @@ public class Alerta {
         this.idEspecie = idEspecie;
         this.emailUsuario = emailUsuario;
     }
-    public Alerta(int id, String data, String descricao,int idEspecie, String emailUsuario) {
-        LocalDateTime dataHoraAtual = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dataHoraFormatada = dataHoraAtual.format(formato);
-        this.data = dataHoraFormatada;
+    public Alerta(Integer id, String data, String descricao,Integer idEspecie, String emailUsuario) {
         this.id = id;
         this.data = data;
         this.descricao = descricao;
@@ -46,22 +42,22 @@ public class Alerta {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-    public int getIdEspecie() {
+    public Integer getIdespecie() {
         return idEspecie;
     }
-    public void setIdEspecie(int idEspecie) {
+    public void setIdespecie(int idEspecie) {
         this.idEspecie = idEspecie;
     }
-    public String getEmailUsuario() {
+    public String getEmailusuario() {
         return emailUsuario;
     }
-    public void setEmailUsuario(String emailUsuario) {
+    public void setEmailusuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
     }
 }

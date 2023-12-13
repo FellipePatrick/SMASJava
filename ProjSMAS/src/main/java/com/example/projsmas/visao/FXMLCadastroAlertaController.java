@@ -105,12 +105,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			try {
 				Alerta alerta = new Alerta();
 				alerta.setDescricao(txtAlerta.getText());
-				alerta.setEmailUsuario(getUser().getEmail());
-				alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas.getText().toUpperCase()).getId());
+				alerta.setEmailusuario(getUser().getEmail());
+				alerta.setIdespecie(especieDao.selectName(menuNomeAbelhas.getText().toUpperCase()).getId());
 				alertaDao.insert(alerta);
 				ArrayList<Alerta> lista = alertaDao.selectAll();
 				alerta = lista.get(lista.size() - 1);
-				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(menuNomeCidades.getText(), "RN").getId(), alerta.getIdEspecie(), alerta.getId());
+				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(menuNomeCidades.getText(), "RN").getId(), alerta.getIdespecie(), alerta.getId());
 				munnicipioEspecieDao.insert(m);
 				txtAlerta.setText("");
 				warnings.setVisible(true);
@@ -153,13 +153,13 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			warnings.setText("Preencha o campo ID!");
 		}else{
 			alerta = alertaDao.selectId(Integer.parseInt(digitarIDAlerta.getText()));
-			if(alerta != null && alerta.getEmailUsuario().equals(getUser().getEmail())){
+			if(alerta != null && alerta.getEmailusuario().equals(getUser().getEmail())){
 			 	btnCadastrar1.setDisable(false);
 				btnExcluir.setDisable(false);
 				menuNomeAbelhas1.setDisable(false);
 				menuNomeCidades1.setDisable(false);
 				txtAlerta1.setDisable(false);
-				menuNomeAbelhas1.setText(especieDao.selectId(alerta.getIdEspecie()).getNome());
+				menuNomeAbelhas1.setText(especieDao.selectId(alerta.getIdespecie()).getNome());
 				txtAlerta1.setText(alerta.getDescricao());
 			}else{
 				warnings.setVisible(true);
@@ -192,12 +192,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private void handleBtnSalvarAction() {
 		boolean flag = false;
-		if(!(txtAlerta1.getText().equals(alerta.getDescricao()))){
+		if(!(txtAlerta1.getText().equals(alerta.getDescricao())) && !(txtAlerta1.getText().equals(""))){
 			alerta.setDescricao(txtAlerta1.getText());
 			flag = true;
 		};
-		if(!(menuNomeAbelhas1.getText().equals(especieDao.selectId(alerta.getIdEspecie()).getNome()))){
-			alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas1.getText()).getId());
+		if(!(menuNomeAbelhas1.getText().equals(especieDao.selectId(alerta.getIdespecie()).getNome())) && !(menuNomeAbelhas1.getText().equals(""))){
+			alerta.setIdespecie(especieDao.selectName(menuNomeAbelhas1.getText()).getId());
 			flag = true;
 		};
 		if(flag){

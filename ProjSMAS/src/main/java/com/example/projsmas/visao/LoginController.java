@@ -85,7 +85,7 @@ public class LoginController {
     @FXML
     protected void verificaSenhas(){
         warning.setVisible(false);
-        if(senhaSenha1.getText().equals(senhaSenha2.getText())){
+        if(senhaSenha1.getText().equals(senhaSenha2.getText()) && (!senhaSenha1.getText().equals("")) && (!senhaSenha2.getText().equals(""))){
             getUser().setSenha(senhaSenha1.getText());
             password2.setVisible(false);
             login.setVisible(true);

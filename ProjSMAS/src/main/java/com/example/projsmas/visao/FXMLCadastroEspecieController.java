@@ -93,24 +93,21 @@ public class FXMLCadastroEspecieController extends LoginController {
     @FXML
     protected void salvarEspecie(){
         boolean flag = false;
-        if((!txtNome2.getText().equals(especie.getNome()))){
+        if((!txtNome2.getText().equals(especie.getNome())) && (!txtNome2.getText().equals(""))){
             flag = true;
             especie.setNome(txtNome2.getText());
         }
-        if((!txtAreaAlerta2.getText().equals(especie.getComoCriar()))){
+        if((!txtAreaAlerta2.getText().equals(especie.getComoCriar())) && (!txtAreaAlerta2.getText().equals(""))){
             flag = true;
             especie.setComoCriar(txtAreaAlerta2.getText());
         }
-        if((!txtAreaAlerta3.getText().equals(especie.getComoCapturar()))){
+        if((!txtAreaAlerta3.getText().equals(especie.getComoCapturar())) && (!txtAreaAlerta3.getText().equals(""))){
             flag = true;
             especie.setComoCapturar(txtAreaAlerta3.getText());
         }
-        if((!txtAreaAlerta4.getText().equals(especie.getSobre()))){
+        if((!txtAreaAlerta4.getText().equals(especie.getSobre())) && (!txtAreaAlerta4.getText().equals(""))){
             flag = true;
             especie.setSobre(txtAreaAlerta4.getText());
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Especie Atualizada!");
         }
         if(flag){
             warnings.setVisible(true);

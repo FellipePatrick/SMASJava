@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.tabelaController">
+   <children>
+      <TableView fx:id="tabela" layoutX="105.0" layoutY="42.0" prefHeight="316.0" prefWidth="389.0">
+        <columns>
+            <TableColumn fx:id="id" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="data" prefWidth="75.0" text="data" />
+          <TableColumn fx:id="descricao" prefWidth="75.0" text="descrição" />
+            <TableColumn fx:id="email" prefWidth="87.99993896484375" text="email" />
+            <TableColumn fx:id="especie" prefWidth="75.0" text="especie" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

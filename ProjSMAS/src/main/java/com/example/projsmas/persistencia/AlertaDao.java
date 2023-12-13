@@ -30,7 +30,7 @@ public class AlertaDao {
     public AlertaDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
     }
-    public void update(int id, Alerta alerta){
+    public void update(Integer id, Alerta alerta){
         try{
             this.connection.conectar();
             LocalDateTime dataHoraAtual = LocalDateTime.now();
@@ -39,8 +39,8 @@ public class AlertaDao {
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.update);
             instrucao.setString(1, dataHoraFormatada);
             instrucao.setString(2, alerta.getDescricao());
-            instrucao.setString(3, alerta.getEmailUsuario());
-            instrucao.setInt(4,alerta.getIdEspecie());
+            instrucao.setString(3, alerta.getEmailusuario());
+            instrucao.setInt(4,alerta.getIdespecie());
             instrucao.setInt(5,id);
             instrucao.execute();
             this.connection.desconectar();
@@ -48,7 +48,7 @@ public class AlertaDao {
             System.out.println("Erro na atualização: " + e.getMessage());
         }
     }
-    public void delete(int id){
+    public void delete(Integer id){
         try{
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
@@ -77,8 +77,8 @@ public class AlertaDao {
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.insert);
             instrucao.setString(1, alerta.getData());
             instrucao.setString(2, alerta.getDescricao());
-            instrucao.setString(3, alerta.getEmailUsuario());
-            instrucao.setInt(4,alerta.getIdEspecie());
+            instrucao.setString(3, alerta.getEmailusuario());
+            instrucao.setInt(4,alerta.getIdespecie());
             instrucao.execute();
             connection.desconectar();
         }catch(Exception e){
