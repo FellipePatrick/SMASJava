@@ -105,12 +105,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			try {
 				Alerta alerta = new Alerta();
 				alerta.setDescricao(txtAlerta.getText());
-				alerta.setEmailusuario(getUser().getEmail());
-				alerta.setIdespecie(especieDao.selectName(menuNomeAbelhas.getText().toUpperCase()).getId());
+				alerta.setEmailUsuario(getUser().getEmail());
+				alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas.getText().toUpperCase()).getId());
 				alertaDao.insert(alerta);
 				ArrayList<Alerta> lista = alertaDao.selectAll();
 				alerta = lista.get(lista.size() - 1);
-				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(menuNomeCidades.getText(), "RN").getId(), alerta.getIdespecie(), alerta.getId());
+				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(menuNomeCidades.getText(), "RN").getId(), alerta.especiId(), alerta.getId());
 				munnicipioEspecieDao.insert(m);
 				txtAlerta.setText("");
 				warnings.setVisible(true);
@@ -124,10 +124,6 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			warnings.setTextFill(Paint.valueOf("#ff0000"));
 			warnings.setText("Preencha todos os campos!");
 		}
-	}
-	@FXML
-	private void handleBtnPerfilAction(ActionEvent event) throws IOException {
-		this.atualizaFrame("FXMLPerfil.fxml",event);
 	}
 	@FXML
 	private void EditarAlertas() {
@@ -153,13 +149,13 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			warnings.setText("Preencha o campo ID!");
 		}else{
 			alerta = alertaDao.selectId(Integer.parseInt(digitarIDAlerta.getText()));
-			if(alerta != null && alerta.getEmailusuario().equals(getUser().getEmail())){
+			if(alerta != null && alerta.getEmailUsuario().equals(getUser().getEmail())){
 			 	btnCadastrar1.setDisable(false);
 				btnExcluir.setDisable(false);
 				menuNomeAbelhas1.setDisable(false);
 				menuNomeCidades1.setDisable(false);
 				txtAlerta1.setDisable(false);
-				menuNomeAbelhas1.setText(especieDao.selectId(alerta.getIdespecie()).getNome());
+				menuNomeAbelhas1.setText(especieDao.selectId(alerta.especiId()).getNome());
 				txtAlerta1.setText(alerta.getDescricao());
 			}else{
 				warnings.setVisible(true);
@@ -196,8 +192,8 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			alerta.setDescricao(txtAlerta1.getText());
 			flag = true;
 		};
-		if(!(menuNomeAbelhas1.getText().equals(especieDao.selectId(alerta.getIdespecie()).getNome())) && !(menuNomeAbelhas1.getText().equals(""))){
-			alerta.setIdespecie(especieDao.selectName(menuNomeAbelhas1.getText()).getId());
+		if(!(menuNomeAbelhas1.getText().equals(especieDao.selectId(alerta.especiId()).getNome())) && !(menuNomeAbelhas1.getText().equals(""))){
+			alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas1.getText()).getId());
 			flag = true;
 		};
 		if(flag){
@@ -211,18 +207,18 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			warnings.setText("Altere algum campo para atualizar o alerta!");
 		}
 	}
-
-
-	@FXML
-	private void handleBtnMenuAction() {
-		System.out.println(txtEspecie.getText());
-	}
-
 	@FXML
 	protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
 		this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
 	}
-
+	@FXML
+	protected void handleBtnMenuAction(ActionEvent event) throws IOException {
+		this.atualizaFrame("FXMLAlertas.fxml", event);
+	}
+	@FXML
+	protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
+		this.atualizaFrame("FXMLPerfil.fxml", event);
+	}
 	@FXML
 	private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
 		this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
@@ -231,13 +227,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	protected void handleBtnSairAction(ActionEvent evente) throws IOException {
 		this.setUser(null);
-		stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+		Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
 		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 		stage.setScene(scene);
 		stage.show();
 	}
-
 	private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;
 		stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
 		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(frame));

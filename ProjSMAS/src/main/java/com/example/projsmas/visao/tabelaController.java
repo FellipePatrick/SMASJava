@@ -15,11 +15,11 @@ import java.util.ResourceBundle;
 
 public class tabelaController implements Initializable {
     @FXML
-    TableView<Alerta> tabela;
+    private TableView<Alerta> tabela;
     @FXML
     TableColumn<Alerta, String> email;
     @FXML
-    TableColumn<Alerta, String> data;
+    private TableColumn<Alerta, String> data;
     @FXML
     TableColumn<Alerta, Integer> id;
     @FXML
@@ -31,13 +31,12 @@ public class tabelaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        email.setCellValueFactory(new PropertyValueFactory<>("emailusuario"));
-        data.setCellValueFactory(new PropertyValueFactory<>("data"));
-        especie.setCellValueFactory(new PropertyValueFactory<>("idespecie"));
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        descricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-
-        alertas.addAll(alertaDao.selectAll());
-        tabela.setItems(alertas);
+       email.setCellValueFactory(new PropertyValueFactory<>("emailUsuario"));
+       data.setCellValueFactory(new PropertyValueFactory<Alerta, String>("data"));
+       especie.setCellValueFactory(new PropertyValueFactory<>("idEspecie"));
+       id.setCellValueFactory(new PropertyValueFactory<>("id"));
+       descricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+       alertas.addAll(alertaDao.selectAll());
+       tabela.setItems(alertas);
     }
 }

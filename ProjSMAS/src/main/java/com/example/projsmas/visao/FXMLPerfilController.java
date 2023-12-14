@@ -88,13 +88,7 @@ public class FXMLPerfilController extends LoginController implements Initializab
             }
         }
     }
-    private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;
-        Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(frame));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
+
     @FXML
     protected void excluirUsuario(){
        if(getUser().getFuncao() == 3) {
@@ -145,8 +139,8 @@ public class FXMLPerfilController extends LoginController implements Initializab
         this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
     }
     @FXML
-    protected void handleBtnMenuAction(){
-
+    protected void handleBtnMenuAction(ActionEvent event) throws IOException {
+        this.atualizaFrame("FXMLAlertas.fxml", event);
     }
     @FXML
     protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
@@ -272,6 +266,12 @@ public class FXMLPerfilController extends LoginController implements Initializab
             warnings.setTextFill(Paint.valueOf("#ff0000"));
             warnings.setText("Atualize algum campo");
         }
-
+    }
+    private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;
+        stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(frame));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+        stage.setScene(scene);
+        stage.show();
     }
 }

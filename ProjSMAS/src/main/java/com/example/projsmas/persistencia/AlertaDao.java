@@ -39,8 +39,8 @@ public class AlertaDao {
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.update);
             instrucao.setString(1, dataHoraFormatada);
             instrucao.setString(2, alerta.getDescricao());
-            instrucao.setString(3, alerta.getEmailusuario());
-            instrucao.setInt(4,alerta.getIdespecie());
+            instrucao.setString(3, alerta.getEmailUsuario());
+            instrucao.setInt(4,alerta.especiId());
             instrucao.setInt(5,id);
             instrucao.execute();
             this.connection.desconectar();
@@ -77,8 +77,8 @@ public class AlertaDao {
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.insert);
             instrucao.setString(1, alerta.getData());
             instrucao.setString(2, alerta.getDescricao());
-            instrucao.setString(3, alerta.getEmailusuario());
-            instrucao.setInt(4,alerta.getIdespecie());
+            instrucao.setString(3, alerta.getEmailUsuario());
+            instrucao.setInt(4,alerta.especiId());
             instrucao.execute();
             connection.desconectar();
         }catch(Exception e){

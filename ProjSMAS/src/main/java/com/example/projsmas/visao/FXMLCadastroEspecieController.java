@@ -63,22 +63,22 @@ public class FXMLCadastroEspecieController extends LoginController {
     }
 
     @FXML
-    protected void handleBtnMenuAction(){
-
+    protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
+        this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
+    }
+    @FXML
+    protected void handleBtnMenuAction(ActionEvent event) throws IOException {
+        this.atualizaFrame("FXMLAlertas.fxml", event);
     }
     @FXML
     protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
         this.atualizaFrame("FXMLPerfil.fxml", event);
     }
     @FXML
-    protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
-        this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
-    }
-
-    @FXML
     private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
         this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
     }
+
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
         this.setUser(null);

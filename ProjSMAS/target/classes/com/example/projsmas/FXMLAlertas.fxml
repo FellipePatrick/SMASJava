@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:controller="com.example.projsmas.visao.FXMLAlertasController" fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.FXMLAlertasController">
    <children>
       <Pane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: #ffa133;">
          <children>
@@ -38,38 +38,32 @@
       </Label>
       <TableView fx:id="tabelaAlertas" layoutX="58.0" layoutY="93.0" prefHeight="243.0" prefWidth="483.0">
         <columns>
-          <TableColumn prefWidth="75.0" style="-fx-background-color: #ffa133;">
+          <TableColumn fx:id="tbcautor" prefWidth="75.0" style="-fx-background-color: #ffa133; -fx-color: white;">
                <graphic>
                   <Label text="Autor" textFill="WHITE" />
                </graphic>
             </TableColumn>
-            <TableColumn prefWidth="125.5999755859375" style="-fx-background-color: #ffa133;">
+            <TableColumn fx:id="tbcdescricao" prefWidth="125.5999755859375" style="-fx-background-color: #ffa133;">
                <graphic>
                   <Label text="Descrição" textFill="WHITE" />
                </graphic>
             </TableColumn>
-            <TableColumn prefWidth="79.199951171875" style="-fx-background-color: #ffa133;">
+            <TableColumn fx:id="tbcid" prefWidth="79.199951171875" style="-fx-background-color: #ffa133;">
                <graphic>
-                  <Label text="Município" textFill="WHITE" />
+                  <Label text="ID Alerta" textFill="WHITE" />
                </graphic>
             </TableColumn>
-            <TableColumn prefWidth="83.20001220703125" style="-fx-background-color: #ffa133;">
+            <TableColumn fx:id="tbcespecie" prefWidth="83.20001220703125" style="-fx-background-color: #ffa133;">
                <graphic>
                   <Label text="Espécie" textFill="WHITE" />
                </graphic>
             </TableColumn>
-            <TableColumn prefWidth="58.39996337890625" style="-fx-background-color: #ffa133;">
+            <TableColumn fx:id="tbcdata" prefWidth="118.40001220703124" style="-fx-background-color: #ffa133;">
                <graphic>
                   <Label text="Data" textFill="WHITE" />
                </graphic>
             </TableColumn>
-            <TableColumn prefWidth="57.5999755859375" style="-fx-background-color: #ffa133;">
-               <graphic>
-                  <Label text="Hora" textFill="WHITE" />
-               </graphic>
-            </TableColumn>
         </columns>
       </TableView>
-      <Button layoutX="433.0" layoutY="347.0" mnemonicParsing="false" onAction="#consultarAlertas" text="Concultar Alertas" />
-   </children>
+     </children>
 </AnchorPane>

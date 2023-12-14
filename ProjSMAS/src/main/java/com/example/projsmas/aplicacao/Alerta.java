@@ -1,8 +1,11 @@
 package com.example.projsmas.aplicacao;
 
+import com.example.projsmas.persistencia.EspecieDao;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 public class Alerta {
+    private EspecieDao especieDao= new EspecieDao();
     private String data;
     private String descricao;
     private Integer id;
@@ -48,16 +51,20 @@ public class Alerta {
     public void setId(int id) {
         this.id = id;
     }
-    public Integer getIdespecie() {
-        return idEspecie;
+
+    public int especiId(){
+        return this.idEspecie;
     }
-    public void setIdespecie(int idEspecie) {
+    public String getIdEspecie() {
+        return especieDao.selectId(this.idEspecie).getNome();
+    }
+    public void setIdEspecie(int idEspecie) {
         this.idEspecie = idEspecie;
     }
-    public String getEmailusuario() {
+    public String getEmailUsuario() {
         return emailUsuario;
     }
-    public void setEmailusuario(String emailUsuario) {
+    public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
     }
 }
