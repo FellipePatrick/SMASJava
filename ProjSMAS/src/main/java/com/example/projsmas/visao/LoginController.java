@@ -18,7 +18,7 @@ import java.io.IOException;
 
 
 public class LoginController {
-    private Usuario user;
+    private static Usuario user;
 
     public Usuario getUser() {
         return user;

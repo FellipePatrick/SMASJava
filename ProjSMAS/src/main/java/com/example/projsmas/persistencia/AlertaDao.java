@@ -117,8 +117,8 @@ public class AlertaDao {
         }
         return alerta;
     }
-    public ArrayList<Alerta> selectEmail(String email){
-        ArrayList<Alerta> alertas = new ArrayList<>();
+    public ArrayList<Integer> selectEmail(String email){
+        ArrayList<Integer> alertas = new ArrayList<>();
         Alerta alerta;
         try {
             this.connection.conectar();
@@ -126,8 +126,9 @@ public class AlertaDao {
             instrucao.setString(1,email);
             ResultSet rs = instrucao.executeQuery();
             while (rs.next()) {
-                alerta = new Alerta(rs.getInt("id"), rs.getString("data"), rs.getString("descricao"), rs.getInt("idespecie"), rs.getString("emailusuario"));
-                alertas.add(alerta);
+                alerta = new Alerta();
+                alerta.setId(rs.getInt("id"));
+                alertas.add(alerta.getId());
             }
             this.connection.desconectar();
         } catch (Exception e) {

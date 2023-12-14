@@ -12,6 +12,8 @@ import com.example.projsmas.persistencia.AlertaDao;
 import com.example.projsmas.persistencia.EspecieDao;
 import com.example.projsmas.persistencia.MunicipioDao;
 import com.example.projsmas.persistencia.MunicipioEspecieDao;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -53,19 +55,25 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private Button btnCadastrar1, btnExcluir;
 	@FXML
-	private TextField txtMunicipio, txtEspecie, txtNome, txtData, digitarIDAlerta;
+	private TextField txtMunicipio, txtEspecie, txtNome, txtData;
 	@FXML
 	private TextArea txtAlerta, txtAlerta1;
+	@FXML
+	private ComboBox<Integer> comboBoxAlertas;
 	@FXML
 	private SplitMenuButton menuNomeAbelhas, menuNomeCidades, menuNomeCidades1, menuNomeAbelhas1;
 	@FXML
 	private MenuItem jatai, urucu, mirim, saopedro, natal, macaiba, jatai1, urucu1, mirim1, saopedro1, natal1, macaiba1;;
 	@FXML
 	private Stage stage;
+	private ObservableList<Integer> idAlertas = FXCollections.observableArrayList();
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		apnCadastroAlerta.setVisible(true);
+		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
+		comboBoxAlertas.setItems(idAlertas);
 	}
 
 	@FXML
@@ -143,12 +151,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		menuNomeAbelhas1.setDisable(true);
 		menuNomeCidades1.setDisable(true);
 		txtAlerta1.setDisable(true);
-		if(digitarIDAlerta.getText().equals("")){
+		if(comboBoxAlertas.getValue()==null){
 			warnings.setVisible(true);
 			warnings.setTextFill(Paint.valueOf("#ff0000"));
 			warnings.setText("Preencha o campo ID!");
 		}else{
-			alerta = alertaDao.selectId(Integer.parseInt(digitarIDAlerta.getText()));
+			alerta = alertaDao.selectId(comboBoxAlertas.getValue());
 			if(alerta != null && alerta.getEmailUsuario().equals(getUser().getEmail())){
 			 	btnCadastrar1.setDisable(false);
 				btnExcluir.setDisable(false);
@@ -166,24 +174,21 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	}
 	@FXML
 	protected void ExcluirAlerta(){
-		try{
-			municipioEspecieDao.deleteIdAlerta(alerta.getId());
-			alertaDao.delete(alerta.getId());
-			btnCadastrar1.setDisable(true);
-			btnExcluir.setDisable(true);
-			menuNomeAbelhas1.setDisable(true);
-			menuNomeCidades1.setDisable(true);
-			txtAlerta1.setDisable(true);
-			digitarIDAlerta.setText("");
-			txtAlerta1.setText("");
-			menuNomeCidades1.setText("São Pedro");
-			menuNomeAbelhas1.setText("Jataí");
-			warnings.setVisible(true);
-			warnings.setTextFill(Paint.valueOf("#00f731"));
-			warnings.setText("Alerta Exluido!");
-		}catch (Exception e){
-			System.out.println(e);
-		}
+		municipioEspecieDao.deleteIdAlerta(alerta.getId());
+		alertaDao.delete(alerta.getId());
+		btnCadastrar1.setDisable(true);
+		btnExcluir.setDisable(true);
+		menuNomeAbelhas1.setDisable(true);
+		menuNomeCidades1.setDisable(true);
+		txtAlerta1.setDisable(true);
+		txtAlerta1.setText("");
+		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
+		comboBoxAlertas.setItems(idAlertas);
+		menuNomeCidades1.setText("São Pedro");
+		menuNomeAbelhas1.setText("Jataí");
+		warnings.setVisible(true);
+		warnings.setTextFill(Paint.valueOf("#00f731"));
+		warnings.setText("Alerta Exluido!");
 	}
 	@FXML
 	private void handleBtnSalvarAction() {

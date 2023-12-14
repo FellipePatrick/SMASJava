@@ -52,6 +52,9 @@ public class Especie {
     public int getId() {
         return id;
     }
+    public void setId(int id){
+        this.id = id;
+    }
     public String getEmailUser() {
         return emailUser;
     }

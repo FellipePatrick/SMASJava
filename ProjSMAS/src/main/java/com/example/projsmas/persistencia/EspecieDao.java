@@ -122,7 +122,25 @@ public class EspecieDao {
         }
         return especie;
     }
-
+    public ArrayList<Integer> selectEmailTwo(String email) {
+        ArrayList<Integer> especies = new ArrayList<>();
+        Especie especie;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEmail);
+            instrucao.setString(1, email);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                especie = new Especie();
+                especie.setId(rs.getInt("id"));
+                especies.add(especie.getId());
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return especies;
+    }
     public ArrayList<Especie> selectEmail(String email) {
         ArrayList<Especie> especies = new ArrayList<>();
         Especie especie;
