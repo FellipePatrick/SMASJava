@@ -18,7 +18,7 @@ import java.io.IOException;
 
 
 public class LoginController {
-    private static Usuario user;
+    private Usuario user;
 
     public Usuario getUser() {
         return user;
@@ -45,6 +45,9 @@ public class LoginController {
 
     @FXML
     private Stage stage;
+
+    private String email;
+    private String senha;
     public void entrarButton(ActionEvent evente) throws IOException {
         warning.setVisible(false);
         user = userDao.selectEmail(emailBox.getText());
@@ -68,6 +71,7 @@ public class LoginController {
             warning.setText("Email ou senha invalidos!");
         }
     }
+
     @FXML
     protected void verificarEmail(){
         warning.setVisible(false);
@@ -85,19 +89,77 @@ public class LoginController {
     @FXML
     protected void verificaSenhas(){
         warning.setVisible(false);
-        if(senhaSenha1.getText().equals(senhaSenha2.getText()) && (!senhaSenha1.getText().equals("")) && (!senhaSenha2.getText().equals(""))){
-            getUser().setSenha(senhaSenha1.getText());
-            password2.setVisible(false);
-            login.setVisible(true);
-            warning.setVisible(true);
-            emailSenha.setText("");
-            senhaSenha1.setText("");
-            senhaSenha2.setText("");
-            System.out.println(this.getUser().getEmail());
-            userDao.update(this.getUser().getEmail(), this.getUser());
-            warning.setTextFill(Paint.valueOf("#00f731"));
-            warning.setText("Senha alterada!");
+        this.senha  = senhaSenha1.getText();
+        if(senhaSenha1.getText().equals(senhaSenha2.getText()) && (!senhaSenha1.getText().equals("")) && (!senhaSenha2.getText().equals(""))) {
+            if (this.senha.length() > 5) {
+                getUser().setSenha(senhaSenha1.getText());
+                password2.setVisible(false);
+                login.setVisible(true);
+                warning.setVisible(true);
+                emailSenha.setText("");
+                senhaSenha1.setText("");
+                senhaSenha2.setText("");
+                userDao.update(this.getUser().getEmail(), this.getUser());
+                warning.setTextFill(Paint.valueOf("#00f731"));
+                warning.setText("Senha alterada!");
+            }else{
+                warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
+                warning.setText("Senha com menos de 6 digitos!");
+            }
         }else{
+            warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
+            warning.setText("Senhas diferentes!");
+        }
+    }
+
+    private void validarEmail(){
+        warning.setVisible(false);
+        email = emailCadastro.getText();
+        user = userDao.selectEmail(email);
+        if(user == null){
+            if(email.contains("@gmail.com")) {
+                validarSenha();
+            }else{
+                warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
+                warning.setText("Email precisa ter @gmail.com!");
+            }
+        }else{
+            warning.setVisible(true);
+            warning.setTextFill(Paint.valueOf("#ff0000"));
+            warning.setText("Email invalido!");
+        }
+    }
+
+    protected void validarSenha(){
+        warning.setVisible(false);
+        this.senha = senhaCadastro1.getText();
+        if (this.senha.equals(senhaCadastro2.getText())) {
+            if(senha.length() > 5) {
+                user = new Usuario();
+                user.setEmail(emailCadastro.getText());
+                user.setSenha(senhaCadastro1.getText());
+                user.setNome(nomeCadastro.getText());
+                user.setIdMunicipio(userDao.municipalityName(selectMuni.getText()).getId());
+                userDao.insert(user);
+                login.setVisible(true);
+                password2.setVisible(false);
+                cadastro.setVisible(false);
+                warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#00f731"));
+                warning.setText("Usuario cadastrado!");
+                nomeCadastro.setText("");
+                emailCadastro.setText("");
+                senhaCadastro1.setText("");
+                senhaCadastro2.setText("");
+            }else{
+                warning.setVisible(true);
+                warning.setTextFill(Paint.valueOf("#ff0000"));
+                warning.setText("Senha com menos de 6 digitos!");
+            }
+        } else {
             warning.setVisible(true);
             warning.setTextFill(Paint.valueOf("#ff0000"));
             warning.setText("Senhas diferentes!");
@@ -107,35 +169,7 @@ public class LoginController {
     protected void buttonCadastrar(){
         warning.setVisible(false);
         if(!(nomeCadastro.getText().equals("") || emailCadastro.getText().equals("")  || senhaCadastro1.getText().equals("") || senhaCadastro2.getText().equals(""))){
-            if(userDao.selectEmail(emailCadastro.getText()) == null){
-                if(senhaCadastro1.getText().equals(senhaCadastro2.getText())){
-                    user = new Usuario();
-                    user.setEmail(emailCadastro.getText());
-                    user.setSenha(senhaCadastro1.getText());
-                    user.setNome(nomeCadastro.getText());
-                    System.out.println(selectMuni.getText());
-                    System.out.println(userDao.municipalityName(selectMuni.getText()));
-                    user.setIdMunicipio(userDao.municipalityName(selectMuni.getText()).getId());
-                    userDao.insert(user);
-                    cadastro.setVisible(false);
-                    login.setVisible(true);
-                    warning.setVisible(true);
-                    warning.setTextFill(Paint.valueOf("#00f731"));
-                    warning.setText("Usuario cadastrado!");
-                    nomeCadastro.setText("");
-                    emailCadastro.setText("");
-                    senhaCadastro1.setText("");
-                    senhaCadastro2.setText("");
-                }else{
-                    warning.setVisible(true);
-                    warning.setTextFill(Paint.valueOf("#ff0000"));
-                    warning.setText("Senhas diferentes!");
-                }
-            }else{
-                warning.setVisible(true);
-                warning.setTextFill(Paint.valueOf("#ff0000"));
-                warning.setText("O email já está cadastrado!");
-            }
+            validarEmail();
         }else{
             warning.setVisible(true);
             warning.setTextFill(Paint.valueOf("#ff0000"));
