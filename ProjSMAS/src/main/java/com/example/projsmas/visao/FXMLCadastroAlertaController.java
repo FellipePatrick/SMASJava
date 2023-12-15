@@ -46,7 +46,6 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	private AlertaDao alertaDao = new AlertaDao();
 	private MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
 	private Alerta alerta;
-	private MunicipioEspecieDao munnicipioEspecieDao = new MunicipioEspecieDao();
 	private MunicipioDao municipioDao = new MunicipioDao();
 	@FXML
 	private AnchorPane apnCadastroAlerta, EditarAlerta, CriarAlerta;
@@ -61,50 +60,30 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private ComboBox<Integer> comboBoxAlertas;
 	@FXML
-	private SplitMenuButton menuNomeAbelhas, menuNomeCidades, menuNomeCidades1, menuNomeAbelhas1;
+	private ComboBox<String> comboEspecie;
 	@FXML
-	private MenuItem jatai, urucu, mirim, saopedro, natal, macaiba, jatai1, urucu1, mirim1, saopedro1, natal1, macaiba1;;
+	private ComboBox<String> comboEspecieCadastrar;
+	@FXML
+	private ComboBox<String> comboCidades;
+	@FXML
+	private ComboBox<String> comboCidadesCadastrar;
 	@FXML
 	private Stage stage;
 	private ObservableList<Integer> idAlertas = FXCollections.observableArrayList();
-
+	private ObservableList<String> relatorioEspecie = FXCollections.observableArrayList();
+	private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		apnCadastroAlerta.setVisible(true);
 		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
 		comboBoxAlertas.setItems(idAlertas);
-	}
-
-	@FXML
-	private void mudarNomeJatai(){
-		menuNomeAbelhas.setText(jatai.getText());
-		menuNomeAbelhas1.setText(jatai1.getText());
-	}
-	@FXML
-	private void mudarNomeUrucu(){
-		menuNomeAbelhas.setText(urucu.getText());
-		menuNomeAbelhas1.setText(urucu1.getText());
-	}
-	@FXML
-	private void mudarNomeSaoPedro(){
-		menuNomeCidades.setText(saopedro.getText());
-		menuNomeCidades1.setText(saopedro1.getText());
-	}
-	@FXML
-	private void mudarNomeMacaiba(){
-		menuNomeCidades.setText(macaiba.getText());
-		menuNomeCidades1.setText(macaiba1.getText());
-	}
-	@FXML
-	private void mudarNomeNatal(){
-		menuNomeCidades.setText(natal.getText());
-		menuNomeCidades1.setText(natal1.getText());
-	}
-	@FXML
-	private void mudarNomeMirim(){
-		menuNomeAbelhas.setText(mirim.getText());
-		menuNomeAbelhas1.setText(mirim1.getText());
+		relatorioEspecie.addAll(especieDao.relatorioNomes());
+		comboEspecie.setItems(relatorioEspecie);
+		comboEspecieCadastrar.setItems(relatorioEspecie);
+		listaMunicipios.addAll(municipioDao.relatorioNomes());
+		comboCidades.setItems(listaMunicipios);
+		comboCidadesCadastrar.setItems(listaMunicipios);
 	}
 	@FXML
 	private void handleBtnCadastrarAction() {
@@ -114,12 +93,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 				Alerta alerta = new Alerta();
 				alerta.setDescricao(txtAlerta.getText());
 				alerta.setEmailUsuario(getUser().getEmail());
-				alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas.getText().toUpperCase()).getId());
+				alerta.setIdEspecie(especieDao.selectName(comboEspecieCadastrar.getValue()).getId());
 				alertaDao.insert(alerta);
 				ArrayList<Alerta> lista = alertaDao.selectAll();
 				alerta = lista.get(lista.size() - 1);
-				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(menuNomeCidades.getText(), "RN").getId(), alerta.especiId(), alerta.getId());
-				munnicipioEspecieDao.insert(m);
+				MunicipioEspecie m = new MunicipioEspecie(municipioDao.selectNameAndUf(comboCidadesCadastrar.getValue(), "RN").getId(), alerta.especiId(), alerta.getId());
+				municipioEspecieDao.insert(m);
 				txtAlerta.setText("");
 				warnings.setVisible(true);
 				warnings.setTextFill(Paint.valueOf("#00f731"));
@@ -148,22 +127,22 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		warnings.setVisible(false);
 		btnCadastrar1.setDisable(true);
 		btnExcluir.setDisable(true);
-		menuNomeAbelhas1.setDisable(true);
-		menuNomeCidades1.setDisable(true);
+		comboEspecie.setDisable(true);
+		comboCidades.setDisable(true);
 		txtAlerta1.setDisable(true);
 		if(comboBoxAlertas.getValue()==null){
 			warnings.setVisible(true);
 			warnings.setTextFill(Paint.valueOf("#ff0000"));
-			warnings.setText("Preencha o campo ID!");
+			warnings.setText("Selecione um id o campo ID!");
 		}else{
 			alerta = alertaDao.selectId(comboBoxAlertas.getValue());
-			if(alerta != null && alerta.getEmailUsuario().equals(getUser().getEmail())){
+			if(alerta != null){
 			 	btnCadastrar1.setDisable(false);
 				btnExcluir.setDisable(false);
-				menuNomeAbelhas1.setDisable(false);
-				menuNomeCidades1.setDisable(false);
+				comboEspecie.setDisable(false);
+				comboCidades.setDisable(false);
 				txtAlerta1.setDisable(false);
-				menuNomeAbelhas1.setText(especieDao.selectId(alerta.especiId()).getNome());
+				comboEspecie.setValue(especieDao.selectId(alerta.especiId()).getNome());
 				txtAlerta1.setText(alerta.getDescricao());
 			}else{
 				warnings.setVisible(true);
@@ -178,14 +157,14 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		alertaDao.delete(alerta.getId());
 		btnCadastrar1.setDisable(true);
 		btnExcluir.setDisable(true);
-		menuNomeAbelhas1.setDisable(true);
-		menuNomeCidades1.setDisable(true);
+		comboEspecie.setDisable(true);
+		comboCidades.setDisable(true);
 		txtAlerta1.setDisable(true);
 		txtAlerta1.setText("");
 		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
 		comboBoxAlertas.setItems(idAlertas);
-		menuNomeCidades1.setText("São Pedro");
-		menuNomeAbelhas1.setText("Jataí");
+		comboEspecie.setPromptText("Especie");
+		comboCidades.setPromptText("Municipio");
 		warnings.setVisible(true);
 		warnings.setTextFill(Paint.valueOf("#00f731"));
 		warnings.setText("Alerta Exluido!");
@@ -197,8 +176,8 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			alerta.setDescricao(txtAlerta1.getText());
 			flag = true;
 		};
-		if(!(menuNomeAbelhas1.getText().equals(especieDao.selectId(alerta.especiId()).getNome())) && !(menuNomeAbelhas1.getText().equals(""))){
-			alerta.setIdEspecie(especieDao.selectName(menuNomeAbelhas1.getText()).getId());
+		if(!(comboEspecie.getValue().equals(especieDao.selectId(alerta.especiId()).getNome())) && !(comboEspecie.getValue().equals(""))){
+			alerta.setIdEspecie(especieDao.selectName(comboEspecie.getValue()).getId());
 			flag = true;
 		};
 		if(flag){

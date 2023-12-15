@@ -33,7 +33,7 @@
             </HBox>
          </children>
       </Pane>
-      <Pane fx:id="cadastrarEspecie" layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;" visible="false">
+      <Pane fx:id="cadastrarEspecie" layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;">
          <children>
             <Button fx:id="btnCadastrar" layoutX="121.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleBtnCadastrarAction" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Cadastrar" />
             <Label graphicTextGap="0.0" layoutX="27.0" layoutY="10.0" text="Cadastrar Especie" textFill="#fffefe">
@@ -54,7 +54,7 @@
          </font>
       </Label>
       <Label fx:id="warnings" layoutX="99.0" layoutY="72.0" visible="false" />
-      <Pane fx:id="editarEspecie" layoutX="72.0" layoutY="79.0" prefHeight="273.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;">
+      <Pane fx:id="editarEspecie" layoutX="70.0" layoutY="91.0" prefHeight="273.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;" visible="false">
          <children>
             <Button fx:id="btnCadastrar1" disable="true" layoutX="149.0" layoutY="232.0" mnemonicParsing="false" onAction="#salvarEspecie" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Salvar" />
             <Label graphicTextGap="0.0" layoutX="27.0" layoutY="10.0" text="Editar Especie" textFill="#fffefe">
@@ -69,7 +69,7 @@
             <Button layoutX="266.0" layoutY="52.0" mnemonicParsing="false" onAction="#pesquisarEspecie" text="Pesquisar" />
             <Button fx:id="excluirEspecie" disable="true" layoutX="82.0" layoutY="233.0" mnemonicParsing="false" onAction="#excluirEspecie" text="Excluir" />
             <Hyperlink layoutX="27.0" layoutY="234.0" onAction="#voltarEspecie" text="Voltar" textFill="WHITE" />
-            <ComboBox fx:id="comboBoxEspeice" layoutX="65.0" layoutY="52.0" prefHeight="25.0" prefWidth="139.0" promptText="Nome da Especie" />
+            <ComboBox fx:id="comboBoxEspecie" layoutX="65.0" layoutY="52.0" prefHeight="25.0" prefWidth="139.0" promptText="Nome da Especie" />
          </children>
       </Pane>
    </children>

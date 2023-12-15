@@ -37,17 +37,17 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     @FXML
     private TextField txtNome,txtNome2, pesquisarEspecie;
     @FXML
-    private ComboBox<Integer> comboBoxEspecie;
+    private ComboBox<String> comboBoxEspecie;
     @FXML
     private Button excluirEspecie, btnCadastrar1;
     @FXML
     private Label warnings;
-    private ObservableList<Integer> relatorioEspecie = FXCollections.observableArrayList();
+    private ObservableList<String> relatorioEspecie = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        //relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
-        //comboBoxEspecie.setItems(relatorioEspecie);
+        relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
+        comboBoxEspecie.setItems(relatorioEspecie);
     }
 
     @FXML
@@ -58,19 +58,25 @@ public class FXMLCadastroEspecieController extends LoginController implements In
             warnings.setText("Preencha todos os campos!");
         }else{
             especie = new Especie();
-            especie.setComoCapturar(txtAreaAlerta1.getText());
-            especie.setNome(txtNome.getText());
-            especie.setComoCriar(txtAreaAlerta.getText());
-            especie.setSobre(txtAreaAlerta11.getText());
-            especie.setEmailUser(super.getUser().getEmail());
-            especieDao.insert(especie);
-            txtNome.setText("");
-            txtAreaAlerta.setText("");
-            txtAreaAlerta1.setText("");
-            txtAreaAlerta11.setText("");
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Especie Cadastrada!");
+            if(especieDao.selectName(txtNome2.getText()) == null){
+                especie.setComoCapturar(txtAreaAlerta1.getText());
+                especie.setNome(txtNome.getText());
+                especie.setComoCriar(txtAreaAlerta.getText());
+                especie.setSobre(txtAreaAlerta11.getText());
+                especie.setEmailUser(super.getUser().getEmail());
+                especieDao.insert(especie);
+                txtNome.setText("");
+                txtAreaAlerta.setText("");
+                txtAreaAlerta1.setText("");
+                txtAreaAlerta11.setText("");
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#00f731"));
+                warnings.setText("Especie Cadastrada!");
+            }else{
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#ff0000"));
+                warnings.setText("Nome de Especie já Cadastrada!");
+            }
         }
     }
 
@@ -105,7 +111,7 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     @FXML
     protected void salvarEspecie(){
         boolean flag = false;
-        if((!txtNome2.getText().equals(especie.getNome())) && (!txtNome2.getText().equals(""))){
+        if((!txtNome2.getText().equals(especie.getNome())) && (!txtNome2.getText().equals("")) && especieDao.selectName(txtNome2.getText()) == null){
             flag = true;
             especie.setNome(txtNome2.getText());
         }
@@ -144,8 +150,8 @@ public class FXMLCadastroEspecieController extends LoginController implements In
         txtNome2.setText("");
         excluirEspecie.setDisable(true);
         btnCadastrar1.setDisable(true);
-        if(!(pesquisarEspecie.getText().equals(""))){
-            especie = especieDao.selectId(Integer.parseInt(pesquisarEspecie.getText()));
+        if(!(comboBoxEspecie.getValue() == null)){
+            especie = especieDao.selectName(comboBoxEspecie.getValue());
             if(especie != null){
                 txtAreaAlerta3.setDisable(false);
                 txtAreaAlerta3.setText(especie.getComoCapturar());
@@ -160,7 +166,7 @@ public class FXMLCadastroEspecieController extends LoginController implements In
             }else{
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#ff0000"));
-                warnings.setText("Especie não cadastrada");
+                warnings.setText("Nenhuma especie selecionada!");
             }
         }else{
             warnings.setVisible(true);

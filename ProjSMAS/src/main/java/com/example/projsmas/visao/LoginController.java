@@ -2,10 +2,14 @@ package com.example.projsmas.visao;
 
 import com.example.projsmas.Main;
 import com.example.projsmas.aplicacao.Usuario;
+import com.example.projsmas.persistencia.MunicipioDao;
 import com.example.projsmas.persistencia.UsuarioDao;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,9 +19,11 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class LoginController {
+public class LoginController implements Initializable {
     private static Usuario user;
 
     public Usuario getUser() {
@@ -32,9 +38,6 @@ public class LoginController {
 
     @FXML
     private AnchorPane password, cadastro, login, password2;
-
-    @FXML
-    private SplitMenuButton selectMuni;
     @FXML
     private  Label warning;
 
@@ -42,12 +45,19 @@ public class LoginController {
     private TextField emailBox, nomeCadastro, emailCadastro, emailSenha;
     @FXML
     private PasswordField senhaSenha1, senhaSenha2, senhaCadastro1,senhaCadastro2, senhaBox;
-
     @FXML
     private Stage stage;
-
+    @FXML
+    private ComboBox<String> comboCidades;
+    private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
+    private MunicipioDao municipioDao = new MunicipioDao();
     private String email;
     private String senha;
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        listaMunicipios.addAll(municipioDao.relatorioNomes());
+        comboCidades.setItems(listaMunicipios);
+    }
     public void entrarButton(ActionEvent evente) throws IOException {
         warning.setVisible(false);
         user = userDao.selectEmail(emailBox.getText());
@@ -142,7 +152,7 @@ public class LoginController {
                 user.setEmail(emailCadastro.getText());
                 user.setSenha(senhaCadastro1.getText());
                 user.setNome(nomeCadastro.getText());
-                user.setIdMunicipio(userDao.municipalityName(selectMuni.getText()).getId());
+                user.setIdMunicipio(userDao.municipalityName(comboCidades.getValue()).getId());
                 userDao.insert(user);
                 login.setVisible(true);
                 password2.setVisible(false);
@@ -175,18 +185,6 @@ public class LoginController {
             warning.setTextFill(Paint.valueOf("#ff0000"));
             warning.setText("Preencha todos os campos!");
         }
-    }
-    @FXML
-    protected void mudarNatal(){
-        selectMuni.setText("Natal");
-    }
-    @FXML
-    protected void mudarSaoPedro(){
-        selectMuni.setText("São Pedro");
-    }
-    @FXML
-    protected void mudarMacaiba(){
-        selectMuni.setText("Macaiba");
     }
     @FXML
     protected void clickcadastre(){

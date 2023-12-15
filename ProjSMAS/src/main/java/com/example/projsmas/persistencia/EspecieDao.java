@@ -75,16 +75,17 @@ public class EspecieDao {
             System.out.println("Erro na inclusão: " + e.getMessage());
         }
     }
-    public ArrayList<Especie> selectAll() {
-        ArrayList<Especie> especies = new ArrayList<>();
+    public ArrayList<String> relatorioNomes() {
+        ArrayList<String> especies = new ArrayList<>();
         Especie especie;
         try {
             this.connection.conectar();
             Statement instrucao = this.connection.getConexao().createStatement();
             ResultSet rs = instrucao.executeQuery(this.selectAll);
             while (rs.next()) {
-                especie = new Especie(rs.getString("nome"), rs.getString("comocapturar"),rs.getString("comocriar"),rs.getString("sobre"),rs.getString("emailuser"), rs.getInt("id"));
-                especies.add(especie);
+                especie = new Especie();
+                especie.setNome(rs.getString("nome"));
+                especies.add(especie.getNome());
             }
             this.connection.desconectar();
         } catch (Exception e) {
@@ -122,9 +123,9 @@ public class EspecieDao {
         }
         return especie;
     }
-    public ArrayList<Integer> selectEmailTwo(String email) {
-        ArrayList<Integer> especies = new ArrayList<>();
-        Especie especie;
+    public ArrayList<String> selectEmailTwo(String email) {
+        ArrayList<String> especies = new ArrayList<>();
+        Especie especie = null;
         try {
             this.connection.conectar();
             PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectEmail);
@@ -132,8 +133,8 @@ public class EspecieDao {
             ResultSet rs = instrucao.executeQuery();
             while (rs.next()) {
                 especie = new Especie();
-                especie.setId(rs.getInt("id"));
-                especies.add(especie.getId());
+                especie.setNome(rs.getString("nome"));
+                especies.add(especie.getNome());
             }
             this.connection.desconectar();
         } catch (Exception e) {

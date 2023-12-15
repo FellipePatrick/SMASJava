@@ -5,6 +5,8 @@ import com.example.projsmas.aplicacao.Alerta;
 import com.example.projsmas.aplicacao.Especie;
 import com.example.projsmas.aplicacao.Usuario;
 import com.example.projsmas.persistencia.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,9 +33,13 @@ public class FXMLPerfilController extends LoginController implements Initializab
     @FXML
     private PasswordField pwdSenha,  pwdSenha1;
     @FXML
-    private SplitMenuButton selectFunction, selectMuni;
+    private SplitMenuButton selectFunction;
     @FXML
     private Button excluirUsuario, editarUsuarios;
+    @FXML
+    private ComboBox<String> comboCidades;
+    @FXML
+    private ComboBox<String> comboCidadesEditar;
     @FXML
     private MenuItem usuario, administrador, apicultor;
     @FXML
@@ -44,13 +50,17 @@ public class FXMLPerfilController extends LoginController implements Initializab
     private Usuario u;
     private UsuarioDao usuarioDao = new UsuarioDao();
     private MunicipioDao m = new MunicipioDao();
+    private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(getUser().getFuncao() == 3){
             editarUsuarios.setVisible(true);
         }
-        selectMuni.setText(m.selectId(getUser().getIdMunicipio()).getNome());
+        listaMunicipios.addAll(m.relatorioNomes());
+        comboCidades.setItems(listaMunicipios);
+        comboCidades.setValue((m.selectId(getUser().getIdMunicipio()).getNome()));
+        comboCidadesEditar.setItems(listaMunicipios);
         txtNome1.setText(getUser().getNome());
         pwdSenha1.setText(getUser().getSenha());
     }
@@ -68,6 +78,7 @@ public class FXMLPerfilController extends LoginController implements Initializab
             if(u != null){
                 selectFunction.setDisable(false);
                 excluirUsuario.setDisable(false);
+                comboCidadesEditar.setValue(m.selectId(u.getIdMunicipio()).getNome());
                 txtNome.setText(u.getNome());
                 pwdSenha.setText(u.getSenha());
                 switch (u.getFuncao()){
@@ -97,7 +108,6 @@ public class FXMLPerfilController extends LoginController implements Initializab
                excluirUsuario.setDisable(true);
                AlertaDao a = new AlertaDao();
                MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
-               ArrayList<Alerta> listaAlertas = new ArrayList<>();
                ArrayList<Especie> especies = especieDao.selectEmail(idusuario.getText());
                for (Especie e : especies) {
                    municipioEspecieDao.deleteIdEspecie(e.getId());
@@ -122,18 +132,7 @@ public class FXMLPerfilController extends LoginController implements Initializab
            warnings.setText("Você não tem permissão apagar usuários");
        }
     }
-    @FXML
-    protected  void mudarNomeUser(){
-        selectFunction.setText(usuario.getText());
-    }
-    @FXML
-    protected  void mudarNomeAp(){
-        selectFunction.setText(apicultor.getText());
-    }
-    @FXML
-    protected  void mudarNomeAdm(){
-        selectFunction.setText(administrador.getText());
-    }
+
     @FXML
     protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
         this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
@@ -177,11 +176,11 @@ public class FXMLPerfilController extends LoginController implements Initializab
         if (getUser().getFuncao() == 3) {
             boolean flag = false;
             if (!(txtNome.getText().equals(u.getNome()))) {
-                user.setNome(txtNome.getText());
+                u.setNome(txtNome.getText());
                 flag = true;
             }
             if (!(pwdSenha.getText().equals(u.getSenha()))) {
-                user.setSenha(pwdSenha.getText());
+                u.setSenha(pwdSenha.getText());
                 flag = true;
             }
             switch (u.getFuncao()) {
@@ -209,6 +208,10 @@ public class FXMLPerfilController extends LoginController implements Initializab
                         break;
                 }
             }
+            if(comboCidadesEditar.getValue() != null){
+                flag = true;
+                u.setIdMunicipio(m.selectNameAndUf(comboCidadesEditar.getValue(), "RN").getId());
+            }
             if (flag) {
                 usuarioDao.update(u.getEmail(), u);
                 warnings.setVisible(true);
@@ -232,26 +235,16 @@ public class FXMLPerfilController extends LoginController implements Initializab
     protected void handleBtnCadastrarNormal() {
         boolean flag = false;
         if (!(txtNome1.getText().equals(getUser().getNome()))) {
-            user.setNome(txtNome1.getText());
+            getUser().setNome(txtNome1.getText());
             flag = true;
         }
         if (!(pwdSenha1.getText().equals(getUser().getSenha()))) {
-            user.setSenha(pwdSenha1.getText());
+            getUser().setSenha(pwdSenha1.getText());
             flag = true;
         }
-        if (!(selectMuni.getText().equals(m.selectId(getUser().getIdMunicipio()).getNome()))) {
+        if (!(comboCidades.getValue().equals(m.selectId(getUser().getIdMunicipio()).getNome()))) {
             flag = true;
-            switch (selectMuni.getText()) {
-                case "São Pedro":
-                    getUser().setIdMunicipio(m.selectNameAndUf("São Pedro", "RN").getId());
-                    break;
-                case "Macaiba":
-                    getUser().setIdMunicipio(m.selectNameAndUf("Macaiba", "RN").getId());
-                    break;
-                case "Natal":
-                    getUser().setIdMunicipio(m.selectNameAndUf("Natal", "RN").getId());
-                    break;
-            }
+            getUser().setIdMunicipio((m.selectNameAndUf(comboCidades.getValue(), "RN").getId()));
         }
         if (flag) {
             usuarioDao.update(getUser().getEmail(), getUser());
@@ -260,7 +253,7 @@ public class FXMLPerfilController extends LoginController implements Initializab
             warnings.setText("Usuario atualizado");
             txtNome.setText(getUser().getNome());
             pwdSenha.setText(getUser().getSenha());
-            selectMuni.setText(m.selectId(getUser().getIdMunicipio()).getNome());
+            comboCidades.setValue(m.selectId(getUser().getIdMunicipio()).getNome());
         } else {
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));

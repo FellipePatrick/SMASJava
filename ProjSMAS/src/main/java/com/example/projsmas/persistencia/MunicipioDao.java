@@ -72,6 +72,24 @@ public class MunicipioDao {
         }
         return municipios;
     }
+    public ArrayList<String> relatorioNomes() {
+        ArrayList<String> municipios = new ArrayList<>();
+        Municipio municipio;
+        try {
+            this.connection.conectar();
+            Statement instrucao = this.connection.getConexao().createStatement();
+            ResultSet rs = instrucao.executeQuery(this.selectAll);
+            while (rs.next()) {
+                municipio = new Municipio();
+                municipio.setNome(rs.getString("nome"));
+                municipios.add(municipio.getNome());
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return municipios;
+    }
     public Municipio selectNameAndUf(String name, String uf){
         Municipio municipio = null;
         try{
