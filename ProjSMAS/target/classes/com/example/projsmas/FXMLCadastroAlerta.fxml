@@ -73,8 +73,8 @@
             <Hyperlink layoutX="170.0" layoutY="254.0" onAction="#voltarEditarAlerta" text="Voltar" textFill="WHITE" />
             <ComboBox fx:id="comboBoxAlertas" layoutX="221.0" layoutY="12.0" prefWidth="150.0" promptText="Ids dos seus alertas" />
             <Button layoutX="381.0" layoutY="12.0" mnemonicParsing="false" onAction="#pesquisasrAlertaID" text="Pesquisar" />
-            <ComboBox fx:id="comboCidades" layoutX="296.0" layoutY="96.0" prefWidth="150.0" promptText="Municipio" />
-            <ComboBox fx:id="comboEspecie" layoutX="296.0" layoutY="167.0" prefWidth="150.0" promptText="Espeice" />
+            <ComboBox fx:id="comboCidades" disable="true" layoutX="296.0" layoutY="96.0" prefWidth="150.0" promptText="Municipio" />
+            <ComboBox fx:id="comboEspecie" disable="true" layoutX="296.0" layoutY="167.0" prefWidth="150.0" promptText="Espeice" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="49.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">

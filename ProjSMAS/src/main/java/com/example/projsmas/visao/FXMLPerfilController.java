@@ -29,54 +29,76 @@ public class FXMLPerfilController extends LoginController implements Initializab
     @FXML
     private Pane editarMeuPerfil, editarPerfis;
     @FXML
-    private TextField txtNome, txtNome1, txtMunicipio, idusuario;
+    private TextField txtNome, txtNome1;
     @FXML
     private PasswordField pwdSenha,  pwdSenha1;
     @FXML
     private SplitMenuButton selectFunction;
     @FXML
-    private Button excluirUsuario, editarUsuarios;
+    private Button excluirUsuario, editarUsuarios, btnMunicipios, btnEspecies;
     @FXML
     private ComboBox<String> comboCidades;
     @FXML
     private ComboBox<String> comboCidadesEditar;
     @FXML
-    private MenuItem usuario, administrador, apicultor;
+    private ComboBox<String> comboUsuarios;
     @FXML
     private Label warnings;
-    private Usuario user = super.getUser();
     private EspecieDao especieDao = new EspecieDao();
     private String aux;
     private Usuario u;
     private UsuarioDao usuarioDao = new UsuarioDao();
     private MunicipioDao m = new MunicipioDao();
     private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
+    private ObservableList<String> listaUsuarios = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(getUser().getFuncao() >= 2){
+            btnEspecies.setVisible(true);
+        }
         if(getUser().getFuncao() == 3){
             editarUsuarios.setVisible(true);
+            btnMunicipios.setVisible(true);
         }
         listaMunicipios.addAll(m.relatorioNomes());
         comboCidades.setItems(listaMunicipios);
-        comboCidades.setValue((m.selectId(getUser().getIdMunicipio()).getNome()));
+        listaUsuarios.addAll(usuarioDao.relatorioEmails());
+        comboUsuarios.setItems(listaUsuarios);
         comboCidadesEditar.setItems(listaMunicipios);
+        comboCidades.setValue((m.selectId(getUser().getIdMunicipio()).getNome()));
         txtNome1.setText(getUser().getNome());
         pwdSenha1.setText(getUser().getSenha());
+    }
+    @FXML
+    protected void btnMunicipios(ActionEvent evente) throws IOException{
+        this.atualizaFrame("FXMLMunicipio.fxml", evente);
+    }
+    @FXML
+    protected void btnEspecies(ActionEvent event) throws  IOException{
+        this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
+    }
+    @FXML
+    protected void editarUsuarios(){
+        warnings.setVisible(false);
+        editarMeuPerfil.setVisible(false);
+        editarPerfis.setVisible(true);
     }
     @FXML
     protected void pesquisarUsuario(){
         warnings.setVisible(false);
         selectFunction.setDisable(true);
         excluirUsuario.setDisable(true);
-        if(idusuario.getText().equals("")){
+        if(comboUsuarios.getValue() == null){
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
             warnings.setText("Preencha o campo email do usuario!");
         }else{
-            u = usuarioDao.selectEmail(idusuario.getText());
+            u = usuarioDao.selectEmail(comboUsuarios.getValue());
             if(u != null){
-                selectFunction.setDisable(false);
+                if(!(u.getEmail().equals(getUser().getEmail()))){
+                    selectFunction.setDisable(false);
+                }
                 excluirUsuario.setDisable(false);
                 comboCidadesEditar.setValue(m.selectId(u.getIdMunicipio()).getNome());
                 txtNome.setText(u.getNome());
@@ -103,18 +125,18 @@ public class FXMLPerfilController extends LoginController implements Initializab
     @FXML
     protected void excluirUsuario(){
        if(getUser().getFuncao() == 3) {
-           if (!(idusuario.getText().equals(getUser().getEmail()))) {
+           if (!(u.getEmail().equals(getUser().getEmail()))) {
                selectFunction.setDisable(true);
                excluirUsuario.setDisable(true);
                AlertaDao a = new AlertaDao();
                MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
-               ArrayList<Especie> especies = especieDao.selectEmail(idusuario.getText());
+               ArrayList<Especie> especies = especieDao.selectEmail(comboUsuarios.getValue());
                for (Especie e : especies) {
                    municipioEspecieDao.deleteIdEspecie(e.getId());
                    a.deleteIdEspecie(e.getId());
                }
-               especieDao.deleteEmail(idusuario.getText());
-               usuarioDao.delete(idusuario.getText());
+               especieDao.deleteEmail(comboUsuarios.getValue());
+               usuarioDao.delete(comboUsuarios.getValue());
                warnings.setVisible(true);
                txtNome.setText("");
                pwdSenha.setText("");
@@ -132,7 +154,18 @@ public class FXMLPerfilController extends LoginController implements Initializab
            warnings.setText("Você não tem permissão apagar usuários");
        }
     }
-
+    @FXML
+    protected void btnUser(){
+        selectFunction.setText("Usuario Comum");
+    }
+    @FXML
+    protected void btnAp(){
+        selectFunction.setText("Apicultor");
+    }
+    @FXML
+    protected void btnAdm(){
+        selectFunction.setText("Administrador");
+    }
     @FXML
     protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
         this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
@@ -158,12 +191,6 @@ public class FXMLPerfilController extends LoginController implements Initializab
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setScene(scene);
         stage.show();
-    }
-    @FXML
-    protected void editarUsuarios(){
-        warnings.setVisible(false);
-        editarMeuPerfil.setVisible(false);
-        editarPerfis.setVisible(true);
     }
     @FXML
     protected void voltarEditarPerfil(){

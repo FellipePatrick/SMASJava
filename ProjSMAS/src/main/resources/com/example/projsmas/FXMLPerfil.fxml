@@ -46,9 +46,9 @@
             <TextField fx:id="txtNome1" layoutX="101.0" layoutY="76.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
             <PasswordField fx:id="pwdSenha1" layoutX="101.0" layoutY="163.0" prefHeight="25.0" prefWidth="136.0" promptText="Senha" style="-fx-background-radius: 5;" />
             <ComboBox fx:id="comboCidades" layoutX="271.0" layoutY="76.0" prefHeight="25.0" prefWidth="142.0" />
-            <Button fx:id="editarUsuarios" layoutX="141.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarUsuarios" text="Editar Usuarios" />
-            <Button layoutX="248.0" layoutY="14.0" mnemonicParsing="false" text="Municipios" />
-            <Button layoutX="342.0" layoutY="14.0" mnemonicParsing="false" text="Especies" />
+            <Button fx:id="editarUsuarios" layoutX="141.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarUsuarios" text="Editar Usuarios" visible="false" />
+            <Button fx:id="btnMunicipios" layoutX="310.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnMunicipios" text="Municipios" visible="false" />
+            <Button fx:id="btnEspecies" layoutX="243.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnEspecies" text="Especies" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="editarPerfis" layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;" visible="false">
@@ -62,17 +62,17 @@
             <TextField fx:id="txtNome" layoutX="120.0" layoutY="45.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
             <PasswordField fx:id="pwdSenha" layoutX="120.0" layoutY="183.0" prefHeight="25.0" prefWidth="136.0" promptText="Senha" style="-fx-background-radius: 5;" />
             <Button layoutX="354.0" layoutY="80.0" mnemonicParsing="false" onAction="#pesquisarUsuario" prefHeight="25.0" prefWidth="90.0" text="Pesquisar" />
-            <TextField fx:id="idusuario" layoutX="295.0" layoutY="45.0" promptText="Email do usuario" />
             <SplitMenuButton fx:id="selectFunction" disable="true" layoutX="295.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="Função">
               <items>
-                <MenuItem fx:id="usuario" mnemonicParsing="false" text="Usuario Comum" />
-                <MenuItem fx:id="apicultor" mnemonicParsing="false" text="Apicultor" />
-                 <MenuItem fx:id="administrador" mnemonicParsing="false" text="Administrador" />
+                <MenuItem fx:id="usuario" mnemonicParsing="false" onAction="#btnUser" text="Usuario Comum" />
+                <MenuItem fx:id="apicultor" mnemonicParsing="false" onAction="#btnAp" text="Apicultor" />
+                 <MenuItem fx:id="administrador" mnemonicParsing="false" onAction="#btnAdm" text="Administrador" />
               </items>
             </SplitMenuButton>
             <Button fx:id="excluirUsuario" disable="true" layoutX="295.0" layoutY="80.0" mnemonicParsing="false" onAction="#excluirUsuario" text="Excluir" />
             <Hyperlink layoutX="346.0" layoutY="212.0" onAction="#voltarEditarPerfil" text="Voltar" textFill="WHITE" />
             <ComboBox fx:id="comboCidadesEditar" layoutX="120.0" layoutY="113.0" prefHeight="25.0" prefWidth="136.0" promptText="Municipio" />
+            <ComboBox fx:id="comboUsuarios" layoutX="294.0" layoutY="45.0" prefWidth="150.0" promptText="Usuarios" />
          </children>
       </Pane>
       <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">

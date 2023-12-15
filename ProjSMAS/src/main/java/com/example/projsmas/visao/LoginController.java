@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
                 warning.setVisible(false);
                 login.setVisible(false);
                 stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLCadastroEspecie.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLAlertas.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 500);
                 stage.setScene(scene);
                 stage.show();

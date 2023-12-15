@@ -47,16 +47,17 @@ public class UsuarioDao {
         }
     }
 
-    public ArrayList<Usuario> selectAll() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+    public ArrayList<String> relatorioEmails() {
+        ArrayList<String> usuarios = new ArrayList<>();
         Usuario usuario;
         try {
             this.connection.conectar();
             Statement instrucao = this.connection.getConexao().createStatement();
             ResultSet rs = instrucao.executeQuery(this.selectAll);
             while (rs.next()) {
-                usuario = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"), rs.getInt("funcao"));
-                usuarios.add(usuario);
+                usuario = new Usuario();
+                usuario.setEmail(rs.getString("email"));
+                usuarios.add(usuario.getEmail());
             }
             this.connection.desconectar();
         } catch (Exception e) {

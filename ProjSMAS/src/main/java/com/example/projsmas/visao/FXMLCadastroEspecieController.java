@@ -81,6 +81,10 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     }
 
     @FXML
+    protected void btnVoltarPerfil(ActionEvent event) throws IOException{
+        this.atualizaFrame("FXMLPerfil.fxml", event);
+    }
+    @FXML
     protected void handleBtnAlertarAction(ActionEvent event) throws IOException {
         this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
     }

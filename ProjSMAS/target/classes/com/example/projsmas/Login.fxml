@@ -32,7 +32,7 @@
             <Font name="System Italic" size="8.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="login" layoutX="145.0" layoutY="-14.0" prefHeight="380.0" prefWidth="322.0" visible="false">
+      <AnchorPane fx:id="login" layoutX="145.0" layoutY="-14.0" prefHeight="380.0" prefWidth="322.0">
          <children>
             <Hyperlink fx:id="cadastreSe" focusTraversable="false" layoutX="131.0" layoutY="344.0" onAction="#clickcadastre" text="Cadastre-se" textAlignment="CENTER" />
             <Hyperlink fx:id="esqueceuSenha" focusTraversable="false" layoutX="118.0" layoutY="315.0" onAction="#clicksenha" text="Esqueceu senha?" textAlignment="CENTER" />
@@ -73,7 +73,7 @@
             <Hyperlink layoutX="142.0" layoutY="291.0" onAction="#voltarEmail" text="Voltar" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="cadastro" layoutX="147.0" prefHeight="380.0" prefWidth="322.0">
+      <AnchorPane fx:id="cadastro" layoutX="147.0" prefHeight="380.0" prefWidth="322.0" visible="false">
          <children>
             <TextField fx:id="nomeCadastro" layoutX="139.0" layoutY="138.0" />
             <TextField fx:id="emailCadastro" layoutX="139.0" layoutY="177.0" />

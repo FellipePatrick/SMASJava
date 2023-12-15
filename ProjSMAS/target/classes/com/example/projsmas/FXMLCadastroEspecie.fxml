@@ -46,6 +46,7 @@
             <TextArea fx:id="txtAreaAlerta1" layoutX="266.0" layoutY="46.0" prefHeight="61.0" prefWidth="139.0" promptText="Como capturar" style="-fx-background-radius: 0;" wrapText="true" />
             <TextArea fx:id="txtAreaAlerta11" layoutX="266.0" layoutY="131.0" prefHeight="87.0" prefWidth="139.0" promptText="Sobre" style="-fx-background-radius: 0;" wrapText="true" />
             <Button layoutX="65.0" layoutY="188.0" mnemonicParsing="false" onAction="#irParaEditar" text="Editar" />
+            <Hyperlink layoutX="101.0" layoutY="218.0" onAction="#btnVoltarPerfil" text="Voltar" textFill="WHITE" />
          </children>
       </Pane>
       <Label layoutX="229.0" layoutY="380.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">

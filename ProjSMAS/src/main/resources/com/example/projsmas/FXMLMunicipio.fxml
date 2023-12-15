@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.FXMLMunicipioController">
+   <children>
+      <Pane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: #ffa133;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="77.0" layoutX="6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/logoWhite.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="318.0" layoutY="7.0" prefHeight="36.0" prefWidth="282.0">
+               <children>
+                  <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#handleBtnPerfilAction" prefHeight="26.0" prefWidth="46.0" style="-fx-background-color: #ffa133;" text="Perfil" textFill="WHITE" />
+                  <Button fx:id="btnMenu" mnemonicParsing="false" onAction="#handleBtnMenuAction" style="-fx-background-color: #ffa133;" text="Menu" textFill="WHITE" />
+                  <Button fx:id="btnAlertar" mnemonicParsing="false" onAction="#handleBtnAlertarAction" prefHeight="26.0" prefWidth="53.0" style="-fx-background-color: #ffa133;" text="Alertar" textFill="WHITE" />
+                  <Button fx:id="btnRastreamento" mnemonicParsing="false" onAction="#handleBtnRastreamentoAction" prefHeight="26.0" prefWidth="89.0" style="-fx-background-color: #ffa133;" text="Rastreamento" textFill="WHITE" />
+                  <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleBtnSairAction" style="-fx-background-color: #ffa133;" text="Sair" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Pane fx:id="cadastrarMunicipio" layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;">
+         <children>
+            <Button fx:id="btnCadastrar1" layoutX="168.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleBtnCadastrarMunicipio" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Cadastrar" />
+            <Label graphicTextGap="0.0" layoutX="29.0" layoutY="11.0" text="Cadastrar Municipio" textFill="#fffefe">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nomeMunicipio" layoutX="75.0" layoutY="89.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
+            <Button layoutX="202.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarMunicipios" text="Editar Municipios" />
+            <Hyperlink layoutX="216.0" layoutY="198.0" onAction="#voltarPerfil" text="Voltar" textFill="WHITE" />
+            <TextField fx:id="ufMunicipio" disable="true" layoutX="278.0" layoutY="89.0" prefHeight="25.0" prefWidth="142.0" promptText="UF" text="RN" />
+         </children>
+      </Pane>
+      <Pane fx:id="editarMunicipio" layoutX="71.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;" visible="false">
+         <children>
+            <Button fx:id="btnSalvar" disable="true" layoutX="217.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleBtnSalvarMunicipio" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Salvar" />
+            <Label graphicTextGap="0.0" layoutX="38.0" layoutY="11.0" text="Editar Municipio" textFill="#fffefe">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nomeMunicipio1" disable="true" layoutX="81.0" layoutY="93.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
+            <Hyperlink layoutX="209.0" layoutY="205.0" onAction="#voltarCadastro" text="Voltar" textFill="WHITE" />
+            <ComboBox fx:id="comboMunicipios" layoutX="240.0" layoutY="12.0" prefHeight="25.0" prefWidth="121.0" promptText="Municipio" />
+            <Button layoutX="365.0" layoutY="12.0" mnemonicParsing="false" onAction="#pesquisarMunicipio" text="Pesquisar" />
+            <Button fx:id="btnExcluir" disable="true" layoutX="159.0" layoutY="160.0" mnemonicParsing="false" onAction="#handleBtnExcluirMunicipio" text="Excluir" />
+            <TextField fx:id="ufMunicipio1" disable="true" layoutX="269.0" layoutY="93.0" prefHeight="25.0" prefWidth="142.0" promptText="UF" />
+         </children>
+      </Pane>
+      <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="warnings" layoutX="250.0" layoutY="63.0" visible="false" />
+   </children>
+</AnchorPane>
