@@ -201,9 +201,8 @@ public class FXMLPerfilController extends LoginController implements Initializab
     }
     @FXML
     private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
-        this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
+        this.atualizaFrame("FXMLRastreamento.fxml", event);
     }
-
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
         Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();

@@ -27,15 +27,11 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     private EspecieDao especieDao = new EspecieDao();
     private Especie especie;
     @FXML
-    private Stage stage;
-    @FXML
     private Pane cadastrarEspecie, editarEspecie;
-    @FXML
-    private AnchorPane apnCadastroEspecie;
     @FXML
     private TextArea txtAreaAlerta, txtAreaAlerta1, txtAreaAlerta11, txtAreaAlerta3,txtAreaAlerta2, txtAreaAlerta4 ;
     @FXML
-    private TextField txtNome,txtNome2, pesquisarEspecie;
+    private TextField txtNome,txtNome2;
     @FXML
     private ComboBox<String> comboBoxEspecie;
     @FXML
@@ -46,7 +42,11 @@ public class FXMLCadastroEspecieController extends LoginController implements In
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
+        if(getUser().getFuncao() == 3){
+            relatorioEspecie.addAll(especieDao.relatorioNomes());
+        }else{
+            relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
+        }
         comboBoxEspecie.setItems(relatorioEspecie);
     }
 
@@ -102,9 +102,8 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     }
     @FXML
     private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
-        this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
+        this.atualizaFrame("FXMLRastreamento.fxml", event);
     }
-
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
         this.setUser(null);
