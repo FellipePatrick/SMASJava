@@ -58,10 +58,12 @@ public class FXMLMunicipioController  extends LoginController implements Initial
                 warnings.setTextFill(Paint.valueOf("#00f731"));
                 warnings.setText("Municipio cadastrado!");
                 nomeMunicipio.setText("");
+                nomeMunicipio.setDisable(true);
                 comboMunicipios.getItems().clear();
                 listaMunicipios.addAll(m.relatorioNomes());
                 FXCollections.sort(listaMunicipios);
                 comboMunicipios.setItems(listaMunicipios);
+                nomeMunicipio.setDisable(false);
             }else{
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -98,6 +100,8 @@ public class FXMLMunicipioController  extends LoginController implements Initial
             FXCollections.sort(listaMunicipios);
             comboMunicipios.setItems(listaMunicipios);
             nomeMunicipio.setText("");
+            nomeMunicipio1.setDisable(true);
+            btnSalvar.setDisable(true);
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -137,6 +141,8 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         warnings.setTextFill(Paint.valueOf("#00f731"));
         warnings.setText("Municipio deletado!");
         nomeMunicipio.setText("");
+        nomeMunicipio1.setDisable(true);
+        btnSalvar.setDisable(true);
     }
     //Menu do navbar
     @FXML

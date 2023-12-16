@@ -73,7 +73,6 @@ public class FXMLAlertasController extends LoginController implements Initializa
     }
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
-        this.setUser(null);
         Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
