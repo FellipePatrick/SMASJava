@@ -52,6 +52,7 @@ public class FXMLAlertasController extends LoginController implements Initializa
         tbcdescricao.setCellValueFactory(new PropertyValueFactory<Alerta, String>("descricao"));
         tbcespecie.setCellValueFactory(new PropertyValueFactory<Alerta, String>("idEspecie"));
         alertas.addAll(alertaDao.selectAll());
+        FXCollections.reverse(alertas);
         tabelaAlertas.setItems(alertas);
     }
     @FXML

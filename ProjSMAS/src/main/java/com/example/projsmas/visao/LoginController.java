@@ -56,6 +56,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         listaMunicipios.addAll(municipioDao.relatorioNomes());
+        FXCollections.sort(listaMunicipios);
         comboCidades.setItems(listaMunicipios);
     }
     public void entrarButton(ActionEvent evente) throws IOException {

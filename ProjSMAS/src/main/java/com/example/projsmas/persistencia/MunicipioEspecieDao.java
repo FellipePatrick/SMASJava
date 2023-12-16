@@ -17,7 +17,7 @@ public class MunicipioEspecieDao {
     private final String deleteIdEspecie = "DELETE FROM \"municipioespecie\" WHERE idespecie = ?";
     private final String deleteIdAlerta = "DELETE FROM \"municipioespecie\" WHERE idalerta = ?";
     public MunicipioEspecieDao() {
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
 
     }
     public void deleteIdAlerta(int id){
