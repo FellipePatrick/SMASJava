@@ -50,6 +50,13 @@ public class FXMLCadastroEspecieController extends LoginController implements In
         comboBoxEspecie.setItems(relatorioEspecie);
     }
 
+    public void limparTela(){
+        txtNome.setText("");
+        txtAreaAlerta.setText("");
+        txtAreaAlerta1.setText("");
+        txtAreaAlerta11.setText("");
+    }
+
     @FXML
     protected void handleBtnCadastrarAction(){
         if(txtAreaAlerta.getText().equals("") || txtAreaAlerta1.getText().equals("") || txtAreaAlerta11.getText().equals("") || txtNome.getText().equals("")){
@@ -65,10 +72,7 @@ public class FXMLCadastroEspecieController extends LoginController implements In
                 especie.setSobre(txtAreaAlerta11.getText());
                 especie.setEmailUser(super.getUser().getEmail());
                 especieDao.insert(especie);
-                txtNome.setText("");
-                txtAreaAlerta.setText("");
-                txtAreaAlerta1.setText("");
-                txtAreaAlerta11.setText("");
+                limparTela();
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#00f731"));
                 warnings.setText("Especie Cadastrada!");
@@ -135,6 +139,7 @@ public class FXMLCadastroEspecieController extends LoginController implements In
             warnings.setTextFill(Paint.valueOf("#00f731"));
             warnings.setText("Especie Alterada!");
             especieDao.update(especie.getId(), especie);
+            configuraTela();
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -187,6 +192,7 @@ public class FXMLCadastroEspecieController extends LoginController implements In
         warnings.setVisible(true);
         warnings.setTextFill(Paint.valueOf("#00f731"));
         warnings.setText("Especie Deletada!");
+        configuraTela();
     }
     @FXML
     protected void voltarEspecie(){
@@ -199,6 +205,23 @@ public class FXMLCadastroEspecieController extends LoginController implements In
         warnings.setVisible(false);
         editarEspecie.setVisible(true);
         cadastrarEspecie.setVisible(false);
+        configuraTela();
+    }
+
+    private void configuraTela(){
+        comboBoxEspecie.getItems().clear();
+        relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
+        comboBoxEspecie.setItems(relatorioEspecie);
+        txtAreaAlerta3.setDisable(true);
+        txtAreaAlerta3.setText("");
+        txtAreaAlerta2.setDisable(true);
+        txtAreaAlerta2.setText("");
+        txtAreaAlerta4.setDisable(true);
+        txtAreaAlerta4.setText("");
+        txtNome2.setDisable(true);
+        txtNome2.setText("");
+        excluirEspecie.setDisable(true);
+        btnCadastrar1.setDisable(true);
     }
     private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;
         Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();

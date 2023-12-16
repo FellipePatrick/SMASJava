@@ -52,6 +52,7 @@ public class FXMLAlertasController extends LoginController implements Initializa
         tbcdescricao.setCellValueFactory(new PropertyValueFactory<Alerta, String>("descricao"));
         tbcespecie.setCellValueFactory(new PropertyValueFactory<Alerta, String>("idEspecie"));
         alertas.addAll(alertaDao.selectAll());
+        FXCollections.reverse(alertas);
         tabelaAlertas.setItems(alertas);
     }
     @FXML
@@ -72,7 +73,6 @@ public class FXMLAlertasController extends LoginController implements Initializa
     }
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
-        this.setUser(null);
         Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);

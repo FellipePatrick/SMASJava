@@ -20,7 +20,7 @@ public class EspecieDao {
     private final String deleteEmail = "DELETE FROM \"especie\" WHERE emailuser = ?";
     private final String update = "UPDATE \"especie\" SET nome = ?, comocriar = ?, comocapturar = ?, sobre = ?, emailuser = ? WHERE id = ?";
     public EspecieDao(){
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
     }
     public void update(int id, Especie especie){
         try{

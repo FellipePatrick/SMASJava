@@ -41,6 +41,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listaMunicipios.addAll(m.relatorioNomes());
+        FXCollections.sort(listaMunicipios);
         comboMunicipios.setItems(listaMunicipios);
         warnings.setVisible(false);
     }
@@ -48,15 +49,21 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     protected void handleBtnCadastrarMunicipio(){
         if(!nomeMunicipio.getText().equals("")){
             Municipio municipio;
-            if(m.selectNameAndUf(nomeMunicipio.getText(), "RN") == null){
+            if(m.selectNameAndUf(nomeMunicipio.getText().toUpperCase(), "RN") == null){
                 municipio = new Municipio();
-                municipio.setNome(nomeMunicipio.getText());
+                municipio.setNome(nomeMunicipio.getText().toUpperCase());
                 municipio.setUf("RN");
                 m.insert(municipio);
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#00f731"));
                 warnings.setText("Municipio cadastrado!");
                 nomeMunicipio.setText("");
+                nomeMunicipio.setDisable(true);
+                comboMunicipios.getItems().clear();
+                listaMunicipios.addAll(m.relatorioNomes());
+                FXCollections.sort(listaMunicipios);
+                comboMunicipios.setItems(listaMunicipios);
+                nomeMunicipio.setDisable(false);
             }else{
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -65,13 +72,18 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
-            warnings.setText("Municipio ja cadastrado!");
+            if(nomeMunicipio.getText().equals("")){
+                warnings.setText("O campo municipio precisa ser preenchido!");
+            }else{
+                warnings.setText("Municipio ja cadastrado!");
+            }
         }
     }
     @FXML
     protected void editarMunicipios(){
         cadastrarMunicipio.setVisible(false);
         editarMunicipio.setVisible(true);
+        nomeMunicipio.setText("");
         warnings.setVisible(false);
     }
     @FXML
@@ -83,6 +95,13 @@ public class FXMLMunicipioController  extends LoginController implements Initial
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#00f731"));
             warnings.setText("Municipio atualizado!");
+            comboMunicipios.getItems().clear();
+            listaMunicipios.addAll(m.relatorioNomes());
+            FXCollections.sort(listaMunicipios);
+            comboMunicipios.setItems(listaMunicipios);
+            nomeMunicipio.setText("");
+            nomeMunicipio1.setDisable(true);
+            btnSalvar.setDisable(true);
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -102,6 +121,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     @FXML
     protected void pesquisarMunicipio(){
         if(comboMunicipios.getValue() != null){
+            warnings.setVisible(false);
             Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
             nomeMunicipio1.setText(municipio.getNome());
             ufMunicipio1.setText(municipio.getUf());
@@ -120,6 +140,9 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         warnings.setVisible(true);
         warnings.setTextFill(Paint.valueOf("#00f731"));
         warnings.setText("Municipio deletado!");
+        nomeMunicipio.setText("");
+        nomeMunicipio1.setDisable(true);
+        btnSalvar.setDisable(true);
     }
     //Menu do navbar
     @FXML

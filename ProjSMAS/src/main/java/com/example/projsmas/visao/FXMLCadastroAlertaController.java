@@ -75,13 +75,20 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		btnExcluir.setDisable(true);
+		comboEspecie.setDisable(true);
+		comboCidades.setDisable(true);
+		txtAlerta1.setDisable(true);
 		apnCadastroAlerta.setVisible(true);
 		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
+		FXCollections.sort(idAlertas);
 		comboBoxAlertas.setItems(idAlertas);
 		relatorioEspecie.addAll(especieDao.relatorioNomes());
+		FXCollections.sort(relatorioEspecie);
 		comboEspecie.setItems(relatorioEspecie);
 		comboEspecieCadastrar.setItems(relatorioEspecie);
 		listaMunicipios.addAll(municipioDao.relatorioNomes());
+		FXCollections.sort(listaMunicipios);
 		comboCidades.setItems(listaMunicipios);
 		comboCidadesCadastrar.setItems(listaMunicipios);
 	}
@@ -103,6 +110,11 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 				warnings.setVisible(true);
 				warnings.setTextFill(Paint.valueOf("#00f731"));
 				warnings.setText("Alerta cadastrado!");
+				comboBoxAlertas.getItems().clear();
+				idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
+				FXCollections.sort(idAlertas);
+				comboBoxAlertas.setItems(idAlertas);
+
 			}catch (Exception e){
 				System.out.println(e);
 			}
@@ -115,7 +127,12 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private void EditarAlertas() {
 		CriarAlerta.setVisible(false);
-		 EditarAlerta.setVisible(true);
+		EditarAlerta.setVisible(true);
+		btnCadastrar1.setDisable(true);
+		btnExcluir.setDisable(true);
+		comboEspecie.setDisable(true);
+		comboCidades.setDisable(true);
+		txtAlerta1.setDisable(true);
 	}
 	@FXML
 	private void voltarEditarAlerta() {
@@ -126,10 +143,6 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	private void pesquisasrAlertaID() {
 		warnings.setVisible(false);
 		btnCadastrar1.setDisable(true);
-		btnExcluir.setDisable(true);
-		comboEspecie.setDisable(true);
-		comboCidades.setDisable(true);
-		txtAlerta1.setDisable(true);
 		if(comboBoxAlertas.getValue()==null){
 			warnings.setVisible(true);
 			warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -161,13 +174,19 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		comboCidades.setDisable(true);
 		txtAlerta1.setDisable(true);
 		txtAlerta1.setText("");
+		comboBoxAlertas.getItems().clear();
 		idAlertas.addAll(alertaDao.selectEmail(getUser().getEmail()));
+		FXCollections.sort(idAlertas);
 		comboBoxAlertas.setItems(idAlertas);
 		comboEspecie.setPromptText("Especie");
 		comboCidades.setPromptText("Municipio");
 		warnings.setVisible(true);
 		warnings.setTextFill(Paint.valueOf("#00f731"));
 		warnings.setText("Alerta Exluido!");
+		btnExcluir.setDisable(true);
+		comboEspecie.setDisable(true);
+		comboCidades.setDisable(true);
+		txtAlerta1.setDisable(true);
 	}
 	@FXML
 	private void handleBtnSalvarAction() {
@@ -185,6 +204,11 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 			warnings.setVisible(true);
 			warnings.setTextFill(Paint.valueOf("#00f731"));
 			warnings.setText("Alerta Editado!");
+			btnExcluir.setDisable(true);
+			comboEspecie.setDisable(true);
+			comboCidades.setDisable(true);
+			txtAlerta1.setDisable(true);
+			btnCadastrar1.setDisable(true);
 		}else{
 			warnings.setVisible(true);
 			warnings.setTextFill(Paint.valueOf("#ff0000"));
