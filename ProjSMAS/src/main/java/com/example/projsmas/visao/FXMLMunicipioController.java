@@ -136,9 +136,8 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     }
     @FXML
     private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
-        this.atualizaFrame("FXMLCadastroEspecie.fxml", event);
+        this.atualizaFrame("FXMLRastreamento.fxml", event);
     }
-
     @FXML
     protected void handleBtnSairAction(ActionEvent evente) throws IOException {
         this.setUser(null);

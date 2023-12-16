@@ -46,9 +46,9 @@
             <TextField fx:id="txtNome1" layoutX="101.0" layoutY="76.0" prefHeight="25.0" prefWidth="136.0" promptText="Nome" style="-fx-background-radius: 5;" />
             <PasswordField fx:id="pwdSenha1" layoutX="101.0" layoutY="163.0" prefHeight="25.0" prefWidth="136.0" promptText="Senha" style="-fx-background-radius: 5;" />
             <ComboBox fx:id="comboCidades" layoutX="271.0" layoutY="76.0" prefHeight="25.0" prefWidth="142.0" />
-            <Button fx:id="editarUsuarios" layoutX="141.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarUsuarios" text="Editar Usuarios" visible="false" />
+            <Button fx:id="editarUsuarios" layoutX="203.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarUsuarios" text="Editar Usuarios" visible="false" />
             <Button fx:id="btnMunicipios" layoutX="310.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnMunicipios" text="Municipios" visible="false" />
-            <Button fx:id="btnEspecies" layoutX="243.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnEspecies" text="Especies" visible="false" />
+            <Button fx:id="btnEspecies" layoutX="131.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnEspecies" text="Especies" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="editarPerfis" layoutX="72.0" layoutY="91.0" prefHeight="250.0" prefWidth="458.0" style="-fx-background-color: #ffa133; -fx-background-radius: 10;" visible="false">
