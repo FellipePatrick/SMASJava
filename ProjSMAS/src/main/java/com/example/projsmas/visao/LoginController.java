@@ -101,18 +101,22 @@ public class LoginController implements Initializable {
     protected void verificaSenhas(){
         warning.setVisible(false);
         this.senha  = senhaSenha1.getText();
-        if(senhaSenha1.getText().equals(senhaSenha2.getText()) && (!senhaSenha1.getText().equals("")) && (!senhaSenha2.getText().equals(""))) {
+        System.out.println("1");
+        if(senhaSenha1.getText().equals(senhaSenha2.getText()) && (!senhaSenha1.getText().equals(""))) {
             if (this.senha.length() > 5) {
-                getUser().setSenha(senhaSenha1.getText());
-                password2.setVisible(false);
-                login.setVisible(true);
-                warning.setVisible(true);
-                emailSenha.setText("");
-                senhaSenha1.setText("");
-                senhaSenha2.setText("");
-                userDao.update(this.getUser().getEmail(), this.getUser());
-                warning.setTextFill(Paint.valueOf("#00f731"));
-                warning.setText("Senha alterada!");
+                if(!senha.equals(getUser().getSenha())) {
+                    getUser().setSenha(senhaSenha1.getText());
+                    password2.setVisible(false);
+                    login.setVisible(true);
+                    warning.setVisible(true);
+                    userDao.update(this.getUser().getEmail(), this.getUser());
+                    warning.setTextFill(Paint.valueOf("#00f731"));
+                    warning.setText("Senha alterada!");
+                }else{
+                    warning.setVisible(true);
+                    warning.setTextFill(Paint.valueOf("#ff0000"));
+                    warning.setText("Digite uma senha diferente da anterior!");
+                }
             }else{
                 warning.setVisible(true);
                 warning.setTextFill(Paint.valueOf("#ff0000"));
@@ -147,13 +151,14 @@ public class LoginController implements Initializable {
     protected void validarSenha(){
         warning.setVisible(false);
         this.senha = senhaCadastro1.getText();
+        System.out.println("2");
         if (this.senha.equals(senhaCadastro2.getText())) {
             if(senha.length() > 5) {
                 user = new Usuario();
                 user.setEmail(emailCadastro.getText());
                 user.setSenha(senhaCadastro1.getText());
                 user.setNome(nomeCadastro.getText());
-                user.setIdMunicipio(userDao.municipalityName(comboCidades.getValue()).getId());
+                user.setIdMunicipio(municipioDao.selectNameAndUf(comboCidades.getValue(), "RN").getId());
                 userDao.insert(user);
                 login.setVisible(true);
                 password2.setVisible(false);
@@ -161,10 +166,6 @@ public class LoginController implements Initializable {
                 warning.setVisible(true);
                 warning.setTextFill(Paint.valueOf("#00f731"));
                 warning.setText("Usuario cadastrado!");
-                nomeCadastro.setText("");
-                emailCadastro.setText("");
-                senhaCadastro1.setText("");
-                senhaCadastro2.setText("");
             }else{
                 warning.setVisible(true);
                 warning.setTextFill(Paint.valueOf("#ff0000"));
@@ -179,7 +180,7 @@ public class LoginController implements Initializable {
     @FXML
     protected void buttonCadastrar(){
         warning.setVisible(false);
-        if(!(nomeCadastro.getText().equals("") || emailCadastro.getText().equals("")  || senhaCadastro1.getText().equals("") || senhaCadastro2.getText().equals(""))){
+        if(!(nomeCadastro.getText().equals("")) && !(emailCadastro.getText().equals(""))  && !(senhaCadastro1.getText().equals("")) && !(senhaCadastro2.getText().equals("")) && !(comboCidades.getValue().equals("Municipio")) && (comboCidades.getValue() != null)){
             validarEmail();
         }else{
             warning.setVisible(true);
@@ -187,17 +188,30 @@ public class LoginController implements Initializable {
             warning.setText("Preencha todos os campos!");
         }
     }
+
+
     @FXML
     protected void clickcadastre(){
         warning.setVisible(false);
         login.setVisible(false);
         cadastro.setVisible(true);
+        nomeCadastro.setText("");
+        emailCadastro.setText("");
+        senhaCadastro1.setText("");
+        senhaCadastro2.setText("");
+        if(!comboCidades.getItems().contains("Municipio")) {
+            comboCidades.getItems().add("Municipio");
+        }
+        comboCidades.setValue("Municipio");
     }
     @FXML
     protected void clicksenha(){
         warning.setVisible(false);
         login.setVisible(false);
         password.setVisible(true);
+        emailSenha.setText("");
+        senhaSenha1.setText("");
+        senhaSenha2.setText("");
     }
     @FXML
     protected void voltarCadastro(){

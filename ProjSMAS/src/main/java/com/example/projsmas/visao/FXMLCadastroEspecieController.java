@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.ResourceBundle;
 
 public class FXMLCadastroEspecieController extends LoginController implements Initializable {
@@ -51,10 +52,14 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     }
 
     public void limparTela(){
-        txtNome.setText("");
-        txtAreaAlerta.setText("");
-        txtAreaAlerta1.setText("");
-        txtAreaAlerta11.setText("");
+        txtAreaAlerta3.setDisable(true);
+        txtAreaAlerta3.setText("");
+        txtAreaAlerta2.setDisable(true);
+        txtAreaAlerta2.setText("");
+        txtAreaAlerta4.setDisable(true);
+        txtAreaAlerta4.setText("");
+        txtNome2.setDisable(true);
+        txtNome2.setText("");
     }
 
     @FXML
@@ -65,14 +70,14 @@ public class FXMLCadastroEspecieController extends LoginController implements In
             warnings.setText("Preencha todos os campos!");
         }else{
             especie = new Especie();
-            if(especieDao.selectName(txtNome2.getText()) == null){
+            if(especieDao.selectName(txtNome.getText().toUpperCase()) == null){
                 especie.setComoCapturar(txtAreaAlerta1.getText());
-                especie.setNome(txtNome.getText());
+                especie.setNome(txtNome.getText().toUpperCase());
                 especie.setComoCriar(txtAreaAlerta.getText());
                 especie.setSobre(txtAreaAlerta11.getText());
                 especie.setEmailUser(super.getUser().getEmail());
                 especieDao.insert(especie);
-                limparTela();
+                configuraTela();
                 warnings.setVisible(true);
                 warnings.setTextFill(Paint.valueOf("#00f731"));
                 warnings.setText("Especie Cadastrada!");
@@ -118,32 +123,38 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     @FXML
     protected void salvarEspecie(){
         boolean flag = false;
-        if((!txtNome2.getText().equals(especie.getNome())) && (!txtNome2.getText().equals("")) && especieDao.selectName(txtNome2.getText()) == null){
-            flag = true;
-            especie.setNome(txtNome2.getText());
-        }
-        if((!txtAreaAlerta2.getText().equals(especie.getComoCriar())) && (!txtAreaAlerta2.getText().equals(""))){
-            flag = true;
-            especie.setComoCriar(txtAreaAlerta2.getText());
-        }
-        if((!txtAreaAlerta3.getText().equals(especie.getComoCapturar())) && (!txtAreaAlerta3.getText().equals(""))){
-            flag = true;
-            especie.setComoCapturar(txtAreaAlerta3.getText());
-        }
-        if((!txtAreaAlerta4.getText().equals(especie.getSobre())) && (!txtAreaAlerta4.getText().equals(""))){
-            flag = true;
-            especie.setSobre(txtAreaAlerta4.getText());
-        }
-        if(flag){
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Especie Alterada!");
-            especieDao.update(especie.getId(), especie);
-            configuraTela();
+        if(especieDao.selectName(txtNome2.getText().toUpperCase()).getNome() == null) {
+            if (!(txtNome2.getText().toUpperCase().equals(comboBoxEspecie.getValue())) && !(txtNome2.getText().equals(""))) {
+                flag = true;
+                especie.setNome(txtNome2.getText());
+            }
+            if ((!txtAreaAlerta2.getText().equals(especie.getComoCriar())) && (!txtAreaAlerta2.getText().equals(""))) {
+                flag = true;
+                especie.setComoCriar(txtAreaAlerta2.getText());
+            }
+            if ((!txtAreaAlerta3.getText().equals(especie.getComoCapturar())) && (!txtAreaAlerta3.getText().equals(""))) {
+                flag = true;
+                especie.setComoCapturar(txtAreaAlerta3.getText());
+            }
+            if ((!txtAreaAlerta4.getText().equals(especie.getSobre())) && (!txtAreaAlerta4.getText().equals(""))) {
+                flag = true;
+                especie.setSobre(txtAreaAlerta4.getText());
+            }
+            if (flag) {
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#00f731"));
+                warnings.setText("Especie Alterada!");
+                especieDao.update(especie.getId(), especie);
+                configuraTela();
+            } else {
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#ff0000"));
+                warnings.setText("Altere algum campo para pode salvar!");
+            }
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
-            warnings.setText("Altere algum campo para pode salvar!");
+            warnings.setText("Especie já existente!");
         }
     }
     @FXML
@@ -199,6 +210,17 @@ public class FXMLCadastroEspecieController extends LoginController implements In
         warnings.setVisible(false);
         editarEspecie.setVisible(false);
         cadastrarEspecie.setVisible(true);
+        txtNome.setText("");
+        txtAreaAlerta.setText("");
+        txtAreaAlerta2.setText("");
+        txtAreaAlerta3.setText("");
+        txtAreaAlerta4.setText("");
+        txtAreaAlerta11.setText("");
+        txtAreaAlerta3.setText("");
+        txtAreaAlerta2.setText("");
+        txtAreaAlerta4.setText("");
+        txtAreaAlerta.setText("");
+        txtAreaAlerta1.setText("");
     }
     @FXML
     protected void irParaEditar(){
@@ -211,17 +233,16 @@ public class FXMLCadastroEspecieController extends LoginController implements In
     private void configuraTela(){
         comboBoxEspecie.getItems().clear();
         relatorioEspecie.addAll(especieDao.selectEmailTwo(getUser().getEmail()));
+        FXCollections.sort(relatorioEspecie);
         comboBoxEspecie.setItems(relatorioEspecie);
-        txtAreaAlerta3.setDisable(true);
-        txtAreaAlerta3.setText("");
-        txtAreaAlerta2.setDisable(true);
-        txtAreaAlerta2.setText("");
-        txtAreaAlerta4.setDisable(true);
-        txtAreaAlerta4.setText("");
-        txtNome2.setDisable(true);
-        txtNome2.setText("");
+        if(!comboBoxEspecie.getItems().contains("Especie")) {
+            comboBoxEspecie.getItems().add("Especie");
+        }
+        comboBoxEspecie.setValue("Especie");
+        limparTela();
         excluirEspecie.setDisable(true);
         btnCadastrar1.setDisable(true);
+
     }
     private void atualizaFrame(String frame, ActionEvent evente) throws IOException {;
         Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
