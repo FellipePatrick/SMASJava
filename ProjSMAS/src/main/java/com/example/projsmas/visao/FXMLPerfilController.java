@@ -46,13 +46,14 @@ public class FXMLPerfilController extends LoginController implements Initializab
     @FXML
     private Label warnings;
     private EspecieDao especieDao = new EspecieDao();
-    private String aux;
+    private String aux, email;
     private Usuario u;
     private int id, funcao;
     private UsuarioDao usuarioDao = new UsuarioDao();
     private MunicipioDao m = new MunicipioDao();
     private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
     private ObservableList<String> listaUsuarios = FXCollections.observableArrayList();
+    private MunicipioDao municipioDao =  new MunicipioDao();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -131,6 +132,18 @@ public class FXMLPerfilController extends LoginController implements Initializab
         excluirUsuario.setDisable(true);
         selectFunction.setDisable(true);
         warnings.setVisible(false);
+        updateDados();
+    }
+
+    private void updateDados(){
+        if(!comboCidadesEditar.getItems().contains("Municipio")){
+            comboCidadesEditar.getItems().add("Municipio");
+        }
+        comboCidadesEditar.setValue("Municipio");
+        if(!comboUsuarios.getItems().contains("Usuario")){
+            comboUsuarios.getItems().add("Usuario");
+        }
+        comboUsuarios.setValue("Usuario");
     }
 
     @FXML
@@ -142,11 +155,21 @@ public class FXMLPerfilController extends LoginController implements Initializab
                    excluirUsuario.setDisable(true);
                    AlertaDao a = new AlertaDao();
                    MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
-                   ArrayList<Especie> especies = especieDao.selectEmail(comboUsuarios.getValue());
+                   email = comboUsuarios.getValue();
+                   ArrayList<Especie> especies = especieDao.selectEmail(email);
                    for (Especie e : especies) {
                        municipioEspecieDao.deleteIdEspecie(e.getId());
                        a.deleteIdEspecie(e.getId());
                    }
+                   //Usuario comum
+                   ArrayList<Integer> alertasUserId = a.selectEmail(email);
+                   if(!alertasUserId.isEmpty()){
+                       for(Integer idUser : alertasUserId){
+                           municipioEspecieDao.deleteIdAlerta(idUser);
+                           a.delete(idUser);
+                       }
+                   }
+                   a.DeleteEmail(email);
                    especieDao.deleteEmail(comboUsuarios.getValue());
                    usuarioDao.delete(comboUsuarios.getValue());
                    warnings.setVisible(true);
@@ -158,7 +181,7 @@ public class FXMLPerfilController extends LoginController implements Initializab
                    comboUsuarios.getItems().clear();
                    listaUsuarios.addAll(usuarioDao.relatorioEmails());
                    comboUsuarios.setItems(listaUsuarios);
-                   comboUsuarios.setPromptText("Usuario");
+                   updateDados();
                }else{
                    warnings.setVisible(true);
                    warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -216,55 +239,60 @@ public class FXMLPerfilController extends LoginController implements Initializab
         warnings.setVisible(false);
         editarPerfis.setVisible(false);
         editarMeuPerfil.setVisible(true);
+        comboCidades.setValue(municipioDao.selectId(getUser().getIdMunicipio()).getNome());
     }
     @FXML
     protected void handleBtnCadastrarAction(){
         selectFunction.setDisable(true);
         boolean flag = false;
-        if (!(txtNome.getText().equals(u.getNome())) && txtNome.getText() != "") {
-            u.setNome(txtNome.getText());
-            flag = true;
-            System.out.println("Nome");
-        }
-
-        if(!(pwdSenha.getText().equals(u.getSenha())) && pwdSenha.getText() != ""){
-            u.setSenha(pwdSenha.getText());
-            flag = true;
-            System.out.println("Senha");
-        }
-
-        if(selectFunction.getText().equals("Usuario Comum")) funcao = 1;
-            else if(selectFunction.getText().equals("Apicultor")) funcao = 2;
-                else funcao = 3;
-
-        if ( funcao != u.getFuncao() && selectFunction.getText() != null && u.getFuncao() != 3) {
-            u.setFuncao(funcao);
-            flag = true;
-        }
-        id = m.selectNameAndUf(comboCidadesEditar.getValue(), "RN").getId();
-        if(comboCidadesEditar.getValue() != null && id != u.getIdMunicipio()){
-            System.out.println("Cidade");
-            u.setIdMunicipio(id);
-            flag = true;
-        }
-
-        if (flag) {
-            usuarioDao.update(u.getEmail(), u);
-            if(u.getEmail().equals(getUser().getEmail())) {
-                getUser().setIdMunicipio(u.getIdMunicipio());
-                getUser().setNome(u.getNome());
-                getUser().setSenha(u.getSenha());
+        if(!comboUsuarios.getValue().equals("Usuario")){
+            if (!(txtNome.getText().equals(u.getNome())) && txtNome.getText() != "") {
+                u.setNome(txtNome.getText());
+                flag = true;
             }
-            paintScreen();
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Usuario atualizado");
-            txtNome.setText("");
-            pwdSenha.setText("");
+
+            if(!(pwdSenha.getText().equals(u.getSenha())) && pwdSenha.getText() != ""){
+                u.setSenha(pwdSenha.getText());
+                flag = true;
+            }
+
+            if(selectFunction.getText().equals("Usuario Comum")) funcao = 1;
+                else if(selectFunction.getText().equals("Apicultor")) funcao = 2;
+                    else funcao = 3;
+
+            if ( funcao != u.getFuncao() && selectFunction.getText() != null && u.getFuncao() != 3) {
+                u.setFuncao(funcao);
+                flag = true;
+            }
+            id = m.selectNameAndUf(comboCidadesEditar.getValue(), "RN").getId();
+            if(id != u.getIdMunicipio()){
+                u.setIdMunicipio(id);
+                flag = true;
+            }
+
+            if (flag) {
+                usuarioDao.update(u.getEmail(), u);
+                if (u.getEmail().equals(getUser().getEmail())) {
+                    getUser().setIdMunicipio(u.getIdMunicipio());
+                    getUser().setNome(u.getNome());
+                    getUser().setSenha(u.getSenha());
+                }
+                paintScreen();
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#00f731"));
+                warnings.setText("Usuario atualizado");
+                txtNome.setText("");
+                pwdSenha.setText("");
+                updateDados();
+            }else{
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#ff0000"));
+                warnings.setText("Atualize algum campo");
+            }
         } else {
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
-            warnings.setText("Atualize algum campo");
+            warnings.setText("Pesquise por um usuario");
         }
     }
 

@@ -83,8 +83,15 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     protected void editarMunicipios(){
         cadastrarMunicipio.setVisible(false);
         editarMunicipio.setVisible(true);
-        nomeMunicipio.setText("");
+        nomeMunicipio1.setText("");
         warnings.setVisible(false);
+        if(!comboMunicipios.getItems().contains("Municipio")){
+            comboMunicipios.getItems().add("Municipio");
+        }
+        comboMunicipios.setValue("Municipio");
+        nomeMunicipio.setPromptText("Nome");
+        nomeMunicipio1.setDisable(true);
+        btnSalvar.setDisable(true);
     }
     @FXML
     protected void handleBtnSalvarMunicipio(){
@@ -120,7 +127,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     }
     @FXML
     protected void pesquisarMunicipio(){
-        if(comboMunicipios.getValue() != null){
+        if(comboMunicipios.getValue() != null && !comboMunicipios.getValue().equals("Municipio")){
             warnings.setVisible(false);
             Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
             nomeMunicipio1.setText(municipio.getNome());
@@ -140,7 +147,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         warnings.setVisible(true);
         warnings.setTextFill(Paint.valueOf("#00f731"));
         warnings.setText("Municipio deletado!");
-        nomeMunicipio.setText("");
+        nomeMunicipio.setText("Nome");
         nomeMunicipio1.setDisable(true);
         btnSalvar.setDisable(true);
     }

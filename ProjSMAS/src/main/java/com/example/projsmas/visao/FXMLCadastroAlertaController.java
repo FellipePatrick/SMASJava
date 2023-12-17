@@ -50,11 +50,11 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private AnchorPane apnCadastroAlerta, EditarAlerta, CriarAlerta;
 	@FXML
-	private Label warnings;
+	private Label warnings, ouLabel;
 	@FXML
 	private Button btnCadastrar1, btnExcluir;
 	@FXML
-	private TextField txtMunicipio, txtEspecie, txtNome, txtData;
+	private TextField txtMunicipio, txtEspecie, txtNome, txtData, qualquerID;
 	@FXML
 	private TextArea txtAlerta, txtAlerta1;
 	@FXML
@@ -75,6 +75,8 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		CriarAlerta.setVisible(true);
+		EditarAlerta.setVisible(false);
 		btnExcluir.setDisable(true);
 		comboEspecie.setDisable(true);
 		comboCidades.setDisable(true);
@@ -95,7 +97,7 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private void handleBtnCadastrarAction() {
 		warnings.setVisible(false);
-		if(!(txtAlerta.getText().equals(""))){
+		if(!(txtAlerta.getText().equals("")) && ((comboEspecieCadastrar.getValue() != null) && (comboCidadesCadastrar.getValue()!= null)) && (!(comboEspecieCadastrar.getValue().equals("Especie")) && !(comboCidadesCadastrar.getValue().equals("Municipio")))){
 			try {
 				Alerta alerta = new Alerta();
 				alerta.setDescricao(txtAlerta.getText());
@@ -133,11 +135,38 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		comboEspecie.setDisable(true);
 		comboCidades.setDisable(true);
 		txtAlerta1.setDisable(true);
+		txtAlerta1.setText("");
+		if(getUser().getFuncao() != 3) {
+			qualquerID.setVisible(false);
+			ouLabel.setVisible(false);
+		}else{
+			qualquerID.setVisible(true);
+			ouLabel.setVisible(true);
+		}
+		txtAlerta.setText("");
+		if(!comboCidades.getItems().contains("Municipio")) {
+			comboCidades.getItems().add("Municipio");
+		}
+		comboCidades.setValue("Municipio");
+
+		if(!comboEspecie.getItems().contains("Especie")) {
+			comboEspecie.getItems().add("Especie");
+		}
+		comboEspecie.setValue("Especie");
 	}
 	@FXML
 	private void voltarEditarAlerta() {
 		CriarAlerta.setVisible(true);
 		EditarAlerta.setVisible(false);
+		if(!comboCidadesCadastrar.getItems().contains("Municipio")) {
+			comboCidadesCadastrar.getItems().add("Municipio");
+		}
+		comboCidadesCadastrar.setValue("Municipio");
+
+		if(!comboEspecieCadastrar.getItems().contains("Especie")) {
+			comboEspecieCadastrar.getItems().add("Especie");
+		}
+		comboEspecieCadastrar.setValue("Especie");
 	}
 	@FXML
 	private void pesquisasrAlertaID() {

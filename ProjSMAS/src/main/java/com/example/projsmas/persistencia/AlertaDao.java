@@ -63,7 +63,7 @@ public class AlertaDao {
     public void DeleteEmail(String email){
         try{
             this.connection.conectar();
-            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEmail);
             instrucao.setString(1,email);
             instrucao.execute();
             this.connection.desconectar();
