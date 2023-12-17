@@ -92,23 +92,35 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         nomeMunicipio.setPromptText("Nome");
         nomeMunicipio1.setDisable(true);
         btnSalvar.setDisable(true);
+        btnExcluir.setDisable(true);
     }
     @FXML
     protected void handleBtnSalvarMunicipio(){
         Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
-        if(!nomeMunicipio1.getText().equals(municipio.getNome()) && !nomeMunicipio1.getText().equals("")){
-            municipio.setNome(nomeMunicipio1.getText());
-            m.update(municipio.getId(), municipio);
-            warnings.setVisible(true);
-            warnings.setTextFill(Paint.valueOf("#00f731"));
-            warnings.setText("Municipio atualizado!");
-            comboMunicipios.getItems().clear();
-            listaMunicipios.addAll(m.relatorioNomes());
-            FXCollections.sort(listaMunicipios);
-            comboMunicipios.setItems(listaMunicipios);
-            nomeMunicipio.setText("");
-            nomeMunicipio1.setDisable(true);
-            btnSalvar.setDisable(true);
+        if(!nomeMunicipio1.getText().toUpperCase().equals(municipio.getNome().toUpperCase()) && !nomeMunicipio1.getText().equals("")){
+            if(m.selectNameAndUf(nomeMunicipio1.getText().toUpperCase(),"RN").getNome() == null) {
+                municipio.setNome(nomeMunicipio1.getText().toUpperCase());
+                m.update(municipio.getId(), municipio);
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#00f731"));
+                warnings.setText("Municipio atualizado!");
+                comboMunicipios.getItems().clear();
+                listaMunicipios.addAll(m.relatorioNomes());
+                FXCollections.sort(listaMunicipios);
+                comboMunicipios.setItems(listaMunicipios);
+                nomeMunicipio.setText("");
+                nomeMunicipio1.setDisable(true);
+                btnSalvar.setDisable(true);
+                btnExcluir.setDisable(true);
+                if(!comboMunicipios.getItems().contains("Municipio")){
+                    comboMunicipios.getItems().add("Municipio");
+                }
+                comboMunicipios.setValue("Municipio");
+            }else{
+                warnings.setVisible(true);
+                warnings.setTextFill(Paint.valueOf("#ff0000"));
+                warnings.setText("Estado já cadastrado!");
+            }
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -134,6 +146,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
             ufMunicipio1.setText(municipio.getUf());
             nomeMunicipio1.setDisable(false);
             btnSalvar.setDisable(false);
+            btnExcluir.setDisable(false);
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
@@ -142,14 +155,29 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     }
     @FXML
     protected void handleBtnExcluirMunicipio(){
-        Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
-        m.delete(municipio.getId());
-        warnings.setVisible(true);
-        warnings.setTextFill(Paint.valueOf("#00f731"));
-        warnings.setText("Municipio deletado!");
-        nomeMunicipio.setText("Nome");
-        nomeMunicipio1.setDisable(true);
-        btnSalvar.setDisable(true);
+        if(comboMunicipios.getValue() != null && !comboMunicipios.getValue().equals("Municipio")) {
+            Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
+            m.delete(municipio.getId());
+            warnings.setVisible(true);
+            warnings.setTextFill(Paint.valueOf("#00f731"));
+            warnings.setText("Municipio deletado!");
+            nomeMunicipio1.setText("Nome");
+            nomeMunicipio1.setDisable(true);
+            btnSalvar.setDisable(true);
+            btnExcluir.setDisable(true);
+            comboMunicipios.getItems().clear();
+            listaMunicipios.addAll(m.relatorioNomes());
+            FXCollections.sort(listaMunicipios);
+            comboMunicipios.setItems(listaMunicipios);
+            if(!comboMunicipios.getItems().contains("Municipio")){
+                comboMunicipios.getItems().add("Municipio");
+            }
+            comboMunicipios.setValue("Municipio");
+        }else{
+            warnings.setVisible(true);
+            warnings.setTextFill(Paint.valueOf("#ff0000"));
+            warnings.setText("Selecione algum municipio!");
+        }
     }
     //Menu do navbar
     @FXML
