@@ -54,7 +54,10 @@
       <ComboBox fx:id="comboCidades" layoutX="300.0" layoutY="100.0" prefWidth="150.0" promptText="Municipio" visible="false" />
       <ComboBox fx:id="comboEspecies" layoutX="300.0" layoutY="100.0" prefWidth="150.0" promptText="Especies" visible="false" />
       <Button fx:id="btnPesquisar" layoutX="467.0" layoutY="100.0" mnemonicParsing="false" onAction="#btnPesquisar" text="Pesquisar" visible="false" />
-      <AnchorPane fx:id="rootPane" layoutX="291.0" layoutY="137.0" prefHeight="164.0" prefWidth="299.0" />
+      <AnchorPane fx:id="rootPane" layoutX="314.0" layoutY="137.0" prefHeight="164.0" prefWidth="276.0">
+         <children>
+            <Label fx:id="whatIs" layoutX="124.0" layoutY="14.0" />
+         </children></AnchorPane>
       <Label fx:id="warnings" layoutX="300.0" layoutY="72.0" text="Label" visible="false" />
    </children>
 </AnchorPane>

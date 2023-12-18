@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="apnCadastroAlerta" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projsmas.visao.FXMLMenuController">
+   <children>
+      <Pane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: #ffa133;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/logoWhite.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="318.0" layoutY="7.0" prefHeight="36.0" prefWidth="282.0">
+               <children>
+                  <Button fx:id="btnPerfil" mnemonicParsing="false" onAction="#handleBtnPerfilAction" prefHeight="26.0" prefWidth="46.0" style="-fx-background-color: #ffa133;" text="Perfil" textFill="WHITE" />
+                  <Button fx:id="btnMenu" mnemonicParsing="false" onAction="#handleBtnMenuAction" style="-fx-background-color: #ffa133;" text="Menu" textFill="WHITE" />
+                  <Button fx:id="btnAlertar" mnemonicParsing="false" onAction="#handleBtnAlertarAction" prefHeight="26.0" prefWidth="53.0" style="-fx-background-color: #ffa133;" text="Alertar" textFill="WHITE" />
+                  <Button fx:id="btnRastreamento" mnemonicParsing="false" onAction="#handleBtnRastreamentoAction" prefHeight="26.0" prefWidth="89.0" style="-fx-background-color: #ffa133;" text="Rastreamento" textFill="WHITE" />
+                  <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleBtnSairAction" style="-fx-background-color: #ffa133;" text="Sair" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Label layoutX="229.0" layoutY="367.0" opacity="0.4" prefHeight="0.0" prefWidth="176.0" text="\@Fellipe Patrick &amp; João Gomes">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="warnings" layoutX="250.0" layoutY="63.0" visible="false" />
+      <TextField layoutX="194.0" layoutY="156.0" prefHeight="27.0" prefWidth="254.0" promptText="Pesquise uma Abelha" />
+      <Hyperlink onAction="#handleBtnAlertarAction"  layoutX="277.0" layoutY="230.0" text="Alerta abelhas" textFill="#1904a6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Hyperlink>
+      <Ellipse fill="#e30000" layoutX="250.0" layoutY="238.0" radiusX="16.0" radiusY="14.0" stroke="#e5000000" strokeType="INSIDE" />
+      <Label layoutX="245.0" layoutY="218.0" text="!" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Ellipse fill="WHITE" layoutX="429.0" layoutY="170.0" radiusX="5.0" radiusY="6.0" stroke="#000000bf" strokeType="INSIDE" />
+      <Line endX="-88.5999755859375" endY="7.0" layoutX="527.0" layoutY="167.0" startX="-95.0" startY="7.0" stroke="#000000b8" />
+   </children>
+</AnchorPane>

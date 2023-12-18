@@ -12,12 +12,14 @@ public class MunicipioEspecieDao {
     private Conexao connection;
     private final String selectAll = "SELECT * FROM\"municipioespecie\"";
     private final String selectId = "SELECT * FROM \"municipioespecie\" WHERE id = ?";
+    private final String selectIdEspecie = "SELECT * FROM \"municipioespecie\" WHERE idespecie = ?";
+    private final String selectIdMunicipio = "SELECT * FROM \"municipioespecie\" WHERE idmunicipio = ?";
     private final String insert = "INSERT INTO \"municipioespecie\" (idespecie, idmunicipio, idalerta) values (?,?,?) ";
     private final String delete = "DELETE FROM \"municipioespecie\" WHERE id = ?";
     private final String deleteIdEspecie = "DELETE FROM \"municipioespecie\" WHERE idespecie = ?";
     private final String deleteIdAlerta = "DELETE FROM \"municipioespecie\" WHERE idalerta = ?";
     public MunicipioEspecieDao() {
-        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
+        this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
 
     }
     public void deleteIdAlerta(int id){
@@ -67,6 +69,44 @@ public class MunicipioEspecieDao {
             while (rs.next()) {
                 m = new MunicipioEspecie(rs.getInt("idespecie"), rs.getInt("idmunicipio") ,rs.getInt("id"));
                 list.add(m);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<Integer> relatorioMunicioTemEspecie(int idMunicipio) {
+        ArrayList<Integer> list = new ArrayList<>();
+        MunicipioEspecie m;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectIdMunicipio);
+            instrucao.setInt(1, idMunicipio);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                m = new MunicipioEspecie();
+                m.setIdEspecie(rs.getInt("idespecie"));
+                list.add(m.getIdEspecie());
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<Integer> relatorioEspecieTaEmMunicipio(int idEspecie) {
+        ArrayList<Integer> list = new ArrayList<>();
+        MunicipioEspecie m;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectIdEspecie);
+            instrucao.setInt(1, idEspecie);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                m = new MunicipioEspecie();
+                m.setIdMunicipio(rs.getInt("idMunicipio"));
+                list.add(m.getIdMunicipio());
             }
             this.connection.desconectar();
         } catch (Exception e) {

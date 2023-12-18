@@ -249,7 +249,7 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 		this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
 	}
 	@FXML
-	protected void handleBtnMenuAction(ActionEvent event) throws IOException {
+	protected void btnAllAlerts(ActionEvent event) throws IOException {
 		this.atualizaFrame("FXMLAlertas.fxml", event);
 	}
 	@FXML
@@ -259,6 +259,14 @@ public class FXMLCadastroAlertaController extends LoginController implements Ini
 	@FXML
 	private void handleBtnRastreamentoAction(ActionEvent event) throws IOException{
 		this.atualizaFrame("FXMLRastreamento.fxml", event);
+	}
+	@FXML
+	protected void handleBtnMenuAction(ActionEvent evente) throws IOException {
+		Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLMenu.fxml"));
+		Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+		stage.setScene(scene);
+		stage.show();
 	}
 	@FXML
 	protected void handleBtnSairAction(ActionEvent evente) throws IOException {

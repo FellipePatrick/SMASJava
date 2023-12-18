@@ -11,4 +11,7 @@ module com.example.projsmas {
     exports com.example.projsmas.aplicacao;
     opens com.example.projsmas.aplicacao to javafx.fxml;
 
+    exports com.example.projsmas.persistencia;
+    opens com.example.projsmas.persistencia to javafx.fxml;
+
 }

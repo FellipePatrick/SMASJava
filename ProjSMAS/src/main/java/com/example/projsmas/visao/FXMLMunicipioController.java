@@ -185,8 +185,12 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         this.atualizaFrame("FXMLCadastroAlerta.fxml", event);
     }
     @FXML
-    protected void handleBtnMenuAction(ActionEvent event) throws IOException {
-        this.atualizaFrame("FXMLAlertas.fxml", event);
+    protected void handleBtnMenuAction(ActionEvent evente) throws IOException {
+        Stage stage = (Stage) ((Node) evente.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXMLMenu.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     protected void handleBtnPerfilAction(ActionEvent event) throws IOException {
