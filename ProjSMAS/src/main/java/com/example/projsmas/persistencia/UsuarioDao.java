@@ -14,8 +14,10 @@ public class UsuarioDao {
     private Conexao connection;
     private final String selectAll = "SELECT * FROM\"usuario\"";
     private final String selectEmail = "SELECT * FROM \"usuario\" WHERE email = ?";
+    private final String selectMunicipio = "SELECT * FROM \"usuario\" WHERE idmunicipio = ?";
     private final String insert = "INSERT INTO \"usuario\" (nome, email, senha, idMunicipio) values (?,?,?,?) ";
     private final String delete = "DELETE FROM \"usuario\" WHERE email = ?";
+    private final String deleteMunicipio = "DELETE FROM \"usuario\" WHERE idmunicipio = ?";
     private final String update = "UPDATE \"usuario\" SET email = ?, nome = ? , senha = ?, idMunicipio = ?, funcao = ? WHERE email = ?";
     public UsuarioDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "1234");
@@ -25,6 +27,18 @@ public class UsuarioDao {
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
             instrucao.setString(1,email);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+
+    public void deleteIdMunicipio(int idMunicipio){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteMunicipio);
+            instrucao.setInt(1,idMunicipio);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){
@@ -94,5 +108,24 @@ public class UsuarioDao {
             System.out.println("Erro no relatório por email: " + e.getMessage());
         }
         return user;
+    }
+
+    public ArrayList<Usuario> selectMunicipio(int idmunicipio){
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        Usuario user = null;
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectMunicipio);
+            instrucao.setInt(1, idmunicipio);
+            ResultSet rs = instrucao.executeQuery();
+            while(rs.next()) {
+                user = new Usuario(rs.getString("email"), rs.getString("nome"), rs.getString("senha"), rs.getInt("idMunicipio"), rs.getInt("funcao"));
+                usuarios.add(user);
+            }
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro no relatório por email: " + e.getMessage());
+        }
+        return usuarios;
     }
 }
