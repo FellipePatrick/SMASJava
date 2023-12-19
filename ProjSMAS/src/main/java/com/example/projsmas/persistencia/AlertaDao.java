@@ -26,6 +26,7 @@ public class AlertaDao {
     private final String delete = "DELETE FROM \"alerta\" WHERE id = ?";
     private final String deleteEmail = "DELETE FROM \"alerta\" WHERE emailusuario = ?";
     private final String deleteIdEspecie = "DELETE FROM \"alerta\" WHERE idespecie = ?";
+    private final String deleteIdMunicipio = "DELETE FROM \"alerta\" WHERE idmunicipio = ?";
     private final String update = "UPDATE \"alerta\" SET data = ?, descricao = ?, emailusuario = ?, idespecie = ? WHERE id = ?";
     public AlertaDao(){
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
@@ -65,6 +66,18 @@ public class AlertaDao {
             this.connection.conectar();
             PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteEmail);
             instrucao.setString(1,email);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+
+    public void DeleteIdMunicipio(int idMunicipio){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.delete);
+            instrucao.setInt(1,idMunicipio);
             instrucao.execute();
             this.connection.desconectar();
         }catch(Exception e){

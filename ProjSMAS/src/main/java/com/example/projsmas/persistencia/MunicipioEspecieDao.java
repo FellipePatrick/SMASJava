@@ -14,10 +14,12 @@ public class MunicipioEspecieDao {
     private final String selectId = "SELECT * FROM \"municipioespecie\" WHERE id = ?";
     private final String selectIdEspecie = "SELECT * FROM \"municipioespecie\" WHERE idespecie = ?";
     private final String selectIdMunicipio = "SELECT * FROM \"municipioespecie\" WHERE idmunicipio = ?";
+    private String selectIdAlerta = "SELECT * FROM \"municipioespecie\" WHERE idmunicipio = ?";
     private final String insert = "INSERT INTO \"municipioespecie\" (idespecie, idmunicipio, idalerta) values (?,?,?) ";
     private final String delete = "DELETE FROM \"municipioespecie\" WHERE id = ?";
     private final String deleteIdEspecie = "DELETE FROM \"municipioespecie\" WHERE idespecie = ?";
     private final String deleteIdAlerta = "DELETE FROM \"municipioespecie\" WHERE idalerta = ?";
+    private String deleteIdMunicipio = "DELETE FROM \"municipioespecie\" WHERE idmunicipio = ?";
     public MunicipioEspecieDao() {
         this.connection = new Conexao("jdbc:postgresql://localhost:5432/BDSMAS", "postgres", "123");
 
@@ -46,6 +48,19 @@ public class MunicipioEspecieDao {
         }
     }
 
+    public void deleteIdMunicipio(int idmunicipio){
+        try{
+            this.connection.conectar();
+            PreparedStatement instrucao = connection.getConexao().prepareStatement(this.deleteIdMunicipio);
+            instrucao.setInt(1,idmunicipio);
+            instrucao.execute();
+            this.connection.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro na exclusão: " + e.getMessage());
+        }
+    }
+
+
     public void insert(MunicipioEspecie m){
         try{
             connection.conectar();
@@ -58,6 +73,25 @@ public class MunicipioEspecieDao {
         }catch(Exception e){
             System.out.println("Erro na inclusão: " + e.getMessage());
         }
+    }
+
+    public ArrayList<MunicipioEspecie> selectIdAlerta(int idalerta) {
+        ArrayList<MunicipioEspecie> list = new ArrayList<>();
+        MunicipioEspecie m;
+        try {
+            this.connection.conectar();
+            PreparedStatement instrucao = this.connection.getConexao().prepareStatement(this.selectIdAlerta);
+            instrucao.setInt(1,idalerta);
+            ResultSet rs = instrucao.executeQuery();
+            while (rs.next()) {
+                m = new MunicipioEspecie( rs.getInt("idmunicipio"), rs.getInt("idespecie"), rs.getInt("idalerta") , rs.getInt("id"));
+                list.add(m);
+            }
+            this.connection.desconectar();
+        } catch (Exception e) {
+            System.out.println("Erro na busca: " + e.getMessage());
+        }
+        return list;
     }
     public ArrayList<MunicipioEspecie> selectAll() {
         ArrayList<MunicipioEspecie> list = new ArrayList<>();

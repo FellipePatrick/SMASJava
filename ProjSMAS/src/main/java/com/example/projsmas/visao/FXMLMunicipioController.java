@@ -1,8 +1,11 @@
 package com.example.projsmas.visao;
 
 import com.example.projsmas.Main;
+import com.example.projsmas.aplicacao.Especie;
 import com.example.projsmas.aplicacao.Municipio;
-import com.example.projsmas.persistencia.MunicipioDao;
+import com.example.projsmas.aplicacao.MunicipioEspecie;
+import com.example.projsmas.aplicacao.Usuario;
+import com.example.projsmas.persistencia.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class FXMLMunicipioController  extends LoginController implements Initializable {
@@ -36,6 +40,14 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     @FXML
     private Button btnExcluir, btnSalvar;
     private MunicipioDao m = new MunicipioDao();
+    private MunicipioEspecieDao municipioEspecieDao = new MunicipioEspecieDao();
+    private ArrayList<MunicipioEspecie> municipioEspecies;
+    private ArrayList<Especie> especies = new ArrayList<>();
+    private Especie especie;
+    private UsuarioDao usuarioDao = new UsuarioDao();
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private AlertaDao alertaDao = new AlertaDao();
+    private EspecieDao especieDao = new EspecieDao();
     private ObservableList<String> listaMunicipios = FXCollections.observableArrayList();
     //inicialização da tela
     @Override
@@ -157,6 +169,23 @@ public class FXMLMunicipioController  extends LoginController implements Initial
     protected void handleBtnExcluirMunicipio(){
         if(comboMunicipios.getValue() != null && !comboMunicipios.getValue().equals("Municipio")) {
             Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
+            municipioEspecies = municipioEspecieDao.selectIdAlerta(municipio.getId());
+            municipioEspecieDao.deleteIdMunicipio(municipio.getId());
+            for(MunicipioEspecie m : municipioEspecies){
+                System.out.println(m.getIdAlerta());
+                alertaDao.DeleteIdMunicipio(m.getIdAlerta());
+            }
+            usuarios = usuarioDao.selectMunicipio(municipio.getId());
+            for (Usuario u : usuarios){
+                alertaDao.DeleteEmail(u.getEmail());
+                especieDao.deleteEmail(u.getEmail());
+                especies = especieDao.selectEmail(u.getEmail());
+                for(Especie e : especies){
+                    System.out.println(e.getId());
+                    alertaDao.deleteIdEspecie(e.getId());
+                }
+            }
+            usuarioDao.deleteIdMunicipio(municipio.getId());
             m.delete(municipio.getId());
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#00f731"));
