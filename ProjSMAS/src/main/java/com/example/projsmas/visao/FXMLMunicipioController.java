@@ -205,7 +205,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
             if(usuarioDao.selectEmail(getUser().getEmail()) == null){
                 stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 stage.setScene(scene);
                 stage.show();
             }
