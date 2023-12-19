@@ -166,7 +166,7 @@ public class FXMLMunicipioController  extends LoginController implements Initial
         }
     }
     @FXML
-    protected void handleBtnExcluirMunicipio(){
+    protected void handleBtnExcluirMunicipio(ActionEvent evente) throws IOException{
         if(comboMunicipios.getValue() != null && !comboMunicipios.getValue().equals("Municipio")) {
             Municipio municipio = m.selectNameAndUf(comboMunicipios.getValue(), "RN");
             municipioEspecies = municipioEspecieDao.selectIdAlerta(municipio.getId());
@@ -202,6 +202,13 @@ public class FXMLMunicipioController  extends LoginController implements Initial
                 comboMunicipios.getItems().add("Municipio");
             }
             comboMunicipios.setValue("Municipio");
+            if(usuarioDao.selectEmail(getUser().getEmail()) == null){
+                stage = (Stage) ((Node)evente.getSource()).getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+                stage.setScene(scene);
+                stage.show();
+            }
         }else{
             warnings.setVisible(true);
             warnings.setTextFill(Paint.valueOf("#ff0000"));
